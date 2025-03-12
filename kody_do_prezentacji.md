@@ -52,5 +52,22 @@ function nazwa (){
     landmass a is (100,100) with perimeter is Circle(50), height is funct2;
 }
 ```
+## Podstwowe funkcje wbudowane
+```
+Square(50)
+Circle(10)
+Polygon(pointsList)
+Random(100)
+```
+## Operacje arytmetyczne
+```
+double d1 is 2.3;
+double d2 is 1.4;
+
+d1 is d1+d2;
+d1 is d1^d2;
+d1 is d1/d2;
+d1 is d1*d2;
+```
 	
 
