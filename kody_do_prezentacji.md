@@ -10,7 +10,7 @@ bool varBool2 is false;
 //Zmienne złożone
 List<string> varList is ["a","b","c"];
 Point center is (100,100);
-Landmass nazwa is (10,10) with perimeter=funct, height=funct2;
+Landmass nazwa is (10,10) with perimeter is funct, height is funct2;
 ```
 
 ## Instrukcje sterujące if/else
