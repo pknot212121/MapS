@@ -30,8 +30,12 @@ repeat with i 5 {..}
 repeat with i from 1 to 10 {..}
 
 repeat with x from 1 to 100{
-	landmass l = (100*x,0)
-  landmass l2 = (-100*x,0)
+	landmass l = (100*x,0) with
+		perimeter is square(50),
+		height is 100;
+  	landmass l2 = (-100*x,0) with
+		perimeter is x^^+y^^,
+		height is func;
     
 }
 
