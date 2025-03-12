@@ -69,5 +69,13 @@ d1 is d1^d2;
 d1 is d1/d2;
 d1 is d1*d2;
 ```
-	
+## Porównanie
+```
+bool b1 is false;
+
+b1 is 1>2;
+b1 is 2<1;
+b1 is 1 != 1;
+b1 os 1 = 3;
+```
 
