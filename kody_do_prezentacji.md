@@ -42,10 +42,15 @@ as long as () do {..}
 ```
 
 ## Funkcje
-
-function funct2(int x, int y)
+```
+function funct2(int x, int y) : double{
+	return 2·sin(4·x)·cos(3·y) + 0.5·e^(-(x²+y²)/8);
+}
 
 // funkcja bez parametrów
-function nazwa () : int {
+function nazwa (){
     landmass a is (100,100) with perimeter is Circle(50), height is funct2;
+}
 ```
+	
+
