@@ -65,6 +65,7 @@ Square(50)
 Circle(10)
 Polygon(pointsList)
 Random(100)
+pi()
 ```
 ## Operacje arytmetyczne
 ```
@@ -75,6 +76,8 @@ d1 is d1+d2;
 d1 is d1^d2;
 d1 is d1/d2;
 d1 is d1*d2;
+d1 is sin(pi()/2)
+d2 is tg(0)
 ```
 ## Porównanie
 ```
