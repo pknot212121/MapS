@@ -87,6 +87,10 @@ d1 is d1/d2;
 d1 is d1*d2;
 d1 is sin(pi()/2)
 d2 is tg(0)
+// można dodawać lub odejmować landmassy
+// wysokości w obu landmassach tak samo dodają się lub odejmują
+landmass is landmass + landmass2
+landmass is landmass - landmass2
 ```
 ## Porównanie
 ```
