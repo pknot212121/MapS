@@ -49,7 +49,7 @@ as long as () do {..}
 ```
 //funkcja z parametrami
 function funct2(int x, int y) : double{
-	return 2·sin(4·x)·cos(3·y) + 0.5·e^(-(x²+y²)/8);
+	return 2·sin(4·x)·cos(3·y) + 0.5·exp()^(-(x^^+y^^)/8);
 }
 
 // funkcja bez parametrów
@@ -66,6 +66,7 @@ Circle(10)
 Polygon(pointsList)
 Random(100)
 pi()
+exp()
 ```
 ## Operacje arytmetyczne
 ```
