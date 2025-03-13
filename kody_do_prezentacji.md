@@ -59,6 +59,14 @@ function nazwa (){
 	height is funct2;
 }
 ```
+```
+//funkcja do obwodu
+// ze współrzędnymi biegunowymi
+function ob (double alfa) : double{
+	return 100 + 20*sin(3*alfa + 0.5) + 10*sin(7*alfa + 2.1) + 5*sin(12*alfa + 4.2)
+}
+
+```
 ## Podstwowe funkcje wbudowane
 ```
 Square(50)
