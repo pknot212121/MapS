@@ -1,4 +1,4 @@
-## Zmienne i typy danych
+https://carbon.now.sh
 ```
 //Zmienne podstawowe
 int var is 1;
@@ -44,10 +44,10 @@ repeat with i 5 {..}
 repeat with i from 1 to 10 {..}
 
 repeat with x from 1 to 100{
-	landmass l is (100*x,0) with
+	Land l is (100*x,0) with
 		perimeter is Square(50),
 		height is 100;
-  	landmass l2 is (-100*x,0) with
+  	Land l2 is (-100*x,0) with
 		perimeter is Circle(30),
 		height is func;
     
@@ -56,7 +56,7 @@ repeat with x from 1 to 100{
 iterate x through list {..}
 iterate x with i through list {..}
 
-as long as () do {..}
+while () do {..}
 ```
 
 ## Funkcje
