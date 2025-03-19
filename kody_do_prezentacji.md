@@ -14,7 +14,6 @@ varList[1] is "x";
 
 List<Point> list_of_points;
 ```
-## Zmienne i typy danych CD
 ```
 //Zmienne ciąg dalszy
 Point center is (100,100);
@@ -22,7 +21,7 @@ center.x is 120;
 
 Landmass nazwa is (80,80) with
 	perimeter is Circle(50), 
-	height is funct;
+	height is 100;
 
 Landmass nazwa2 with 	
 	perimeter is list_of_points, 
@@ -45,10 +44,10 @@ repeat with i 5 {..}
 repeat with i from 1 to 10 {..}
 
 repeat with x from 1 to 100{
-	landmass l = (100*x,0) with
-		perimeter is square(50),
+	landmass l is (100*x,0) with
+		perimeter is Square(50),
 		height is 100;
-  	landmass l2 = (-100*x,0) with
+  	landmass l2 is (-100*x,0) with
 		perimeter is Circle(30),
 		height is func;
     
@@ -99,7 +98,6 @@ function ob (double alfa) : double{
 ```
 Square(50)
 Circle(10)
-Polygon(pointsList)
 Random(100)
 pi()
 exp()
