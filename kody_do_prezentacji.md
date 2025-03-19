@@ -62,6 +62,19 @@ as long as () do {..}
 
 ## Funkcje
 ```
+//funkcja zwracająca double
+function waveHeight(int x, int y) : double{
+	return sin(x * 0.1) * cos(y * 0.1) * 50;
+}
+
+// funkcja zwracająca void
+function nazwa(Point position){
+    landmass a is position with
+		perimeter is Circle(50),
+		height is waveHeight;
+}
+```
+```
 //funkcja z parametrami
 function funct2(int x, int y) : double{
 	return 2·sin(4·x)·cos(3·y) + 0.5·exp()^(-(x^^+y^^)/8);
