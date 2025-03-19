@@ -81,7 +81,7 @@ function funct2(int x, int y) : double{
 
 // funkcja bez parametrów
 function nazwa (){
-    landmass a is (100,100) with
+    Land a is (100,100) with
 	perimeter is Circle(50),
 	height is funct2;
 }
@@ -115,8 +115,8 @@ d1 is sin(pi()/2)
 d2 is tg(0)
 // można dodawać lub odejmować landmassy
 // wysokości w obu landmassach tak samo dodają się lub odejmują
-landmass is landmass + landmass2
-landmass is landmass - landmass2
+Land is landmass + landmass2
+Land is landmass - landmass2
 ```
 ## Porównanie
 ```
