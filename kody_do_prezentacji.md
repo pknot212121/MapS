@@ -68,7 +68,7 @@ function waveHeight(int x, int y) : double{
 
 // funkcja zwracająca void
 function nazwa(Point position){
-    landmass a is position with
+    Land a is position with
 		perimeter is Circle(50),
 		height is waveHeight;
 }
