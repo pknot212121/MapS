@@ -19,11 +19,11 @@ List<Point> list_of_points;
 Point center is (100,100);
 center.x is 120;
 
-Landmass nazwa is (80,80) with
+Land nazwa is (80,80) with
 	perimeter is Circle(50), 
 	height is 100;
 
-Landmass nazwa2 with 	
+Land nazwa2 with 	
 	perimeter is list_of_points, 
 	height is funct;
 ```
