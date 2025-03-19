@@ -9,10 +9,25 @@ bool varBool2 is false;
 
 //Zmienne złożone
 List<string> varList is ["a","b","c"];
-Point center is (100,100);
-Landmass nazwa is (10,10) with perimeter is funct, height is funct2;
-```
+varList.add("d");
+varList[1] is "x";
 
+List<Point> list_of_points;
+```
+## Zmienne i typy danych CD
+```
+//Zmienne ciąg dalszy
+Point center is (100,100);
+center.x is 120;
+
+Landmass nazwa is (80,80) with
+	perimeter is Circle(50), 
+	height is funct;
+
+Landmass nazwa2 with 	
+	perimeter is list_of_points, 
+	height is funct;
+```
 ## Instrukcje sterujące if/else
 
 ```
@@ -34,7 +49,7 @@ repeat with x from 1 to 100{
 		perimeter is square(50),
 		height is 100;
   	landmass l2 = (-100*x,0) with
-		perimeter is x^^+y^^,
+		perimeter is Circle(30),
 		height is func;
     
 }
