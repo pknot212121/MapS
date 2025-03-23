@@ -46,7 +46,7 @@ repeat with i from 1 to 10 {..}
 repeat with x from 1 to 100{
 	Land l is (100*x,0) with
 		perimeter is Square(50),
-		height is 100;
+		height is func;
   	Land l2 is (-100*x,0) with
 		perimeter is Circle(30),
 		height is func;
