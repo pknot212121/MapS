@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from Perimeter import Perimeter
+from scipy.interpolate import griddata
 
 class Height:
     def __init__(self,points3D,points2D=None):
