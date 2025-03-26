@@ -2,19 +2,23 @@ import numpy as np
 import matplotlib.pyplot as plt
 from Perimeter import Perimeter
 from scipy.interpolate import griddata
+from matplotlib.path import Path
 
 class Height:
-    def __init__(self,points3D,points2D=None):
-        
-        x = points3D[:,0]
-        y = points3D[:,1]
-        z = points3D[:,2]
+    def __init__(self,points3D,per):
+        x = np.concatenate([points3D[:,0],per.x_new])
+        y = np.concatenate([points3D[:,1],per.y_new])
+        z = np.concatenate([points3D[:,2],np.array([1]*len(per.x_new))])
         xi = np.linspace(min(x),max(x),100)
         yi = np.linspace(min(y),max(y),100)
         xi,yi = np.meshgrid(xi,yi)
-
         zi = griddata((x,y),z,(xi,yi),method='cubic')
-
+        boundary_points = np.column_stack([per.x_new, per.y_new])
+        boundary_path = Path(boundary_points)
+        grid_points = np.column_stack([xi.flatten(), yi.flatten()]).reshape(-1, 2)
+        mask = boundary_path.contains_points(grid_points).reshape(xi.shape)
+        zi[~mask] = np.nan
+        self.perimeter = per
         self.x = x
         self.y = y
         self.z = z
@@ -32,15 +36,5 @@ class Height:
         plt.colorbar(label = 'Wartosc z')
         plt.scatter(self.x,self.y,c='red',s=50,edgecolors='black',label='Punkty wejściowe')
         plt.show()
+        print(self.zi)
         return "Działa"
-
-points = np.array([
-    [0, 0, 1],
-    [1, 2, 3],
-    [3, 1, 2],
-    [2, 4, 5],
-    [5, 5, 4],
-    [1, 7, 1]
-])
-h = Height(points)
-print(h)
