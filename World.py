@@ -2,7 +2,6 @@ from PIL import ImageDraw,Image
 import numpy as np
 from Land import Land
 from Perimeter import Perimeter
-from Pixel import Pixel
 
 class World:
     def __init__(self,lands,size):
@@ -10,8 +9,11 @@ class World:
         self.size = size
         self.pixels = np.full((size[0],size[1],3),[0,0,255])
         
-    def height_phases(self,land,n):
-        maks = np.max(land.hmap)
+    def height_phases(self,n):
+        maks=-1
+        for land in self.lands:
+            m = np.max(land.hmap)
+            if m>maks: maks=m
         return [i/n*maks for i in range(n+1)]
     
     def color_phases(self,n):
@@ -22,7 +24,7 @@ class World:
         return phases1 + phases2
     
     def give_color(self,land,n):
-        h = self.height_phases(land,n)
+        h = self.height_phases(n)
         c = self.color_phases(n)
         x_move = land.start[0]
         y_move = land.start[1]
@@ -36,26 +38,26 @@ class World:
         arr = self.pixels.astype(np.uint8)
         # pixel_array_rgb = arr.astype(np.uint8)
         print("Kształt tablicy:", arr.shape)
-        print(arr)
         img_rgb = Image.fromarray(arr, mode='RGB')
         img_rgb.save("obraz_rgb.png")
 
 points3D = np.array([
-    [200, 400, 500],
-    [200, 200, 600]
+    [20, 40, 50],
+    [20, 20, 60]
 ])
 points2D = np.array([
     [0, 0],
-    [100,500],
-    [100, 1000],
-    [300, 100],
-    [200, -100],
+    [10,50],
+    [10, 100],
+    [130, 10],
+    [20, -10],
     [0, 0]
 ])
-h1 = Land(points3D,Perimeter(points2D),[1000,100])
-h2 = Land(points3D,Perimeter(points2D),[200,200])
-w = World([h1,h2],[2000,2000])
-print(w.pixels)
+points2D*=2
+h1 = Land(points3D,Perimeter(points2D),[300,300])
+points3D*=3
+h2 = Land(points3D,Perimeter(points2D),[550,550])
+w = World([h1,h2],[1000,1000])
 w.give_color(h1,10)
 w.give_color(h2,10)
 w.draw()

@@ -7,9 +7,9 @@ class Perimeter:
     def __init__(self,points):
         x,y=points.T
         tck, u = splprep([x,y], s=0, per=True)
+        
         u_new = np.linspace(0,1,100)
         x_new, y_new = splev(u_new, tck)
-
         self.points = points
         self.x =x
         self.y=y

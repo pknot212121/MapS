@@ -9,8 +9,8 @@ class Land:
         x = np.concatenate([points3D[:,0],per.x_new])
         y = np.concatenate([points3D[:,1],per.y_new])
         z = np.concatenate([points3D[:,2],np.array([1]*len(per.x_new))])
-        xi = np.linspace(min(x),max(x),100)
-        yi = np.linspace(min(y),max(y),100)
+        xi = np.linspace(min(x),max(x),int(max(x)-min(x))+1)
+        yi = np.linspace(min(y),max(y),int(max(y)-min(y))+1)
         xi,yi = np.meshgrid(xi,yi)
         zi = griddata((x,y),z,(xi,yi),method='cubic')
         boundary_points = np.column_stack([per.x_new, per.y_new])
@@ -25,6 +25,7 @@ class Land:
         self.zi = zi
         self.start = start
         self.hmap = np.nan_to_num(zi,nan=-1)
+        print("Wielkosc: ",zi.shape)
 
     def __str__(self):
         plt.figure(figsize=(10,6))
