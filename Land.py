@@ -24,6 +24,7 @@ class Land:
         self.z = z
         self.zi = zi
         self.start = start
+        self.hmap = np.nan_to_num(zi,nan=-1)
 
     def __str__(self):
         plt.figure(figsize=(10,6))
@@ -39,3 +40,18 @@ class Land:
         plt.show()
         print(self.zi)
         return "Działa"
+# points3D = np.array([
+# [200, 400, 500],
+# [200, 200, 600]
+# ])
+# points2D = np.array([
+#     [0, 0],
+#     [100,500],
+#     [100, 1000],
+#     [300, 100],
+#     [200, -100],
+#     [0, 0]
+# ])
+
+# l = Land(points3D,Perimeter(points2D),[100,100])
+# print(l.to_list())
