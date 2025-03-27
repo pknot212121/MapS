@@ -4,8 +4,8 @@ from Perimeter import Perimeter
 from scipy.interpolate import griddata
 from matplotlib.path import Path
 
-class Height:
-    def __init__(self,points3D,per):
+class Land:
+    def __init__(self,points3D,per,start):
         x = np.concatenate([points3D[:,0],per.x_new])
         y = np.concatenate([points3D[:,1],per.y_new])
         z = np.concatenate([points3D[:,2],np.array([1]*len(per.x_new))])
@@ -23,6 +23,7 @@ class Height:
         self.y = y
         self.z = z
         self.zi = zi
+        self.start = start
 
     def __str__(self):
         plt.figure(figsize=(10,6))
