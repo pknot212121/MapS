@@ -1,0 +1,2 @@
+List<string> sList is ["a" , "b", "c"];
+List<int> sList is [1 , 2, 3];
