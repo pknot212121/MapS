@@ -31,33 +31,34 @@ class World:
         for (row,col),value in np.ndenumerate(land.zi):
                 for i,y in enumerate(h):
                     if y>=value:
-                        self.pixels[row+y_move][col+x_move]=c[i]
+                        self.pixels[row+y_move+self.size[0]//2][col+x_move+self.size[1]//2]=c[i]
                         break
     
     def draw(self):
+        for land in self.lands:
+            self.give_color(land,10)
         arr = self.pixels.astype(np.uint8)
         # pixel_array_rgb = arr.astype(np.uint8)
         print("Kształt tablicy:", arr.shape)
         img_rgb = Image.fromarray(arr, mode='RGB')
         img_rgb.save("obraz_rgb.png")
+        img_rgb.show()
 
 points3D = np.array([
-    [20, 40, 50],
-    [20, 20, 60]
+    [80, 40, 50],
+    [160, 20, 60]
 ])
 points2D = np.array([
-    [0, 0],
-    [10,50],
-    [10, 100],
-    [130, 10],
-    [20, -10],
-    [0, 0]
+    [-100,-200],
+    [0,-50],
+    [100,-200],
+    [100,200],
+    [0,50],
+    [-100,200],
+    [-100,-200]
 ])
-points2D*=2
-h1 = Land(points3D,Perimeter(points2D),[300,300])
-points3D*=3
-h2 = Land(points3D,Perimeter(points2D),[550,550])
-w = World([h1,h2],[1000,1000])
-w.give_color(h1,10)
-w.give_color(h2,10)
+h1 = Land(points3D,Perimeter(points2D),[0,0])
+h2 = Land(points3D,Perimeter(points2D),[300,300])
+w = World([h1,h2],[2000,2000])
 w.draw()
+# print(h1)
