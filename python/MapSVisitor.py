@@ -19,6 +19,11 @@ class MapSVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by MapSParser#returnStatement.
+    def visitReturnStatement(self, ctx:MapSParser.ReturnStatementContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by MapSParser#variableDeclaration.
     def visitVariableDeclaration(self, ctx:MapSParser.VariableDeclarationContext):
         return self.visitChildren(ctx)
@@ -64,6 +69,16 @@ class MapSVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by MapSParser#lakeVariableDeclaration.
+    def visitLakeVariableDeclaration(self, ctx:MapSParser.LakeVariableDeclarationContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MapSParser#riverVariableDeclaration.
+    def visitRiverVariableDeclaration(self, ctx:MapSParser.RiverVariableDeclarationContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by MapSParser#functionDeclaration.
     def visitFunctionDeclaration(self, ctx:MapSParser.FunctionDeclarationContext):
         return self.visitChildren(ctx)
@@ -79,13 +94,93 @@ class MapSVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MapSParser#loopStatement.
-    def visitLoopStatement(self, ctx:MapSParser.LoopStatementContext):
+    # Visit a parse tree produced by MapSParser#RepeatFixedLoop.
+    def visitRepeatFixedLoop(self, ctx:MapSParser.RepeatFixedLoopContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MapSParser#expression.
-    def visitExpression(self, ctx:MapSParser.ExpressionContext):
+    # Visit a parse tree produced by MapSParser#RepeatRangeLoop.
+    def visitRepeatRangeLoop(self, ctx:MapSParser.RepeatRangeLoopContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MapSParser#WhileLoop.
+    def visitWhileLoop(self, ctx:MapSParser.WhileLoopContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MapSParser#listAccessExpr.
+    def visitListAccessExpr(self, ctx:MapSParser.ListAccessExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MapSParser#doubleExpr.
+    def visitDoubleExpr(self, ctx:MapSParser.DoubleExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MapSParser#intExpr.
+    def visitIntExpr(self, ctx:MapSParser.IntExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MapSParser#addSubExpr.
+    def visitAddSubExpr(self, ctx:MapSParser.AddSubExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MapSParser#sqrtExpr.
+    def visitSqrtExpr(self, ctx:MapSParser.SqrtExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MapSParser#funcCallExpr.
+    def visitFuncCallExpr(self, ctx:MapSParser.FuncCallExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MapSParser#parenExpr.
+    def visitParenExpr(self, ctx:MapSParser.ParenExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MapSParser#stringExpr.
+    def visitStringExpr(self, ctx:MapSParser.StringExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MapSParser#varExpr.
+    def visitVarExpr(self, ctx:MapSParser.VarExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MapSParser#unaryMinusExpr.
+    def visitUnaryMinusExpr(self, ctx:MapSParser.UnaryMinusExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MapSParser#boolExpr.
+    def visitBoolExpr(self, ctx:MapSParser.BoolExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MapSParser#powExpr.
+    def visitPowExpr(self, ctx:MapSParser.PowExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MapSParser#mulDivExpr.
+    def visitMulDivExpr(self, ctx:MapSParser.MulDivExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MapSParser#pointAccessExpr.
+    def visitPointAccessExpr(self, ctx:MapSParser.PointAccessExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MapSParser#compareExpr.
+    def visitCompareExpr(self, ctx:MapSParser.CompareExprContext):
         return self.visitChildren(ctx)
 
 
@@ -109,18 +204,23 @@ class MapSVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by MapSParser#heightExpression.
+    def visitHeightExpression(self, ctx:MapSParser.HeightExpressionContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by MapSParser#listExpression.
     def visitListExpression(self, ctx:MapSParser.ListExpressionContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MapSParser#type.
-    def visitType(self, ctx:MapSParser.TypeContext):
+    # Visit a parse tree produced by MapSParser#listElementExpression.
+    def visitListElementExpression(self, ctx:MapSParser.ListElementExpressionContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MapSParser#operator.
-    def visitOperator(self, ctx:MapSParser.OperatorContext):
+    # Visit a parse tree produced by MapSParser#type.
+    def visitType(self, ctx:MapSParser.TypeContext):
         return self.visitChildren(ctx)
 
 
@@ -139,8 +239,13 @@ class MapSVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MapSParser#listAssignment.
-    def visitListAssignment(self, ctx:MapSParser.ListAssignmentContext):
+    # Visit a parse tree produced by MapSParser#ListAdd.
+    def visitListAdd(self, ctx:MapSParser.ListAddContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MapSParser#ListUpdate.
+    def visitListUpdate(self, ctx:MapSParser.ListUpdateContext):
         return self.visitChildren(ctx)
 
 

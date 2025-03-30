@@ -26,6 +26,15 @@ class MapSListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by MapSParser#returnStatement.
+    def enterReturnStatement(self, ctx:MapSParser.ReturnStatementContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#returnStatement.
+    def exitReturnStatement(self, ctx:MapSParser.ReturnStatementContext):
+        pass
+
+
     # Enter a parse tree produced by MapSParser#variableDeclaration.
     def enterVariableDeclaration(self, ctx:MapSParser.VariableDeclarationContext):
         pass
@@ -107,6 +116,24 @@ class MapSListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by MapSParser#lakeVariableDeclaration.
+    def enterLakeVariableDeclaration(self, ctx:MapSParser.LakeVariableDeclarationContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#lakeVariableDeclaration.
+    def exitLakeVariableDeclaration(self, ctx:MapSParser.LakeVariableDeclarationContext):
+        pass
+
+
+    # Enter a parse tree produced by MapSParser#riverVariableDeclaration.
+    def enterRiverVariableDeclaration(self, ctx:MapSParser.RiverVariableDeclarationContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#riverVariableDeclaration.
+    def exitRiverVariableDeclaration(self, ctx:MapSParser.RiverVariableDeclarationContext):
+        pass
+
+
     # Enter a parse tree produced by MapSParser#functionDeclaration.
     def enterFunctionDeclaration(self, ctx:MapSParser.FunctionDeclarationContext):
         pass
@@ -134,21 +161,165 @@ class MapSListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by MapSParser#loopStatement.
-    def enterLoopStatement(self, ctx:MapSParser.LoopStatementContext):
+    # Enter a parse tree produced by MapSParser#RepeatFixedLoop.
+    def enterRepeatFixedLoop(self, ctx:MapSParser.RepeatFixedLoopContext):
         pass
 
-    # Exit a parse tree produced by MapSParser#loopStatement.
-    def exitLoopStatement(self, ctx:MapSParser.LoopStatementContext):
+    # Exit a parse tree produced by MapSParser#RepeatFixedLoop.
+    def exitRepeatFixedLoop(self, ctx:MapSParser.RepeatFixedLoopContext):
         pass
 
 
-    # Enter a parse tree produced by MapSParser#expression.
-    def enterExpression(self, ctx:MapSParser.ExpressionContext):
+    # Enter a parse tree produced by MapSParser#RepeatRangeLoop.
+    def enterRepeatRangeLoop(self, ctx:MapSParser.RepeatRangeLoopContext):
         pass
 
-    # Exit a parse tree produced by MapSParser#expression.
-    def exitExpression(self, ctx:MapSParser.ExpressionContext):
+    # Exit a parse tree produced by MapSParser#RepeatRangeLoop.
+    def exitRepeatRangeLoop(self, ctx:MapSParser.RepeatRangeLoopContext):
+        pass
+
+
+    # Enter a parse tree produced by MapSParser#WhileLoop.
+    def enterWhileLoop(self, ctx:MapSParser.WhileLoopContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#WhileLoop.
+    def exitWhileLoop(self, ctx:MapSParser.WhileLoopContext):
+        pass
+
+
+    # Enter a parse tree produced by MapSParser#listAccessExpr.
+    def enterListAccessExpr(self, ctx:MapSParser.ListAccessExprContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#listAccessExpr.
+    def exitListAccessExpr(self, ctx:MapSParser.ListAccessExprContext):
+        pass
+
+
+    # Enter a parse tree produced by MapSParser#doubleExpr.
+    def enterDoubleExpr(self, ctx:MapSParser.DoubleExprContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#doubleExpr.
+    def exitDoubleExpr(self, ctx:MapSParser.DoubleExprContext):
+        pass
+
+
+    # Enter a parse tree produced by MapSParser#intExpr.
+    def enterIntExpr(self, ctx:MapSParser.IntExprContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#intExpr.
+    def exitIntExpr(self, ctx:MapSParser.IntExprContext):
+        pass
+
+
+    # Enter a parse tree produced by MapSParser#addSubExpr.
+    def enterAddSubExpr(self, ctx:MapSParser.AddSubExprContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#addSubExpr.
+    def exitAddSubExpr(self, ctx:MapSParser.AddSubExprContext):
+        pass
+
+
+    # Enter a parse tree produced by MapSParser#sqrtExpr.
+    def enterSqrtExpr(self, ctx:MapSParser.SqrtExprContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#sqrtExpr.
+    def exitSqrtExpr(self, ctx:MapSParser.SqrtExprContext):
+        pass
+
+
+    # Enter a parse tree produced by MapSParser#funcCallExpr.
+    def enterFuncCallExpr(self, ctx:MapSParser.FuncCallExprContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#funcCallExpr.
+    def exitFuncCallExpr(self, ctx:MapSParser.FuncCallExprContext):
+        pass
+
+
+    # Enter a parse tree produced by MapSParser#parenExpr.
+    def enterParenExpr(self, ctx:MapSParser.ParenExprContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#parenExpr.
+    def exitParenExpr(self, ctx:MapSParser.ParenExprContext):
+        pass
+
+
+    # Enter a parse tree produced by MapSParser#stringExpr.
+    def enterStringExpr(self, ctx:MapSParser.StringExprContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#stringExpr.
+    def exitStringExpr(self, ctx:MapSParser.StringExprContext):
+        pass
+
+
+    # Enter a parse tree produced by MapSParser#varExpr.
+    def enterVarExpr(self, ctx:MapSParser.VarExprContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#varExpr.
+    def exitVarExpr(self, ctx:MapSParser.VarExprContext):
+        pass
+
+
+    # Enter a parse tree produced by MapSParser#unaryMinusExpr.
+    def enterUnaryMinusExpr(self, ctx:MapSParser.UnaryMinusExprContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#unaryMinusExpr.
+    def exitUnaryMinusExpr(self, ctx:MapSParser.UnaryMinusExprContext):
+        pass
+
+
+    # Enter a parse tree produced by MapSParser#boolExpr.
+    def enterBoolExpr(self, ctx:MapSParser.BoolExprContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#boolExpr.
+    def exitBoolExpr(self, ctx:MapSParser.BoolExprContext):
+        pass
+
+
+    # Enter a parse tree produced by MapSParser#powExpr.
+    def enterPowExpr(self, ctx:MapSParser.PowExprContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#powExpr.
+    def exitPowExpr(self, ctx:MapSParser.PowExprContext):
+        pass
+
+
+    # Enter a parse tree produced by MapSParser#mulDivExpr.
+    def enterMulDivExpr(self, ctx:MapSParser.MulDivExprContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#mulDivExpr.
+    def exitMulDivExpr(self, ctx:MapSParser.MulDivExprContext):
+        pass
+
+
+    # Enter a parse tree produced by MapSParser#pointAccessExpr.
+    def enterPointAccessExpr(self, ctx:MapSParser.PointAccessExprContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#pointAccessExpr.
+    def exitPointAccessExpr(self, ctx:MapSParser.PointAccessExprContext):
+        pass
+
+
+    # Enter a parse tree produced by MapSParser#compareExpr.
+    def enterCompareExpr(self, ctx:MapSParser.CompareExprContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#compareExpr.
+    def exitCompareExpr(self, ctx:MapSParser.CompareExprContext):
         pass
 
 
@@ -188,6 +359,15 @@ class MapSListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by MapSParser#heightExpression.
+    def enterHeightExpression(self, ctx:MapSParser.HeightExpressionContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#heightExpression.
+    def exitHeightExpression(self, ctx:MapSParser.HeightExpressionContext):
+        pass
+
+
     # Enter a parse tree produced by MapSParser#listExpression.
     def enterListExpression(self, ctx:MapSParser.ListExpressionContext):
         pass
@@ -197,21 +377,21 @@ class MapSListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by MapSParser#listElementExpression.
+    def enterListElementExpression(self, ctx:MapSParser.ListElementExpressionContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#listElementExpression.
+    def exitListElementExpression(self, ctx:MapSParser.ListElementExpressionContext):
+        pass
+
+
     # Enter a parse tree produced by MapSParser#type.
     def enterType(self, ctx:MapSParser.TypeContext):
         pass
 
     # Exit a parse tree produced by MapSParser#type.
     def exitType(self, ctx:MapSParser.TypeContext):
-        pass
-
-
-    # Enter a parse tree produced by MapSParser#operator.
-    def enterOperator(self, ctx:MapSParser.OperatorContext):
-        pass
-
-    # Exit a parse tree produced by MapSParser#operator.
-    def exitOperator(self, ctx:MapSParser.OperatorContext):
         pass
 
 
@@ -242,12 +422,21 @@ class MapSListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by MapSParser#listAssignment.
-    def enterListAssignment(self, ctx:MapSParser.ListAssignmentContext):
+    # Enter a parse tree produced by MapSParser#ListAdd.
+    def enterListAdd(self, ctx:MapSParser.ListAddContext):
         pass
 
-    # Exit a parse tree produced by MapSParser#listAssignment.
-    def exitListAssignment(self, ctx:MapSParser.ListAssignmentContext):
+    # Exit a parse tree produced by MapSParser#ListAdd.
+    def exitListAdd(self, ctx:MapSParser.ListAddContext):
+        pass
+
+
+    # Enter a parse tree produced by MapSParser#ListUpdate.
+    def enterListUpdate(self, ctx:MapSParser.ListUpdateContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#ListUpdate.
+    def exitListUpdate(self, ctx:MapSParser.ListUpdateContext):
         pass
 
 

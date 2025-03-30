@@ -10,16 +10,22 @@ statement
     | loopStatement
     | assignment
     | expression ';'
-    | 'return' expression ';'
+    | returnStatement
+    ;
+
+returnStatement
+    : 'return' expression ';'
     ;
 
 // Deklaracja zmiennych
 variableDeclaration
-    : primitiveVariableDeclaration
-    | listVariableDeclaration
-    | pointVariableDeclaration
-    | heightVariableDeclaration
-    | landVariableDeclaration
+    : primitiveVariableDeclaration 
+    | listVariableDeclaration      
+    | pointVariableDeclaration     
+    | heightVariableDeclaration    
+    | landVariableDeclaration    
+    | lakeVariableDeclaration
+    | riverVariableDeclaration
     ;
 
 primitiveVariableDeclaration
@@ -36,13 +42,14 @@ pointVariableDeclaration
 
 // Deklaracja zmiennej typu Height (punkt + wysokość)
 heightVariableDeclaration
-    : 'Height' IDENTIFIER 'is' '(' pointExpression ',' expression ')' ';'
+    : 'Height' IDENTIFIER 'is' '(' pointExpression ',' expression ',' expression ')' ';'
     ;
 
 landVariableDeclaration
     : 'Land' IDENTIFIER ('is' pointExpression)? 'with' perimeterDeclaration ',' heightDeclaration ';'
     | 'Land' IDENTIFIER 'is' expression ';'
     ;
+
 
 // Deklaracja obwodu dla Land
 perimeterDeclaration
@@ -62,6 +69,15 @@ heightDeclaration
     : 'height is' ( functionCall | listExpression)
     ;
 
+
+lakeVariableDeclaration
+    : 'Lake' IDENTIFIER ('is' pointExpression)? 'with' perimeterDeclaration ';'
+    ;
+
+riverVariableDeclaration
+    : 'River' IDENTIFIER 'is' listExpression ';'
+    ;
+
 // Deklaracja funkcji
 functionDeclaration
     : 'function' IDENTIFIER '(' parameters? ')' ':' type '{' statement* '}' //czy sie tu jakoś dodaje return????
@@ -78,24 +94,30 @@ ifStatement
     ;
 
 loopStatement
-    : 'repeat' 'with' IDENTIFIER expression '{' statement* '}'
-    | 'repeat' 'with' IDENTIFIER 'from' expression 'to' expression '{' statement* '}'
-    | 'while' '(' expression ')' 'do' '{' statement* '}'
+    : 'repeat' 'with' IDENTIFIER expression '{' statement* '}'                          # RepeatFixedLoop
+    | 'repeat' 'with' IDENTIFIER 'from' expression 'to' expression '{' statement* '}'   # RepeatRangeLoop
+    | 'while' '(' expression ')' 'do' '{' statement* '}'                                # WhileLoop
     ;
 
 // Wyrażenie to może być liczba, identyfikator, wywołanie funkcji, operacja arytmetyczna, dostęp do punktów lub list
-expression
-    : expression operator expression
-    | '(' expression ')'
-    | INT
-    | DOUBLE  
-    | STRING
-    | BOOLEAN
-    | IDENTIFIER        // Identyfikator zmiennej
-    | functionCall      // Wywołanie funkcji
-    | pointAccess       // Dostęp do współrzędnych punktu
-    | listAccess        // Dostęp do elementu listy
+expression    
+    : '(' expression ')'                  # parenExpr    
+    |'-' expression                     #unaryMinusExpr
+    | expression '^' expression   # powExpr
+    | expression '?' expression   # sqrtExpr
+    | expression ('*' | '/') expression   # mulDivExpr
+    | expression ('+' | '-') expression   # addSubExpr
+    | expression ('>' | '<' | '>=' | '<=' | '=' | '!=') expression # compareExpr        
+    | functionCall                         # funcCallExpr        // Wywołanie funkcji
+    | IDENTIFIER                           # varExpr
+    | INT                                  # intExpr
+    | DOUBLE                               # doubleExpr
+    | STRING                               # stringExpr
+    | BOOLEAN                              # boolExpr
+    | pointAccess                          # pointAccessExpr     // Dostęp do współrzędnych punktu
+    | listAccess                           # listAccessExpr      // Dostęp do elementu listy     
     ;
+
 
 functionCall
     : IDENTIFIER '(' (expression (',' expression)*)? ')'
@@ -115,28 +137,30 @@ pointExpression
     | IDENTIFIER                            // Możliwość użycia zdefiniowanego punktu           
     ;
 
+heightExpression
+    : '(' pointExpression ',' expression ',' expression ')'      
+    ;
 
 // Wyrażenie typu List
 listExpression
-    : '[' (expression (',' expression)*)? ']'
+    : '[' (listElementExpression (',' listElementExpression)*)? ']'
     | IDENTIFIER                            // Możliwość użycia zdefiniowanej listy
     ;
 
+listElementExpression
+    : pointExpression| heightExpression |  expression 
+    ;
+    
 // Typy danych
 type
-    : 'int' | 'double' | 'bool' | 'string' | 'List<' type '>' | 'Point' | 'Height' | 'Land'
-    ;
-
-// Operatory arytmetyczne, porównania i operacje logiczne
-operator
-    : '+' | '-' | '*' | '/' | '>' | '<' | '>=' | '<=' | '=' | '!=' | '^' | '?'
+    : 'int' | 'double' | 'bool' | 'string' | 'List<' type '>' | 'Point' | 'Height'
     ;
 
 // Instrukcja przypisania wartości
 assignment
-    : variableAssignment
-    | pointFieldAssignment
-    | listAssignment
+    : variableAssignment    
+    | pointFieldAssignment   
+    | listAssignment         
     ;
 
 variableAssignment
@@ -150,8 +174,8 @@ pointFieldAssignment
 
 // Przypisanie do listy
 listAssignment
-    : IDENTIFIER '.add(' expression ')' ';'
-    | IDENTIFIER '[' expression ']' 'is' expression ';'
+    : IDENTIFIER '.add(' expression ')' ';'             #ListAdd
+    | IDENTIFIER '[' expression ']' 'is' expression ';' #ListUpdate
     ;
 
 
