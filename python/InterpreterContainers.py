@@ -8,3 +8,5 @@ class InterpreterLand:
         self.heightFunc = heightFunc    
 
 
+class InterpreterWorld:
+    pass

@@ -8,6 +8,9 @@ class World:
         self.lands = lands
         self.size = size
         self.pixels = np.full((size[0],size[1],3),[0,0,255])
+    def __init__(self,intw):
+        self.lands = []
+        for
         
     def height_phases(self,n):
         maks=-1

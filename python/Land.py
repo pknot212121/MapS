@@ -26,6 +26,8 @@ class Land:
         self.start = start
         self.hmap = np.nan_to_num(zi,nan=-1)
         print("Wielkosc: ",zi.shape)
+    def __init__(self,intland):
+        
 
     def __str__(self):
         plt.figure(figsize=(10,6))
