@@ -16,7 +16,7 @@ class InterpreterHeight:
         self.steep = steep        
 
 class InterpreterLand:
-    def __init__(self, displacement: InterpreterPoint,  perimeter: list, height: list[InterpreterHeight], perimeterFunc, heightFunc):
+    def __init__(self, displacement: InterpreterPoint,  perimeter: list[InterpreterPoint], height: list[InterpreterHeight], perimeterFunc, heightFunc):
         self.displacement = displacement
         self.perimeter = perimeter
         self.height = height

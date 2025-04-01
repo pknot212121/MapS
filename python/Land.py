@@ -10,7 +10,7 @@ def heights_to_ndarray(heights: list[InterpreterHeight]) -> np.ndarray:
         l = point_to_list(height.place)
         l.append(height.z)
         li.append(l)
-    return np.ndarray(li)
+    return np.array(li)
 
 class Land:
     def __init__(self,points3D: np.ndarray,perimeter: Perimeter,start: list[int]):
@@ -52,28 +52,22 @@ class Land:
         return "Land_shown"
     
 
-points3D = np.array([
-[200, 400, 400],
-[200, 300, 1000],
-[200, 200, 600]
-])
-points2D = np.array([
-    [0, 0],
-    [100,500],
-    [100, 1000],
-    [300, 100],
-    [200, -100],
-    [0, 0]
-])
-intpoints2D = [InterpreterPoint(point[0],point[1]) for point in points2D]
-heights = [InterpreterHeight(InterpreterPoint(point[0],point[1]),point[2],0) for point in points3D]
-for height in heights:
-    print(height.place.x)
+# points3D = np.array([
+# [200, 400, 400],
+# [200, 300, 1000],
+# [200, 200, 600]
+# ])
+# points2D = np.array([
+#     [0, 0],
+#     [100,500],
+#     [100, 1000],
+#     [300, 100],
+#     [200, -100],
+#     [0, 0]
+# ])
+# intpoints2D = [InterpreterPoint(point[0],point[1]) for point in points2D]
+# heights = [InterpreterHeight(InterpreterPoint(point[0],point[1]),point[2],0) for point in points3D]
 
-# l = Land(points3D,Perimeter(points2D),[100,100])
-# print(l)
-intland = InterpreterLand(InterpreterPoint(100,100),intpoints2D,heights,"Nic","Nic")
-for height in intland.height:
-    print(height.place.y)
+# intland = InterpreterLand(InterpreterPoint(100,100),intpoints2D,heights,"Nic","Nic")
 # l = Land.from_intland(intland)
 # print(l)
