@@ -7,12 +7,7 @@ class World:
         self.lands = lands
         self.size = size
         self.pixels = np.full((size[0],size[1],3),[0,0,255])
-    def __init__(self,intlands: list):
-        lands = []
-        self.size = [2000,2000]
-        for intland in intlands:
-            converted = Land()
-            lands.append()
+        
     def height_phases(self,n):
         maks=-1
         for land in self.lands:

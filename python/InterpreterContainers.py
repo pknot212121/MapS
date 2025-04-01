@@ -11,12 +11,12 @@ class InterpreterPoint:
 
 class InterpreterHeight:
     def __init__(self, place: InterpreterPoint, z: float, steep: float):
-        self.place = place,
-        self.z = z,
+        self.place = place
+        self.z = z
         self.steep = steep        
 
 class InterpreterLand:
-    def __init__(self, displacement: InterpreterPoint,  perimeter: list, height: list, perimeterFunc, heightFunc):
+    def __init__(self, displacement: InterpreterPoint,  perimeter: list, height: list[InterpreterHeight], perimeterFunc, heightFunc):
         self.displacement = displacement
         self.perimeter = perimeter
         self.height = height
