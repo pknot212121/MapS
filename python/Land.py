@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from Perimeter import Perimeter
+from Perimeter import *
 from scipy.interpolate import griddata
 from matplotlib.path import Path
 
@@ -26,7 +26,9 @@ class Land:
         self.start = start
         self.hmap = np.nan_to_num(zi,nan=-1)
         print("Wielkosc: ",zi.shape)
-    def __init__(self,intland):
+    def __init_(self,intland: InterpreterLand):
+        points3D = [height_to_list(x) for x in intland.height]
+        per = Perimeter()
         
 
     def __str__(self):
