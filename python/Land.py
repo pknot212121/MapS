@@ -36,7 +36,7 @@ class Land:
         boundary_path = Path(boundary_points)
         grid_points = np.column_stack([xi.flatten(), yi.flatten()]).reshape(-1, 2)
         mask = boundary_path.contains_points(grid_points).reshape(xi.shape)
-        zi[~mask] = np.nan
+        zi[~mask] = -np.inf
         return zi
 
     def __str__(self):

@@ -24,6 +24,6 @@ class InterpreterLand:
         self.heightFunc = heightFunc    
 
 class InterpreterWorld:
-    def __init__(self, lands : InterpreterLand, size: InterpreterPoint):
+    def __init__(self, lands : list[InterpreterLand], size: InterpreterPoint):
         self.lands = lands
         self.size = size
