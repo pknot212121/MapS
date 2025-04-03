@@ -67,8 +67,8 @@ points2D = np.array([
     [-100,200],
     [-100,-200]
 ])
-intpoints2D = [InterpreterPoint(point[0],point[1]) for point in points2D]
-heights = [InterpreterHeight(InterpreterPoint(point[0],point[1]),point[2],0) for point in points3D]
+# intpoints2D = [InterpreterPoint(point[0],point[1]) for point in points2D]
+# heights = [InterpreterHeight(InterpreterPoint(point[0],point[1]),point[2],0) for point in points3D]
 
-intland1 = InterpreterLand(InterpreterPoint(100,100),intpoints2D,heights,"Nic","Nic")
-intworld = InterpreterWorld([intland1],InterpreterPoint(2000,2000))
+# intland1 = InterpreterLand(InterpreterPoint(100,100),intpoints2D,heights,"Nic","Nic")
+# intworld = InterpreterWorld([intland1],InterpreterPoint(2000,2000))

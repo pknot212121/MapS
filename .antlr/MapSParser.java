@@ -1,4 +1,4 @@
-// Generated from f:/Studia2Rok/2ROK_KOMPILATORY/kompilatory/MapS.g4 by ANTLR 4.13.1
+// Generated from d:/MapS/MapS.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -136,6 +136,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_program; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterProgram(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitProgram(this);
+		}
 	}
 
 	public final ProgramContext program() throws RecognitionException {
@@ -201,6 +209,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_statement; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterStatement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitStatement(this);
+		}
 	}
 
 	public final StatementContext statement() throws RecognitionException {
@@ -283,6 +299,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_returnStatement; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterReturnStatement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitReturnStatement(this);
+		}
 	}
 
 	public final ReturnStatementContext returnStatement() throws RecognitionException {
@@ -337,6 +361,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_variableDeclaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterVariableDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitVariableDeclaration(this);
+		}
 	}
 
 	public final VariableDeclarationContext variableDeclaration() throws RecognitionException {
@@ -423,6 +455,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_primitiveVariableDeclaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterPrimitiveVariableDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitPrimitiveVariableDeclaration(this);
+		}
 	}
 
 	public final PrimitiveVariableDeclarationContext primitiveVariableDeclaration() throws RecognitionException {
@@ -476,6 +516,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_listVariableDeclaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterListVariableDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitListVariableDeclaration(this);
+		}
 	}
 
 	public final ListVariableDeclarationContext listVariableDeclaration() throws RecognitionException {
@@ -524,6 +572,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_pointVariableDeclaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterPointVariableDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitPointVariableDeclaration(this);
+		}
 	}
 
 	public final PointVariableDeclarationContext pointVariableDeclaration() throws RecognitionException {
@@ -579,6 +635,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_heightVariableDeclaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterHeightVariableDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitHeightVariableDeclaration(this);
+		}
 	}
 
 	public final HeightVariableDeclarationContext heightVariableDeclaration() throws RecognitionException {
@@ -641,6 +705,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_landVariableDeclaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterLandVariableDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitLandVariableDeclaration(this);
+		}
 	}
 
 	public final LandVariableDeclarationContext landVariableDeclaration() throws RecognitionException {
@@ -719,6 +791,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_perimeterDeclaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterPerimeterDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitPerimeterDeclaration(this);
+		}
 	}
 
 	public final PerimeterDeclarationContext perimeterDeclaration() throws RecognitionException {
@@ -759,6 +839,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_shape; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterShape(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitShape(this);
+		}
 	}
 
 	public final ShapeContext shape() throws RecognitionException {
@@ -840,6 +928,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_heightDeclaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterHeightDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitHeightDeclaration(this);
+		}
 	}
 
 	public final HeightDeclarationContext heightDeclaration() throws RecognitionException {
@@ -892,6 +988,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_lakeVariableDeclaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterLakeVariableDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitLakeVariableDeclaration(this);
+		}
 	}
 
 	public final LakeVariableDeclarationContext lakeVariableDeclaration() throws RecognitionException {
@@ -946,6 +1050,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_riverVariableDeclaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterRiverVariableDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitRiverVariableDeclaration(this);
+		}
 	}
 
 	public final RiverVariableDeclarationContext riverVariableDeclaration() throws RecognitionException {
@@ -996,6 +1108,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_functionDeclaration; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterFunctionDeclaration(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitFunctionDeclaration(this);
+		}
 	}
 
 	public final FunctionDeclarationContext functionDeclaration() throws RecognitionException {
@@ -1121,6 +1241,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_parameters; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterParameters(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitParameters(this);
+		}
 	}
 
 	public final ParametersContext parameters() throws RecognitionException {
@@ -1183,6 +1311,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_ifStatement; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterIfStatement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitIfStatement(this);
+		}
 	}
 
 	public final IfStatementContext ifStatement() throws RecognitionException {
@@ -1326,6 +1462,14 @@ public class MapSParser extends Parser {
 			return getRuleContext(StatementContext.class,i);
 		}
 		public RepeatFixedLoopContext(LoopStatementContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterRepeatFixedLoop(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitRepeatFixedLoop(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class RepeatRangeLoopContext extends LoopStatementContext {
@@ -1343,6 +1487,14 @@ public class MapSParser extends Parser {
 			return getRuleContext(StatementContext.class,i);
 		}
 		public RepeatRangeLoopContext(LoopStatementContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterRepeatRangeLoop(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitRepeatRangeLoop(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class WhileLoopContext extends LoopStatementContext {
@@ -1356,6 +1508,14 @@ public class MapSParser extends Parser {
 			return getRuleContext(StatementContext.class,i);
 		}
 		public WhileLoopContext(LoopStatementContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterWhileLoop(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitWhileLoop(this);
+		}
 	}
 
 	public final LoopStatementContext loopStatement() throws RecognitionException {
@@ -1501,16 +1661,40 @@ public class MapSParser extends Parser {
 			return getRuleContext(ListAccessContext.class,0);
 		}
 		public ListAccessExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterListAccessExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitListAccessExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class DoubleExprContext extends ExpressionContext {
 		public TerminalNode DOUBLE() { return getToken(MapSParser.DOUBLE, 0); }
 		public DoubleExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterDoubleExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitDoubleExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class IntExprContext extends ExpressionContext {
 		public TerminalNode INT() { return getToken(MapSParser.INT, 0); }
 		public IntExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterIntExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitIntExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class AddSubExprContext extends ExpressionContext {
@@ -1521,6 +1705,14 @@ public class MapSParser extends Parser {
 			return getRuleContext(ExpressionContext.class,i);
 		}
 		public AddSubExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterAddSubExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitAddSubExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class SqrtExprContext extends ExpressionContext {
@@ -1531,6 +1723,14 @@ public class MapSParser extends Parser {
 			return getRuleContext(ExpressionContext.class,i);
 		}
 		public SqrtExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterSqrtExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitSqrtExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class FuncCallExprContext extends ExpressionContext {
@@ -1538,6 +1738,14 @@ public class MapSParser extends Parser {
 			return getRuleContext(FunctionCallContext.class,0);
 		}
 		public FuncCallExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterFuncCallExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitFuncCallExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class ParenExprContext extends ExpressionContext {
@@ -1545,21 +1753,53 @@ public class MapSParser extends Parser {
 			return getRuleContext(ExpressionContext.class,0);
 		}
 		public ParenExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterParenExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitParenExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class StringExprContext extends ExpressionContext {
 		public TerminalNode STRING() { return getToken(MapSParser.STRING, 0); }
 		public StringExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterStringExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitStringExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class VarExprContext extends ExpressionContext {
 		public TerminalNode IDENTIFIER() { return getToken(MapSParser.IDENTIFIER, 0); }
 		public VarExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterVarExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitVarExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class BoolExprContext extends ExpressionContext {
 		public TerminalNode BOOLEAN() { return getToken(MapSParser.BOOLEAN, 0); }
 		public BoolExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterBoolExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitBoolExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class PowExprContext extends ExpressionContext {
@@ -1570,6 +1810,14 @@ public class MapSParser extends Parser {
 			return getRuleContext(ExpressionContext.class,i);
 		}
 		public PowExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterPowExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitPowExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class MulDivExprContext extends ExpressionContext {
@@ -1580,6 +1828,14 @@ public class MapSParser extends Parser {
 			return getRuleContext(ExpressionContext.class,i);
 		}
 		public MulDivExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterMulDivExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitMulDivExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class PointAccessExprContext extends ExpressionContext {
@@ -1587,6 +1843,14 @@ public class MapSParser extends Parser {
 			return getRuleContext(PointAccessContext.class,0);
 		}
 		public PointAccessExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterPointAccessExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitPointAccessExpr(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class CompareExprContext extends ExpressionContext {
@@ -1597,6 +1861,14 @@ public class MapSParser extends Parser {
 			return getRuleContext(ExpressionContext.class,i);
 		}
 		public CompareExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterCompareExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitCompareExpr(this);
+		}
 	}
 
 	public final ExpressionContext expression() throws RecognitionException {
@@ -1834,6 +2106,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_functionCall; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterFunctionCall(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitFunctionCall(this);
+		}
 	}
 
 	public final FunctionCallContext functionCall() throws RecognitionException {
@@ -1895,6 +2175,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_pointAccess; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterPointAccess(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitPointAccess(this);
+		}
 	}
 
 	public final PointAccessContext pointAccess() throws RecognitionException {
@@ -1939,6 +2227,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_listAccess; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterListAccess(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitListAccess(this);
+		}
 	}
 
 	public final ListAccessContext listAccess() throws RecognitionException {
@@ -1981,6 +2277,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_pointExpression; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterPointExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitPointExpression(this);
+		}
 	}
 
 	public final PointExpressionContext pointExpression() throws RecognitionException {
@@ -2042,6 +2346,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_heightExpression; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterHeightExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitHeightExpression(this);
+		}
 	}
 
 	public final HeightExpressionContext heightExpression() throws RecognitionException {
@@ -2090,6 +2402,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_listExpression; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterListExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitListExpression(this);
+		}
 	}
 
 	public final ListExpressionContext listExpression() throws RecognitionException {
@@ -2172,6 +2492,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_listElementExpression; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterListElementExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitListElementExpression(this);
+		}
 	}
 
 	public final ListElementExpressionContext listElementExpression() throws RecognitionException {
@@ -2224,6 +2552,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_type; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterType(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitType(this);
+		}
 	}
 
 	public final TypeContext type() throws RecognitionException {
@@ -2316,6 +2652,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_assignment; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterAssignment(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitAssignment(this);
+		}
 	}
 
 	public final AssignmentContext assignment() throws RecognitionException {
@@ -2369,6 +2713,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_variableAssignment; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterVariableAssignment(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitVariableAssignment(this);
+		}
 	}
 
 	public final VariableAssignmentContext variableAssignment() throws RecognitionException {
@@ -2408,6 +2760,14 @@ public class MapSParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_pointFieldAssignment; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterPointFieldAssignment(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitPointFieldAssignment(this);
+		}
 	}
 
 	public final PointFieldAssignmentContext pointFieldAssignment() throws RecognitionException {
@@ -2467,6 +2827,14 @@ public class MapSParser extends Parser {
 			return getRuleContext(ExpressionContext.class,0);
 		}
 		public ListAddContext(ListAssignmentContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterListAdd(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitListAdd(this);
+		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class ListUpdateContext extends ListAssignmentContext {
@@ -2478,6 +2846,14 @@ public class MapSParser extends Parser {
 			return getRuleContext(ExpressionContext.class,i);
 		}
 		public ListUpdateContext(ListAssignmentContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).enterListUpdate(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MapSListener ) ((MapSListener)listener).exitListUpdate(this);
+		}
 	}
 
 	public final ListAssignmentContext listAssignment() throws RecognitionException {

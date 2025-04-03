@@ -1,4 +1,4 @@
-// Generated from f:/Studia2Rok/2ROK_KOMPILATORY/kompilatory/MapS.g4 by ANTLR 4.13.1
+// Generated from d:/MapS/MapS.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -26,6 +26,16 @@ public interface MapSListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitStatement(MapSParser.StatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MapSParser#returnStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterReturnStatement(MapSParser.ReturnStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MapSParser#returnStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitReturnStatement(MapSParser.ReturnStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MapSParser#variableDeclaration}.
 	 * @param ctx the parse tree
@@ -117,6 +127,26 @@ public interface MapSListener extends ParseTreeListener {
 	 */
 	void exitHeightDeclaration(MapSParser.HeightDeclarationContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MapSParser#lakeVariableDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterLakeVariableDeclaration(MapSParser.LakeVariableDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MapSParser#lakeVariableDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitLakeVariableDeclaration(MapSParser.LakeVariableDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MapSParser#riverVariableDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterRiverVariableDeclaration(MapSParser.RiverVariableDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MapSParser#riverVariableDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitRiverVariableDeclaration(MapSParser.RiverVariableDeclarationContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MapSParser#functionDeclaration}.
 	 * @param ctx the parse tree
 	 */
@@ -147,25 +177,209 @@ public interface MapSListener extends ParseTreeListener {
 	 */
 	void exitIfStatement(MapSParser.IfStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MapSParser#loopStatement}.
+	 * Enter a parse tree produced by the {@code RepeatFixedLoop}
+	 * labeled alternative in {@link MapSParser#loopStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterLoopStatement(MapSParser.LoopStatementContext ctx);
+	void enterRepeatFixedLoop(MapSParser.RepeatFixedLoopContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MapSParser#loopStatement}.
+	 * Exit a parse tree produced by the {@code RepeatFixedLoop}
+	 * labeled alternative in {@link MapSParser#loopStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitLoopStatement(MapSParser.LoopStatementContext ctx);
+	void exitRepeatFixedLoop(MapSParser.RepeatFixedLoopContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MapSParser#expression}.
+	 * Enter a parse tree produced by the {@code RepeatRangeLoop}
+	 * labeled alternative in {@link MapSParser#loopStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpression(MapSParser.ExpressionContext ctx);
+	void enterRepeatRangeLoop(MapSParser.RepeatRangeLoopContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MapSParser#expression}.
+	 * Exit a parse tree produced by the {@code RepeatRangeLoop}
+	 * labeled alternative in {@link MapSParser#loopStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpression(MapSParser.ExpressionContext ctx);
+	void exitRepeatRangeLoop(MapSParser.RepeatRangeLoopContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code WhileLoop}
+	 * labeled alternative in {@link MapSParser#loopStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhileLoop(MapSParser.WhileLoopContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code WhileLoop}
+	 * labeled alternative in {@link MapSParser#loopStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhileLoop(MapSParser.WhileLoopContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code listAccessExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterListAccessExpr(MapSParser.ListAccessExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code listAccessExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitListAccessExpr(MapSParser.ListAccessExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code doubleExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterDoubleExpr(MapSParser.DoubleExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code doubleExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitDoubleExpr(MapSParser.DoubleExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code intExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterIntExpr(MapSParser.IntExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code intExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitIntExpr(MapSParser.IntExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code addSubExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterAddSubExpr(MapSParser.AddSubExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code addSubExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitAddSubExpr(MapSParser.AddSubExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code sqrtExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterSqrtExpr(MapSParser.SqrtExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code sqrtExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitSqrtExpr(MapSParser.SqrtExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code funcCallExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterFuncCallExpr(MapSParser.FuncCallExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code funcCallExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitFuncCallExpr(MapSParser.FuncCallExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code parenExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterParenExpr(MapSParser.ParenExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code parenExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitParenExpr(MapSParser.ParenExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code stringExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterStringExpr(MapSParser.StringExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code stringExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitStringExpr(MapSParser.StringExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code varExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarExpr(MapSParser.VarExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code varExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarExpr(MapSParser.VarExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code boolExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterBoolExpr(MapSParser.BoolExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code boolExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitBoolExpr(MapSParser.BoolExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code powExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterPowExpr(MapSParser.PowExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code powExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitPowExpr(MapSParser.PowExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code mulDivExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterMulDivExpr(MapSParser.MulDivExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code mulDivExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitMulDivExpr(MapSParser.MulDivExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code pointAccessExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterPointAccessExpr(MapSParser.PointAccessExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code pointAccessExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitPointAccessExpr(MapSParser.PointAccessExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code compareExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterCompareExpr(MapSParser.CompareExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code compareExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitCompareExpr(MapSParser.CompareExprContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MapSParser#functionCall}.
 	 * @param ctx the parse tree
@@ -207,6 +421,16 @@ public interface MapSListener extends ParseTreeListener {
 	 */
 	void exitPointExpression(MapSParser.PointExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MapSParser#heightExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterHeightExpression(MapSParser.HeightExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MapSParser#heightExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitHeightExpression(MapSParser.HeightExpressionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MapSParser#listExpression}.
 	 * @param ctx the parse tree
 	 */
@@ -217,6 +441,16 @@ public interface MapSListener extends ParseTreeListener {
 	 */
 	void exitListExpression(MapSParser.ListExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MapSParser#listElementExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterListElementExpression(MapSParser.ListElementExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MapSParser#listElementExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitListElementExpression(MapSParser.ListElementExpressionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MapSParser#type}.
 	 * @param ctx the parse tree
 	 */
@@ -226,16 +460,6 @@ public interface MapSListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitType(MapSParser.TypeContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MapSParser#operator}.
-	 * @param ctx the parse tree
-	 */
-	void enterOperator(MapSParser.OperatorContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MapSParser#operator}.
-	 * @param ctx the parse tree
-	 */
-	void exitOperator(MapSParser.OperatorContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MapSParser#assignment}.
 	 * @param ctx the parse tree
@@ -267,13 +491,27 @@ public interface MapSListener extends ParseTreeListener {
 	 */
 	void exitPointFieldAssignment(MapSParser.PointFieldAssignmentContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MapSParser#listAssignment}.
+	 * Enter a parse tree produced by the {@code ListAdd}
+	 * labeled alternative in {@link MapSParser#listAssignment}.
 	 * @param ctx the parse tree
 	 */
-	void enterListAssignment(MapSParser.ListAssignmentContext ctx);
+	void enterListAdd(MapSParser.ListAddContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MapSParser#listAssignment}.
+	 * Exit a parse tree produced by the {@code ListAdd}
+	 * labeled alternative in {@link MapSParser#listAssignment}.
 	 * @param ctx the parse tree
 	 */
-	void exitListAssignment(MapSParser.ListAssignmentContext ctx);
+	void exitListAdd(MapSParser.ListAddContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ListUpdate}
+	 * labeled alternative in {@link MapSParser#listAssignment}.
+	 * @param ctx the parse tree
+	 */
+	void enterListUpdate(MapSParser.ListUpdateContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ListUpdate}
+	 * labeled alternative in {@link MapSParser#listAssignment}.
+	 * @param ctx the parse tree
+	 */
+	void exitListUpdate(MapSParser.ListUpdateContext ctx);
 }

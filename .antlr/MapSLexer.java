@@ -1,4 +1,4 @@
-// Generated from f:/Studia2Rok/2ROK_KOMPILATORY/kompilatory/MapS.g4 by ANTLR 4.13.1
+// Generated from d:/MapS/MapS.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
