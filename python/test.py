@@ -1,0 +1,3 @@
+from World import draw_image_from_InterpreterWorld, intworld
+
+draw_image_from_InterpreterWorld(intworld)

@@ -2,7 +2,6 @@
 
 
 
-
     
 class InterpreterPoint:
     def __init__(self, x: float,y: float):
