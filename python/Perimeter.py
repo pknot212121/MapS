@@ -15,8 +15,7 @@ class Perimeter:
     def from_intpoint(cls,intpoints: list[InterpreterPoint]):
         l = [point_to_list(x) for x in intpoints]
         points = np.array(l)
-        instance = cls(points)
-        return instance
+        return cls(points)
 
     def interpolate_from_points(self,points: np.ndarray, degree: int = 2, number_of_points: int = 200) -> tuple[np.ndarray,np.ndarray]:
         x,y = points.T

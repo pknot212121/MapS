@@ -41,7 +41,7 @@ class World:
             if value!=-np.inf:
                 for i,y in enumerate(h):
                     if y>=value:
-                        self.pixels[row+y_move+self.size[0]//2][col+x_move+self.size[1]//2]=c[i]
+                        self.pixels[self.size[0]//2-row-y_move][col+x_move+self.size[1]//2]=c[i]
                         break
     
     def draw(self):
@@ -67,8 +67,9 @@ points2D = np.array([
     [-100,200],
     [-100,-200]
 ])
-# intpoints2D = [InterpreterPoint(point[0],point[1]) for point in points2D]
-# heights = [InterpreterHeight(InterpreterPoint(point[0],point[1]),point[2],0) for point in points3D]
+intpoints2D = [InterpreterPoint(point[0],point[1]) for point in points2D]
+heights = [InterpreterHeight(InterpreterPoint(point[0],point[1]),point[2],0) for point in points3D]
 
-# intland1 = InterpreterLand(InterpreterPoint(100,100),intpoints2D,heights,"Nic","Nic")
-# intworld = InterpreterWorld([intland1],InterpreterPoint(2000,2000))
+intland1 = InterpreterLand(InterpreterPoint(300,300),intpoints2D,heights,"Nic","Nic")
+intworld = InterpreterWorld([intland1],InterpreterPoint(2000,2000))
+draw_image_from_InterpreterWorld(intworld)
