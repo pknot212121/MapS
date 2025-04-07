@@ -1,0 +1,340 @@
+import nbimporter
+from antlr4 import *
+from MapSLexer import MapSLexer
+from MapSParser import MapSParser
+from MapSVisitor import MapSVisitor
+from InterpreterContainers import *
+from InterpreterMemory import *
+from World import draw_image_from_InterpreterWorld
+
+
+class MapInterpreter(MapSVisitor):    
+    def __init__(self):
+        self.memory = InterpreterMemory()
+
+    #region Zdefiniowane
+    def visitListVariableDeclaration(self, ctx:MapSParser.ListVariableDeclarationContext):
+        print("visitListVariableDeclaration")
+        identifier = ctx.IDENTIFIER().getText()
+        idType = self.visit(ctx.type_())
+        elements = self.visit(ctx.listExpression())        
+        result = InterpreterList(idType, elements)
+        self.memory.storeId(identifier, result, idType)
+        return result
+
+    def visitType(self, ctx:MapSParser.TypeContext):
+        print("visitType")         
+        if ctx.getChildCount() == 3 and ctx.getChild(0).getText() == 'List<':
+            inner_type = self.visit(ctx.getChild(1))
+            return (list, inner_type)
+        else:            
+            type_name = ctx.getChild(0).getText()
+            match type_name:
+                case 'int':
+                    return int
+                case 'double':
+                    return float
+                case 'bool':
+                    return bool
+                case 'string':
+                    return str
+                case 'Point':
+                    return InterpreterPoint
+                case 'Height':
+                    return InterpreterHeight
+                case _:
+                    return None        
+                
+    def visitListExpression(self, ctx:MapSParser.ListExpressionContext):
+        print("visitListExpression")
+        result = []
+        identifier = ctx.IDENTIFIER()
+        if identifier is None:
+            ctxList = ctx.listElementExpression()
+            for ctxElement in ctxList:
+                element = self.visit(ctxElement)
+                result.append(element)
+            return result
+        else:
+            return self.memory.accessId(identifier.getText())
+
+    def visitDoubleExpr(self, ctx:MapSParser.DoubleExprContext):
+        print("visitDoubleExpr")
+        return float(ctx.DOUBLE().getText())
+        return self.visitChildren(ctx)
+    
+    def visitHeightDeclaration(self, ctx:MapSParser.HeightDeclarationContext):
+        print("visitHeightDeclaration")
+        funcCall = ctx.functionCall()
+        listExpression = ctx.listExpression()
+        if funcCall is not None:
+            print(f"[NOT IMPLEMENTED] visitHeightDeclaration -> functionCall")
+            return None
+        elif listExpression is not None:
+            return self.visit(listExpression)
+        return None
+    
+    def visitLandVariableDeclaration(self, ctx:MapSParser.LandVariableDeclarationContext):
+        print("visitLandVariableDeclaration")
+        identifier = ctx.IDENTIFIER().getText()
+
+        land = None
+        displacement = None
+        perimeter = None
+        height = None
+        perimeterFunc = None
+        heightFunc = None
+
+        pointExpression = ctx.pointExpression()
+        if pointExpression is not None:
+            displacement = self.visit(pointExpression)            
+        expression = ctx.expression()        
+        if expression is None:
+            p = self.visit(ctx.perimeterDeclaration())
+            h = self.visit(ctx.heightDeclaration())   
+            if (type(p)==InterpreterList and p.innerType==InterpreterPoint):
+                perimeter = p.get()
+            else:
+                perimeterFunc = p
+            if(type(h)==InterpreterList and h.innerType==InterpreterHeight):
+                height = h.get()
+            else:
+                heightFunc = h
+            land = InterpreterLand(displacement, perimeter, height, perimeterFunc, heightFunc)
+        else:
+            if type(expression) == InterpreterLand:
+                land = expression        
+        self.memory.storeId(identifier, land, InterpreterLand)
+        self.memory.world().addLand(land)
+        return land
+    
+
+    def visitShape(self, ctx:MapSParser.ShapeContext):
+        print("visitShape")
+        listExpression = ctx.listExpression()
+        if listExpression is None:            
+            funcArg = self.visit(ctx.expression())
+            funcName = ctx.getChild(0).getText()
+            if "Circle" in funcName:
+                print(f"[NOT IMPLEMENTED] visitShape -> Circle")
+                return None
+            elif "Square" in funcName:
+                print(f"[NOT IMPLEMENTED] visitShape -> Square")
+                return None
+            elif "RandomLand" in funcName:
+                print(f"[NOT IMPLEMENTED] visitShape -> RandomLand")
+                return None            
+            else:
+                return None
+        else:            
+            return self.visit(listExpression)
+        
+    def visitHeightExpression(self, ctx:MapSParser.HeightExpressionContext):
+        print("visitHeightExpression")
+        result = None
+        point = self.visit(ctx.pointExpression())
+        z = None
+        steep = None
+        ctxList = ctx.expression()            
+        if len(ctxList)==2:
+            z = self.visit(ctxList[0])
+            steep = self.visit(ctxList[1])
+        return InterpreterHeight(point, z, steep)
+
+    
+    def visitPointExpression(self, ctx:MapSParser.PointExpressionContext):
+        print("visitPointExpression")
+        result = None
+        identifier = ctx.IDENTIFIER()
+        if identifier is None:            
+            ctxList = ctx.expression()            
+            x = self.visit(ctxList[0])
+            y = self.visit(ctxList[1])
+            if type(x) is float and type(y) is float:
+                result = InterpreterPoint(x,y)
+            return result
+        else:
+            return self.memory.accessId(identifier.getText(), InterpreterPoint)
+        return self.visitChildren(ctx)
+    #endregion
+
+    #region Pomijalne 
+    def visitProgram(self, ctx:MapSParser.ProgramContext):
+        print("visitProgram")
+        return self.visitChildren(ctx)
+
+    def visitStatement(self, ctx:MapSParser.StatementContext):
+        print("visitStatement")
+        return self.visitChildren(ctx)
+
+    def visitVariableDeclaration(self, ctx:MapSParser.VariableDeclarationContext):
+        print("visitVariableDeclaration")
+        return self.visitChildren(ctx)                                                                    
+
+    def visitListElementExpression(self, ctx:MapSParser.ListElementExpressionContext):
+        print("visitListElementExpression")
+        return self.visitChildren(ctx)
+    
+    def visitPointVariableDeclaration(self, ctx:MapSParser.PointVariableDeclarationContext):
+        print("visitPointVariableDeclaration")
+        return self.visitChildren(ctx)                    
+            
+    def visitPerimeterDeclaration(self, ctx:MapSParser.PerimeterDeclarationContext):
+        print("visitPerimeterDeclaration")
+        return self.visitChildren(ctx)                
+    #endregion Pomijalne 
+    
+    #------------------------------------
+    #------Powyżej 1 Etap (03.04.25)-----
+    #------------------------------------
+    
+    #region Niezdefiniowane
+    def visitReturnStatement(self, ctx:MapSParser.ReturnStatementContext):
+        print("visitReturnStatement")
+        return self.visitChildren(ctx)    
+
+    def visitPrimitiveVariableDeclaration(self, ctx:MapSParser.PrimitiveVariableDeclarationContext):
+        print("visitPrimitiveVariableDeclaration")
+        return self.visitChildren(ctx)    
+
+    def visitHeightVariableDeclaration(self, ctx:MapSParser.HeightVariableDeclarationContext):
+        print("visitHeightVariableDeclaration")
+        return self.visitChildren(ctx)
+
+    def visitLakeVariableDeclaration(self, ctx:MapSParser.LakeVariableDeclarationContext):
+        print("visitLakeVariableDeclaration")
+        return self.visitChildren(ctx)
+
+    def visitRiverVariableDeclaration(self, ctx:MapSParser.RiverVariableDeclarationContext):
+        print("visitRiverVariableDeclaration")
+        return self.visitChildren(ctx)
+
+    def visitFunctionDeclaration(self, ctx:MapSParser.FunctionDeclarationContext):
+        print("visitFunctionDeclaration")
+        return self.visitChildren(ctx)
+
+    def visitParameters(self, ctx:MapSParser.ParametersContext):
+        print("visitParameters")
+        return self.visitChildren(ctx)
+
+    def visitIfStatement(self, ctx:MapSParser.IfStatementContext):
+        print("visitIfStatement")
+        return self.visitChildren(ctx)
+
+    def visitRepeatFixedLoop(self, ctx:MapSParser.RepeatFixedLoopContext):
+        print("visitRepeatFixedLoop")
+        return self.visitChildren(ctx)
+
+    def visitRepeatRangeLoop(self, ctx:MapSParser.RepeatRangeLoopContext):
+        print("visitRepeatRangeLoop")
+        return self.visitChildren(ctx)
+
+    def visitWhileLoop(self, ctx:MapSParser.WhileLoopContext):
+        print("visitWhileLoop")
+        return self.visitChildren(ctx)
+
+    def visitListAccessExpr(self, ctx:MapSParser.ListAccessExprContext):
+        print("visitListAccessExpr")
+        return self.visitChildren(ctx)    
+
+    def visitIntExpr(self, ctx:MapSParser.IntExprContext):
+        print("visitIntExpr")
+        return self.visitChildren(ctx)
+
+    def visitAddSubExpr(self, ctx:MapSParser.AddSubExprContext):
+        print("visitAddSubExpr")
+        return self.visitChildren(ctx)
+
+    def visitSqrtExpr(self, ctx:MapSParser.SqrtExprContext):
+        print("visitSqrtExpr")
+        return self.visitChildren(ctx)
+
+    def visitFuncCallExpr(self, ctx:MapSParser.FuncCallExprContext):
+        print("visitFuncCallExpr")
+        return self.visitChildren(ctx)
+
+    def visitParenExpr(self, ctx:MapSParser.ParenExprContext):
+        print("visitParenExpr")
+        return self.visitChildren(ctx)
+
+    def visitStringExpr(self, ctx:MapSParser.StringExprContext):
+        print("visitStringExpr")
+        return self.visitChildren(ctx)
+
+    def visitVarExpr(self, ctx:MapSParser.VarExprContext):
+        print("visitVarExpr")
+        return self.visitChildren(ctx)
+
+    def visitUnaryMinusExpr(self, ctx:MapSParser.UnaryMinusExprContext):
+        print("visitUnaryMinusExpr")
+        return self.visitChildren(ctx)
+
+    def visitBoolExpr(self, ctx:MapSParser.BoolExprContext):
+        print("visitBoolExpr")
+        return self.visitChildren(ctx)
+
+    def visitPowExpr(self, ctx:MapSParser.PowExprContext):
+        print("visitPowExpr")
+        return self.visitChildren(ctx)
+
+    def visitMulDivExpr(self, ctx:MapSParser.MulDivExprContext):
+        print("visitMulDivExpr")
+        return self.visitChildren(ctx)
+
+    def visitPointAccessExpr(self, ctx:MapSParser.PointAccessExprContext):
+        print("visitPointAccessExpr")
+        return self.visitChildren(ctx)
+
+    def visitCompareExpr(self, ctx:MapSParser.CompareExprContext):
+        print("visitCompareExpr")
+        return self.visitChildren(ctx)
+
+    def visitFunctionCall(self, ctx:MapSParser.FunctionCallContext):
+        print("visitFunctionCall")
+        return self.visitChildren(ctx)
+
+    def visitPointAccess(self, ctx:MapSParser.PointAccessContext):
+        print("visitPointAccess")
+        return self.visitChildren(ctx)
+
+    def visitListAccess(self, ctx:MapSParser.ListAccessContext):
+        print("visitListAccess")
+        return self.visitChildren(ctx)
+
+    def visitAssignment(self, ctx:MapSParser.AssignmentContext):
+        print("visitAssignment")
+        return self.visitChildren(ctx)
+
+    def visitVariableAssignment(self, ctx:MapSParser.VariableAssignmentContext):
+        print("visitVariableAssignment")
+        return self.visitChildren(ctx)
+
+    def visitPointFieldAssignment(self, ctx:MapSParser.PointFieldAssignmentContext):
+        print("visitPointFieldAssignment")
+        return self.visitChildren(ctx)
+
+    def visitListAdd(self, ctx:MapSParser.ListAddContext):
+        print("visitListAdd")
+        return self.visitChildren(ctx)
+
+    def visitListUpdate(self, ctx:MapSParser.ListUpdateContext):
+        print("visitListUpdate")
+        return self.visitChildren(ctx)
+    #endregion Niezdefiniowane
+
+def main():
+    input_stream = FileStream("input.map")
+    lexer = MapSLexer(input_stream)
+    stream = CommonTokenStream(lexer)
+    parser = MapSParser(stream)
+    tree = parser.program()  # Adjust according to your grammar's start rule
+
+    interpreter = MapInterpreter()
+    interpreter.visit(tree)    
+
+    print(interpreter.memory)
+    draw_image_from_InterpreterWorld(interpreter.memory.world())
+
+
+if __name__ == "__main__":
+    main()
