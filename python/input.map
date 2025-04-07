@@ -1,4 +1,4 @@
-List<Point> perimeterH is [ (0,4), (1,4), (1,3), (2,3), (2,4), (3,4), (3,0), (2,0), (2,1), (1,1), (1,0), (0,0) ] ;
-List<Height> heightH is [ ( (1.5,2), 100, 1 )];
+List<Point> perimeterH is [ (0,40), (10,40), (10,30), (20,30), (20,40), (30,40), (30,0), (20,0), (20,10), (10,10), (10,0), (0,0) ] ;
+List<Height> heightH is [ ( (15,20), 100, 1 )];
 Land landH is (0,0) with perimeter is perimeterH, height is heightH;
 

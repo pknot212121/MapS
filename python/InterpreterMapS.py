@@ -5,7 +5,7 @@ from MapSParser import MapSParser
 from MapSVisitor import MapSVisitor
 from InterpreterContainers import *
 from InterpreterMemory import *
-from World import draw_image_from_InterpreterWorld
+from World import *
 
 
 class MapInterpreter(MapSVisitor):    
@@ -332,7 +332,6 @@ def main():
     interpreter = MapInterpreter()
     interpreter.visit(tree)    
 
-    print(interpreter.memory)
     draw_image_from_InterpreterWorld(interpreter.memory.world())
 
 
