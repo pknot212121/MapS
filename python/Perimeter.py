@@ -8,14 +8,25 @@ def point_to_list(point: InterpreterPoint) -> list[int]:
 
 class Perimeter:
     def __init__(self,points: np.ndarray):
-        self.points = points
-        self.x, self.y = self.interpolate_from_points(points)
+        if(points.shape[0]<100):
+            self.x, self.y = self.interpolate_from_points(points)
+        else:
+            self.x = points[:,0]
+            self.y = points[:,1]
 
     @classmethod
     def from_intpoint(cls,intpoints: list[InterpreterPoint]):
         l = [point_to_list(x) for x in intpoints]
         points = np.array(l)
         return cls(points)
+    
+    @classmethod
+    def from_radial_function(cls,function):
+        theta = np.linspace(0, 2 * np.pi, 100)
+        x = function(theta) * np.cos(theta)
+        y = function(theta) * np.sin(theta)
+        coordinates = np.column_stack((x, y))
+        return cls(coordinates)
 
     def interpolate_from_points(self,points: np.ndarray, degree: int = 2, number_of_points: int = 200) -> tuple[np.ndarray,np.ndarray]:
         x,y = points.T
@@ -28,9 +39,7 @@ class Perimeter:
         return x_fine,y_fine
         
     def __str__(self):
-        xp,yp = self.points.T
         plt.figure(figsize=(8,8))
-        plt.scatter(xp,yp,s=200,c='blue')
         plt.plot(self.x, self.y, 'ro', label='krzywa')
         plt.grid(True)
         plt.show()
@@ -50,3 +59,8 @@ class Perimeter:
 
 # per = Perimeter.from_intpoint(intpoints)
 # print(per)
+
+def rad(theta):
+    return 2 + np.sin(5 * theta)
+per = Perimeter.from_radial_function(rad)
+print(per)
