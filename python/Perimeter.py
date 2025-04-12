@@ -60,7 +60,7 @@ class Perimeter:
 # per = Perimeter.from_intpoint(intpoints)
 # print(per)
 
-def rad(theta):
-    return 2 + np.sin(5 * theta)
-per = Perimeter.from_radial_function(rad)
-print(per)
+# def rad(theta):
+#     return 2 + np.sin(5 * theta)
+# per = Perimeter.from_radial_function(rad)
+# print(per)
