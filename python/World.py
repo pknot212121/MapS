@@ -76,22 +76,22 @@ class World:
         img_rgb.save("obraz_rgb.png")
         img_rgb.show()
 
-points3D = np.array([
-[200, 400, 400],
-[200, 300, 1000],
-[200, 200, -600]
-])
-points2D = np.array([
-    [0, 0],
-    [100,500],
-    [100, 1000],
-    [300, 100],
-    [200, -100],
-    [0, 0]
-])
-intpoints2D = [InterpreterPoint(point[0],point[1]) for point in points2D]
-heights = [InterpreterHeight(InterpreterPoint(point[0],point[1]),point[2],0) for point in points3D]
+# points3D = np.array([
+# [200, 400, 400],
+# [200, 300, 1000],
+# [200, 200, -600]
+# ])
+# points2D = np.array([
+#     [0, 0],
+#     [100,500],
+#     [100, 1000],
+#     [300, 100],
+#     [200, -100],
+#     [0, 0]
+# ])
+# intpoints2D = [InterpreterPoint(point[0],point[1]) for point in points2D]
+# heights = [InterpreterHeight(InterpreterPoint(point[0],point[1]),point[2],0) for point in points3D]
 
-intland1 = InterpreterLand(InterpreterPoint(0,0),intpoints2D,heights,"Nic","Nic")
-intworld = InterpreterWorld([intland1],InterpreterPoint(2000,2000))
-draw_image_from_InterpreterWorld(intworld)
+# intland1 = InterpreterLand(InterpreterPoint(0,0),intpoints2D,heights,"Nic","Nic")
+# intworld = InterpreterWorld([intland1],InterpreterPoint(2000,2000))
+# draw_image_from_InterpreterWorld(intworld)
