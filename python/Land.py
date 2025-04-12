@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from Perimeter import *
 from scipy.interpolate import griddata
 from matplotlib.path import Path
+import math
 
 def heights_to_ndarray(heights: list[InterpreterHeight]) -> np.ndarray:
     li = []
@@ -13,9 +14,12 @@ def heights_to_ndarray(heights: list[InterpreterHeight]) -> np.ndarray:
     return np.array(li)
 
 class Land:
-    def __init__(self,points3D: np.ndarray,perimeter: Perimeter,start: list[int]):
+    def __init__(self,points3D: np.ndarray,perimeter: Perimeter,start: list[int],function = None):
         self.start = start
-        self.height_map = self.interpolate_heightmap_from_points(points3D,perimeter)
+        if(function==None):
+            self.height_map = self.interpolate_heightmap_from_points(points3D,perimeter)
+        else:
+            self.height_map = self.get_heightmap_from_function(function,perimeter)
     
     @classmethod
     def from_intland(cls,intland: InterpreterLand):
@@ -23,6 +27,18 @@ class Land:
         perimeter = Perimeter.from_intpoint(intland.perimeter)
         points3D = heights_to_ndarray(intland.height)
         return cls(points3D,perimeter,start)
+    
+    @classmethod
+    def from_two_argument_function(cls,function,perimeter: Perimeter,start: list[int]):
+        return cls(np.zeros((3,3)),perimeter,start,function)
+        
+    def get_heightmap_from_function(self,function,perimeter: Perimeter):
+        x = perimeter.x
+        y = perimeter.y
+        drawn = np.full((int(max(y)-min(y)),int(max(x)-min(x))),np.nan)
+        for point in perimeter.points:
+            drawn[int(point[0]),int(point[1])]=function(point[0],point[1])
+        return drawn
 
     def interpolate_heightmap_from_points(self,points3D: np.ndarray,perimeter: Perimeter) -> np.ndarray:
         x = np.concatenate([points3D[:,0],perimeter.x])
@@ -70,4 +86,12 @@ class Land:
 
 # intland = InterpreterLand(InterpreterPoint(100,100),intpoints2D,heights,"Nic","Nic")
 # l = Land.from_intland(intland)
+# print(l)
+# l = Land(np.array([[0,0,200]]),per,[0,0])
+# print(l)
+
+# def two_arg(x,y):
+#     return math.sin(x**2-y**2)
+
+# l = Land.from_two_argument_function(two_arg,per,[0,0])
 # print(l)

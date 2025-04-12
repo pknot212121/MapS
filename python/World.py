@@ -95,3 +95,6 @@ class World:
 # intland1 = InterpreterLand(InterpreterPoint(0,0),intpoints2D,heights,"Nic","Nic")
 # intworld = InterpreterWorld([intland1],InterpreterPoint(2000,2000))
 # draw_image_from_InterpreterWorld(intworld)
+
+# w = World([l],[2000,2000])
+# w.draw()
