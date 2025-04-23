@@ -100,13 +100,14 @@ loopStatement
     ;
 
 // Wyrażenie to może być liczba, identyfikator, wywołanie funkcji, operacja arytmetyczna, dostęp do punktów lub list
-expression
-    : expression '^' expression   # powExpr
+expression    
+    : '(' expression ')'                  # parenExpr    
+    |'-' expression                     #unaryMinusExpr
+    | expression '^' expression   # powExpr
     | expression '?' expression   # sqrtExpr
     | expression ('*' | '/') expression   # mulDivExpr
     | expression ('+' | '-') expression   # addSubExpr
-    | expression ('>' | '<' | '>=' | '<=' | '=' | '!=') expression # compareExpr
-    | '(' expression ')'                  # parenExpr
+    | expression ('>' | '<' | '>=' | '<=' | '=' | '!=') expression # compareExpr        
     | functionCall                         # funcCallExpr        // Wywołanie funkcji
     | IDENTIFIER                           # varExpr
     | INT                                  # intExpr
@@ -147,7 +148,7 @@ listExpression
     ;
 
 listElementExpression
-    : expression | pointExpression | heightExpression
+    : pointExpression| heightExpression |  expression 
     ;
     
 // Typy danych
