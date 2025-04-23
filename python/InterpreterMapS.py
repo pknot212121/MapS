@@ -324,9 +324,9 @@ class MapInterpreter(MapSVisitor):
     #endregion Niezdefiniowane
 
 def main():
-    #filename = sys.argv[1]
-    #input_stream = FileStream(filename)
-    input_stream = FileStream("input.map")
+    filename = sys.argv[1]
+    input_stream = FileStream(filename)
+    # input_stream = FileStream("input.map")
     lexer = MapSLexer(input_stream)
     stream = CommonTokenStream(lexer)
     parser = MapSParser(stream)
