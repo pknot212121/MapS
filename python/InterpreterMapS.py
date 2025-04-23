@@ -6,7 +6,8 @@ from MapSVisitor import MapSVisitor
 from InterpreterContainers import *
 from InterpreterMemory import *
 from World import *
-
+from ErrorListenerMapS import ErrorListenerMapS
+import sys
 
 class MapInterpreter(MapSVisitor):    
     def __init__(self):
@@ -323,16 +324,28 @@ class MapInterpreter(MapSVisitor):
     #endregion Niezdefiniowane
 
 def main():
-    input_stream = FileStream("input.map")
+    filename = sys.argv[1]
+    input_stream = FileStream(filename)
     lexer = MapSLexer(input_stream)
     stream = CommonTokenStream(lexer)
     parser = MapSParser(stream)
+
+    error_listener = ErrorListenerMapS()
+    lexer.removeErrorListeners()
+    parser.removeErrorListeners()
+    lexer.addErrorListener(error_listener)
+    parser.addErrorListener(error_listener)
+
     tree = parser.program()  # Adjust according to your grammar's start rule
 
-    interpreter = MapInterpreter()
-    interpreter.visit(tree)    
+    if error_listener.syntax_errors:
+        for err in error_listener.syntax_errors:
+            print(f"{err}")
+    else:
+        interpreter = MapInterpreter()
+        interpreter.visit(tree)    
 
-    draw_image_from_InterpreterWorld(interpreter.memory.world())
+        draw_image_from_InterpreterWorld(interpreter.memory.world())
 
 
 if __name__ == "__main__":
