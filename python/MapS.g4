@@ -40,7 +40,7 @@ pointVariableDeclaration
     : 'Point' IDENTIFIER 'is' '(' expression ',' expression ')' ';'
     ;
 
-// Deklaracja zmiennej typu Height (punkt + wysokość)
+// Deklaracja zmiennej typu Height (punkt + wysokość + stromość)
 heightVariableDeclaration
     : 'Height' IDENTIFIER 'is' '(' pointExpression ',' expression ',' expression ')' ';'
     ;
@@ -80,7 +80,7 @@ riverVariableDeclaration
 
 // Deklaracja funkcji
 functionDeclaration
-    : 'function' IDENTIFIER '(' parameters? ')' ':' type '{' statement* '}' //czy sie tu jakoś dodaje return????
+    : 'function' IDENTIFIER '(' parameters? ')' ':' type '{' statement* '}'
     | 'function' IDENTIFIER '(' parameters? ')' '{' statement* '}'
     ;
 
@@ -134,7 +134,7 @@ listAccess
 // Wyrażenie typu Point
 pointExpression
     : '(' expression ',' expression ')'
-    | IDENTIFIER                            // Możliwość użycia zdefiniowanego punktu           
+    | IDENTIFIER                                     
     ;
 
 heightExpression
@@ -144,7 +144,7 @@ heightExpression
 // Wyrażenie typu List
 listExpression
     : '[' (listElementExpression (',' listElementExpression)*)? ']'
-    | IDENTIFIER                            // Możliwość użycia zdefiniowanej listy
+    | IDENTIFIER                           
     ;
 
 listElementExpression
