@@ -1,9 +1,15 @@
-List<Height> heightH is [ ((0,0), 40, 1)];
+//List<Height> heightH is [ ((0,0), 40, 1)];
 
-List<Point> perimeterRight is [ (150,270), (210,270), (210,360), (150,360), (150,270) ] ;
-List<Point> perimeterLeft is [ (-150,270), (-210,270), (-210,360), (-150,360), (-150,270) ] ;
-List<Point> perimeterSmile is [ (150,30), (120,-60), (60,-120), (0,-120), (-60,-120), (-120,-60), (-150,30), (-120,0), (-60,-30), (0,-60), (60,-30), (120,0), (150,30)] ;
+//List<Point> perimeterRight is [ (150,270), (210,270), (210,360), (150,360), (150,270) ] ;
+//List<Point> perimeterLeft is [ (-150,270), (-210,270), (-210,360), (-150,360), (-150,270) ] ;
+//List<Point> perimeterSmile is [ (150,30), (120,-60), (60,-120), (0,-120), (-60,-120), (-120,-60), (-150,30), (-120,0), (-60,-30), (0,-60), (60,-30), (120,0), (150,30)] ;
 
-Land land1 is (0,0) with perimeter is perimeterRight, height is heightH;
-Land land2 is (0,0) with perimeter is perimeterLeft, height is heightH;
-Land land3 is (0,0) with perimeter is perimeterSmile, height is heightH;
+//Land land1 is (0,0) with perimeter is perimeterRight, height is heightH;
+//Land land2 is (0,0) with perimeter is perimeterLeft, height is heightH;
+//Land land3 is (0,0) with perimeter is perimeterSmile, height is heightH;
+
+int i is 3;
+bool b is true;
+string s is "test";
+double d is 12.3;
+int a is i;

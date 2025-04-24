@@ -135,8 +135,8 @@ def serializedATN():
         1,0,0,0,323,309,1,0,0,0,324,35,1,0,0,0,325,326,6,18,-1,0,326,327,
         5,11,0,0,327,328,3,36,18,0,328,329,5,13,0,0,329,343,1,0,0,0,330,
         331,5,36,0,0,331,343,3,36,18,17,332,333,5,54,0,0,333,343,3,36,18,
-        9,334,343,3,38,19,0,335,343,5,55,0,0,336,343,5,57,0,0,337,343,5,
-        56,0,0,338,343,5,58,0,0,339,343,5,59,0,0,340,343,3,40,20,0,341,343,
+        9,334,343,3,38,19,0,335,343,5,57,0,0,336,343,5,56,0,0,337,343,5,
+        58,0,0,338,343,5,59,0,0,339,343,5,55,0,0,340,343,3,40,20,0,341,343,
         3,42,21,0,342,325,1,0,0,0,342,330,1,0,0,0,342,332,1,0,0,0,342,334,
         1,0,0,0,342,335,1,0,0,0,342,336,1,0,0,0,342,337,1,0,0,0,342,338,
         1,0,0,0,342,339,1,0,0,0,342,340,1,0,0,0,342,341,1,0,0,0,343,367,
@@ -2525,43 +2525,43 @@ class MapSParser ( Parser ):
                 pass
 
             elif la_ == 5:
-                localctx = MapSParser.VarExprContext(self, localctx)
-                self._ctx = localctx
-                _prevctx = localctx
-                self.state = 335
-                self.match(MapSParser.IDENTIFIER)
-                pass
-
-            elif la_ == 6:
                 localctx = MapSParser.IntExprContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 336
+                self.state = 335
                 self.match(MapSParser.INT)
                 pass
 
-            elif la_ == 7:
+            elif la_ == 6:
                 localctx = MapSParser.DoubleExprContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 337
+                self.state = 336
                 self.match(MapSParser.DOUBLE)
                 pass
 
-            elif la_ == 8:
+            elif la_ == 7:
                 localctx = MapSParser.StringExprContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 338
+                self.state = 337
                 self.match(MapSParser.STRING)
                 pass
 
-            elif la_ == 9:
+            elif la_ == 8:
                 localctx = MapSParser.BoolExprContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 339
+                self.state = 338
                 self.match(MapSParser.BOOLEAN)
+                pass
+
+            elif la_ == 9:
+                localctx = MapSParser.VarExprContext(self, localctx)
+                self._ctx = localctx
+                _prevctx = localctx
+                self.state = 339
+                self.match(MapSParser.IDENTIFIER)
                 pass
 
             elif la_ == 10:

@@ -1,4 +1,4 @@
-// Generated from d:/MapS/python/MapS.g4 by ANTLR 4.13.1
+// Generated from f:/Studia2Rok/2ROK_KOMPILATORY/kompilatory/python/MapS.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -273,6 +273,18 @@ public interface MapSListener extends ParseTreeListener {
 	 */
 	void exitSqrtExpr(MapSParser.SqrtExprContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code orExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterOrExpr(MapSParser.OrExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code orExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitOrExpr(MapSParser.OrExprContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code funcCallExpr}
 	 * labeled alternative in {@link MapSParser#expression}.
 	 * @param ctx the parse tree
@@ -320,6 +332,18 @@ public interface MapSListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitVarExpr(MapSParser.VarExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code notExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterNotExpr(MapSParser.NotExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code notExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitNotExpr(MapSParser.NotExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code unaryMinusExpr}
 	 * labeled alternative in {@link MapSParser#expression}.
@@ -380,6 +404,18 @@ public interface MapSListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitPointAccessExpr(MapSParser.PointAccessExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code andExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterAndExpr(MapSParser.AndExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code andExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitAndExpr(MapSParser.AndExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code compareExpr}
 	 * labeled alternative in {@link MapSParser#expression}.

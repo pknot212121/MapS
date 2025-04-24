@@ -111,12 +111,12 @@ expression
     | expression ('+' | '-') expression   # addSubExpr
     | expression ('>' | '<' | '>=' | '<=' | '=' | '!=') expression # compareExpr    
     | NOT expression  # notExpr    
-    | functionCall                         # funcCallExpr        // Wywołanie funkcji
-    | IDENTIFIER                           # varExpr
+    | functionCall                         # funcCallExpr        // Wywołanie funkcji    
     | INT                                  # intExpr
     | DOUBLE                               # doubleExpr
     | STRING                               # stringExpr
     | BOOLEAN                              # boolExpr
+    | IDENTIFIER                           # varExpr
     | pointAccess                          # pointAccessExpr     // Dostęp do współrzędnych punktu
     | listAccess                           # listAccessExpr      // Dostęp do elementu listy     
     ;

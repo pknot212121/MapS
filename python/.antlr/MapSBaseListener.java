@@ -1,4 +1,4 @@
-// Generated from d:/MapS/python/MapS.g4 by ANTLR 4.13.1
+// Generated from f:/Studia2Rok/2ROK_KOMPILATORY/kompilatory/python/MapS.g4 by ANTLR 4.13.1
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -316,6 +316,18 @@ public class MapSBaseListener implements MapSListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterOrExpr(MapSParser.OrExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOrExpr(MapSParser.OrExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterFuncCallExpr(MapSParser.FuncCallExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -359,6 +371,18 @@ public class MapSBaseListener implements MapSListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitVarExpr(MapSParser.VarExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNotExpr(MapSParser.NotExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNotExpr(MapSParser.NotExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -419,6 +443,18 @@ public class MapSBaseListener implements MapSListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitPointAccessExpr(MapSParser.PointAccessExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAndExpr(MapSParser.AndExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAndExpr(MapSParser.AndExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

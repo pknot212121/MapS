@@ -1,4 +1,4 @@
-// Generated from d:/MapS/python/MapS.g4 by ANTLR 4.13.1
+// Generated from f:/Studia2Rok/2ROK_KOMPILATORY/kompilatory/python/MapS.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -1703,47 +1703,47 @@ public class MapSParser extends Parser {
 				break;
 			case 5:
 				{
-				_localctx = new VarExprContext(_localctx);
+				_localctx = new IntExprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 				setState(335);
-				match(IDENTIFIER);
+				match(INT);
 				}
 				break;
 			case 6:
 				{
-				_localctx = new IntExprContext(_localctx);
+				_localctx = new DoubleExprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 				setState(336);
-				match(INT);
+				match(DOUBLE);
 				}
 				break;
 			case 7:
 				{
-				_localctx = new DoubleExprContext(_localctx);
+				_localctx = new StringExprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 				setState(337);
-				match(DOUBLE);
+				match(STRING);
 				}
 				break;
 			case 8:
 				{
-				_localctx = new StringExprContext(_localctx);
+				_localctx = new BoolExprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 				setState(338);
-				match(STRING);
+				match(BOOLEAN);
 				}
 				break;
 			case 9:
 				{
-				_localctx = new BoolExprContext(_localctx);
+				_localctx = new VarExprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 				setState(339);
-				match(BOOLEAN);
+				match(IDENTIFIER);
 				}
 				break;
 			case 10:
@@ -2878,9 +2878,9 @@ public class MapSParser extends Parser {
 		"\u0148\u0003$\u0012\u0000\u0148\u0149\u0005\r\u0000\u0000\u0149\u0157"+
 		"\u0001\u0000\u0000\u0000\u014a\u014b\u0005$\u0000\u0000\u014b\u0157\u0003"+
 		"$\u0012\u0011\u014c\u014d\u00056\u0000\u0000\u014d\u0157\u0003$\u0012"+
-		"\t\u014e\u0157\u0003&\u0013\u0000\u014f\u0157\u00057\u0000\u0000\u0150"+
-		"\u0157\u00059\u0000\u0000\u0151\u0157\u00058\u0000\u0000\u0152\u0157\u0005"+
-		":\u0000\u0000\u0153\u0157\u0005;\u0000\u0000\u0154\u0157\u0003(\u0014"+
+		"\t\u014e\u0157\u0003&\u0013\u0000\u014f\u0157\u00059\u0000\u0000\u0150"+
+		"\u0157\u00058\u0000\u0000\u0151\u0157\u0005:\u0000\u0000\u0152\u0157\u0005"+
+		";\u0000\u0000\u0153\u0157\u00057\u0000\u0000\u0154\u0157\u0003(\u0014"+
 		"\u0000\u0155\u0157\u0003*\u0015\u0000\u0156\u0145\u0001\u0000\u0000\u0000"+
 		"\u0156\u014a\u0001\u0000\u0000\u0000\u0156\u014c\u0001\u0000\u0000\u0000"+
 		"\u0156\u014e\u0001\u0000\u0000\u0000\u0156\u014f\u0001\u0000\u0000\u0000"+

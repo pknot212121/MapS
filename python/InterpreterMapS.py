@@ -103,7 +103,7 @@ class MapInterpreter(MapSVisitor):
                 heightFunc = h
             land = InterpreterLand(displacement, perimeter, height, perimeterFunc, heightFunc)
         else:
-            if type(expression) == InterpreterLand:
+            if type(expression) == InterpreterLand: #expression = self.visit(expression) raczej
                 land = expression        
         self.memory.storeId(identifier, land, InterpreterLand)
         self.memory.world().addLand(land)
@@ -175,6 +175,40 @@ class MapInterpreter(MapSVisitor):
     def visitNotExpr(self, ctx:MapSParser.NotExprContext):
         operand = self.visit(ctx.expression())
         return not operand
+    
+    def visitPrimitiveVariableDeclaration(self, ctx:MapSParser.PrimitiveVariableDeclarationContext):
+        print("visitPrimitiveVariableDeclaration")
+        type_name = ctx.getChild(0).getText()
+        match type_name:
+            case 'int':
+                type_name = int
+            case 'double':
+                type_name = float
+            case 'bool':
+                type_name = bool
+            case 'string':
+                type_name = str            
+        identifier = ctx.IDENTIFIER().getText()
+        exp = type_name(self.visit(ctx.expression()))
+        self.memory.storeId(identifier, exp, type_name)
+        return identifier
+    
+    def visitIntExpr(self, ctx:MapSParser.IntExprContext):
+        print("visitIntExpr")
+        return int(ctx.INT().getText())       
+    
+    def visitStringExpr(self, ctx:MapSParser.StringExprContext):
+        print("visitStringExpr")
+        return str(ctx.STRING().getText())  
+    
+    def visitBoolExpr(self, ctx:MapSParser.BoolExprContext):
+        print("visitBoolExpr")
+        return bool(ctx.BOOLEAN().getText())  
+    
+    def visitVarExpr(self, ctx:MapSParser.VarExprContext):
+        print("visitVarExpr")
+        identifier = ctx.IDENTIFIER().getText()
+        return self.memory.accessId(identifier)        
     #endregion
 
     #region Pomijalne 
@@ -210,11 +244,7 @@ class MapInterpreter(MapSVisitor):
     #region Niezdefiniowane
     def visitReturnStatement(self, ctx:MapSParser.ReturnStatementContext):
         print("visitReturnStatement")
-        return self.visitChildren(ctx)    
-
-    def visitPrimitiveVariableDeclaration(self, ctx:MapSParser.PrimitiveVariableDeclarationContext):
-        print("visitPrimitiveVariableDeclaration")
-        return self.visitChildren(ctx)    
+        return self.visitChildren(ctx)           
 
     def visitHeightVariableDeclaration(self, ctx:MapSParser.HeightVariableDeclarationContext):
         print("visitHeightVariableDeclaration")
@@ -255,11 +285,7 @@ class MapInterpreter(MapSVisitor):
     def visitListAccessExpr(self, ctx:MapSParser.ListAccessExprContext):
         print("visitListAccessExpr")
         return self.visitChildren(ctx)    
-
-    def visitIntExpr(self, ctx:MapSParser.IntExprContext):
-        print("visitIntExpr")
-        return self.visitChildren(ctx)
-
+    
     def visitAddSubExpr(self, ctx:MapSParser.AddSubExprContext):
         print("visitAddSubExpr")
         return self.visitChildren(ctx)
@@ -276,20 +302,8 @@ class MapInterpreter(MapSVisitor):
         print("visitParenExpr")
         return self.visitChildren(ctx)
 
-    def visitStringExpr(self, ctx:MapSParser.StringExprContext):
-        print("visitStringExpr")
-        return self.visitChildren(ctx)
-
-    def visitVarExpr(self, ctx:MapSParser.VarExprContext):
-        print("visitVarExpr")
-        return self.visitChildren(ctx)
-
     def visitUnaryMinusExpr(self, ctx:MapSParser.UnaryMinusExprContext):
         print("visitUnaryMinusExpr")
-        return self.visitChildren(ctx)
-
-    def visitBoolExpr(self, ctx:MapSParser.BoolExprContext):
-        print("visitBoolExpr")
         return self.visitChildren(ctx)
 
     def visitPowExpr(self, ctx:MapSParser.PowExprContext):
@@ -344,7 +358,7 @@ class MapInterpreter(MapSVisitor):
 def main():
     filename = sys.argv[1]
     input_stream = FileStream(filename)
-    # input_stream = FileStream("input.map")
+    # input_stream = FileStream("whysoserious.map")
     lexer = MapSLexer(input_stream)
     stream = CommonTokenStream(lexer)
     parser = MapSParser(stream)
