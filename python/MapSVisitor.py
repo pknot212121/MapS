@@ -134,6 +134,11 @@ class MapSVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by MapSParser#orExpr.
+    def visitOrExpr(self, ctx:MapSParser.OrExprContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by MapSParser#funcCallExpr.
     def visitFuncCallExpr(self, ctx:MapSParser.FuncCallExprContext):
         return self.visitChildren(ctx)
@@ -151,6 +156,11 @@ class MapSVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by MapSParser#varExpr.
     def visitVarExpr(self, ctx:MapSParser.VarExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MapSParser#notExpr.
+    def visitNotExpr(self, ctx:MapSParser.NotExprContext):
         return self.visitChildren(ctx)
 
 
@@ -176,6 +186,11 @@ class MapSVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by MapSParser#pointAccessExpr.
     def visitPointAccessExpr(self, ctx:MapSParser.PointAccessExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MapSParser#andExpr.
+    def visitAndExpr(self, ctx:MapSParser.AndExprContext):
         return self.visitChildren(ctx)
 
 

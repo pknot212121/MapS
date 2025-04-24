@@ -233,6 +233,15 @@ class MapSListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by MapSParser#orExpr.
+    def enterOrExpr(self, ctx:MapSParser.OrExprContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#orExpr.
+    def exitOrExpr(self, ctx:MapSParser.OrExprContext):
+        pass
+
+
     # Enter a parse tree produced by MapSParser#funcCallExpr.
     def enterFuncCallExpr(self, ctx:MapSParser.FuncCallExprContext):
         pass
@@ -266,6 +275,15 @@ class MapSListener(ParseTreeListener):
 
     # Exit a parse tree produced by MapSParser#varExpr.
     def exitVarExpr(self, ctx:MapSParser.VarExprContext):
+        pass
+
+
+    # Enter a parse tree produced by MapSParser#notExpr.
+    def enterNotExpr(self, ctx:MapSParser.NotExprContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#notExpr.
+    def exitNotExpr(self, ctx:MapSParser.NotExprContext):
         pass
 
 
@@ -311,6 +329,15 @@ class MapSListener(ParseTreeListener):
 
     # Exit a parse tree produced by MapSParser#pointAccessExpr.
     def exitPointAccessExpr(self, ctx:MapSParser.PointAccessExprContext):
+        pass
+
+
+    # Enter a parse tree produced by MapSParser#andExpr.
+    def enterAndExpr(self, ctx:MapSParser.AndExprContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#andExpr.
+    def exitAndExpr(self, ctx:MapSParser.AndExprContext):
         pass
 
 
