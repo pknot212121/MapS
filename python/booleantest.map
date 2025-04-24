@@ -1,0 +1,3 @@
+bool a is True;
+bool b is False;
+bool c is a and b;

@@ -157,6 +157,24 @@ class MapInterpreter(MapSVisitor):
         else:
             return self.memory.accessId(identifier.getText(), InterpreterPoint)
         return self.visitChildren(ctx)
+    
+    def visitAndExpr(self, ctx:MapSParser.AndExprContext):
+        left = self.visit(ctx.expression(0))
+        if isinstance(left, bool) and not left:
+            return False
+        right = self.visit(ctx.expression(1))
+        return left and right
+
+    def visitOrExpr(self, ctx:MapSParser.OrExprContext):
+        left = self.visit(ctx.expression(0))
+        if isinstance(left, bool) and left:
+            return True
+        right = self.visit(ctx.expression(1))
+        return left or right
+
+    def visitNotExpr(self, ctx:MapSParser.NotExprContext):
+        operand = self.visit(ctx.expression())
+        return not operand
     #endregion
 
     #region Pomijalne 
