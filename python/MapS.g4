@@ -103,11 +103,14 @@ loopStatement
 expression    
     : '(' expression ')'                  # parenExpr    
     |'-' expression                     #unaryMinusExpr
+    | expression OR expression         # orExpr       
+    | expression AND expression        # andExpr 
     | expression '^' expression   # powExpr
     | expression '?' expression   # sqrtExpr
     | expression ('*' | '/') expression   # mulDivExpr
     | expression ('+' | '-') expression   # addSubExpr
-    | expression ('>' | '<' | '>=' | '<=' | '=' | '!=') expression # compareExpr        
+    | expression ('>' | '<' | '>=' | '<=' | '=' | '!=') expression # compareExpr    
+    | NOT expression  # notExpr    
     | functionCall                         # funcCallExpr        // Wywołanie funkcji
     | IDENTIFIER                           # varExpr
     | INT                                  # intExpr
@@ -180,6 +183,9 @@ listAssignment
 
 
 // Lexer rules
+AND : 'and';
+OR  : 'or';
+NOT : 'not';
 IDENTIFIER: [a-zA-Z_][a-zA-Z_0-9]*;
 DOUBLE: '-'?[0-9]+('.'[0-9]+)?;
 INT: '-'?[0-9]+;
