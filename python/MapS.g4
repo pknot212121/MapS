@@ -114,8 +114,8 @@ expression
     | functionCall                         # funcCallExpr        // Wywołanie funkcji    
     | INT                                  # intExpr
     | DOUBLE                               # doubleExpr
-    | STRING                               # stringExpr
-    | BOOLEAN                              # boolExpr
+    | STRING                               # stringExpr    
+    | BOOLEAN                              # boolExpr    
     | IDENTIFIER                           # varExpr
     | pointAccess                          # pointAccessExpr     // Dostęp do współrzędnych punktu
     | listAccess                           # listAccessExpr      // Dostęp do elementu listy     

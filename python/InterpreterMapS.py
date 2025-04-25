@@ -10,8 +10,10 @@ from ErrorListenerMapS import ErrorListenerMapS
 import sys
 
 class MapInterpreter(MapSVisitor):    
-    def __init__(self):
-        self.memory = InterpreterMemory()
+    def __init__(self, errorListener_: ErrorListenerMapS):
+        self.memory = InterpreterMemory(errorListener_)
+        self.errorListener = errorListener_      
+        
 
     #region Zdefiniowane
     def visitListVariableDeclaration(self, ctx:MapSParser.ListVariableDeclarationContext):
@@ -20,7 +22,7 @@ class MapInterpreter(MapSVisitor):
         idType = self.visit(ctx.type_())
         elements = self.visit(ctx.listExpression())        
         result = InterpreterList(idType, elements)
-        self.memory.storeId(identifier, result, idType)
+        self.memory.storeId(ctx, identifier, result, idType)
         return result
 
     def visitType(self, ctx:MapSParser.TypeContext):
@@ -57,7 +59,7 @@ class MapInterpreter(MapSVisitor):
                 result.append(element)
             return result
         else:
-            return self.memory.accessId(identifier.getText())
+            return self.memory.accessId(ctx, identifier.getText())
 
     def visitDoubleExpr(self, ctx:MapSParser.DoubleExprContext):
         print("visitDoubleExpr")
@@ -105,7 +107,7 @@ class MapInterpreter(MapSVisitor):
         else:
             if type(expression) == InterpreterLand: #expression = self.visit(expression) raczej
                 land = expression        
-        self.memory.storeId(identifier, land, InterpreterLand)
+        self.memory.storeId(ctx, identifier, land, InterpreterLand)
         self.memory.world().addLand(land)
         return land
     
@@ -155,7 +157,7 @@ class MapInterpreter(MapSVisitor):
                 result = InterpreterPoint(x,y)
             return result
         else:
-            return self.memory.accessId(identifier.getText(), InterpreterPoint)
+            return self.memory.accessId(ctx, identifier.getText(), InterpreterPoint)
         return self.visitChildren(ctx)
     
     def visitAndExpr(self, ctx:MapSParser.AndExprContext):
@@ -190,7 +192,7 @@ class MapInterpreter(MapSVisitor):
                 type_name = str            
         identifier = ctx.IDENTIFIER().getText()
         exp = type_name(self.visit(ctx.expression()))
-        self.memory.storeId(identifier, exp, type_name)
+        self.memory.storeId(ctx, identifier, exp, type_name)
         return identifier
     
     def visitIntExpr(self, ctx:MapSParser.IntExprContext):
@@ -208,12 +210,14 @@ class MapInterpreter(MapSVisitor):
     def visitVarExpr(self, ctx:MapSParser.VarExprContext):
         print("visitVarExpr")
         identifier = ctx.IDENTIFIER().getText()
-        return self.memory.accessId(identifier)        
+        return self.memory.accessId(ctx, identifier)      
+
+    
     #endregion
 
     #region Pomijalne 
     def visitProgram(self, ctx:MapSParser.ProgramContext):
-        print("visitProgram")
+        print("visitProgram")                
         return self.visitChildren(ctx)
 
     def visitStatement(self, ctx:MapSParser.StatementContext):
@@ -244,7 +248,11 @@ class MapInterpreter(MapSVisitor):
     #region Niezdefiniowane
     def visitReturnStatement(self, ctx:MapSParser.ReturnStatementContext):
         print("visitReturnStatement")
-        return self.visitChildren(ctx)           
+        return self.visitChildren(ctx)  
+       
+    def visitVariableAssignment(self, ctx:MapSParser.VariableAssignmentContext):
+        print("visitVariableAssignment")
+        return self.visitChildren(ctx)        
 
     def visitHeightVariableDeclaration(self, ctx:MapSParser.HeightVariableDeclarationContext):
         print("visitHeightVariableDeclaration")
@@ -336,11 +344,7 @@ class MapInterpreter(MapSVisitor):
 
     def visitAssignment(self, ctx:MapSParser.AssignmentContext):
         print("visitAssignment")
-        return self.visitChildren(ctx)
-
-    def visitVariableAssignment(self, ctx:MapSParser.VariableAssignmentContext):
-        print("visitVariableAssignment")
-        return self.visitChildren(ctx)
+        return self.visitChildren(ctx)    
 
     def visitPointFieldAssignment(self, ctx:MapSParser.PointFieldAssignmentContext):
         print("visitPointFieldAssignment")
@@ -356,9 +360,9 @@ class MapInterpreter(MapSVisitor):
     #endregion Niezdefiniowane
 
 def main():
-    filename = sys.argv[1]
-    input_stream = FileStream(filename)
-    # input_stream = FileStream("whysoserious.map")
+    # filename = sys.argv[1]
+    # input_stream = FileStream(filename)
+    input_stream = FileStream("whysoserious.map")
     lexer = MapSLexer(input_stream)
     stream = CommonTokenStream(lexer)
     parser = MapSParser(stream)
@@ -375,10 +379,13 @@ def main():
         for err in error_listener.syntax_errors:
             print(f"{err}")
     else:
-        interpreter = MapInterpreter()
+        interpreter = MapInterpreter(error_listener)
         interpreter.visit(tree)    
-
-        draw_image_from_InterpreterWorld(interpreter.memory.world())
+        if error_listener.interpreter_errors:
+            for err in error_listener.interpreter_errors:
+                print(f"{err}")
+        else:
+            draw_image_from_InterpreterWorld(interpreter.memory.world())
 
 
 if __name__ == "__main__":

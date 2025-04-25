@@ -8,8 +8,14 @@
 //Land land2 is (0,0) with perimeter is perimeterLeft, height is heightH;
 //Land land3 is (0,0) with perimeter is perimeterSmile, height is heightH;
 
-int i is 3;
-bool b is true;
-string s is "test";
-double d is 12.3;
-int a is i;
+int i is 123;
+//int i is 223;
+e is 123;
+
+
+
+//            int i is 3;
+    //bool b is true;
+//                string s is "test";
+//double d is 12.3;
+//int a is i;
