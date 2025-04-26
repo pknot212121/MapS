@@ -1,0 +1,10 @@
+int a is 1;
+int b is 2;
+bool c is true;
+a is a * c;
+b is -b;
+/*
+sfdsdfs
+sdfdsedf
+dsff
+*/

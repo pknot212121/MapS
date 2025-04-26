@@ -186,10 +186,11 @@ listAssignment
 AND : 'and';
 OR  : 'or';
 NOT : 'not';
-IDENTIFIER: [a-zA-Z_][a-zA-Z_0-9]*;
-DOUBLE: '-'?[0-9]+('.'[0-9]+)?;
 INT: '-'?[0-9]+;
+DOUBLE: '-'?[0-9]+('.'[0-9]+)?;
 STRING: '"' ~('"')* '"';
 BOOLEAN: 'true' | 'false';
+IDENTIFIER: [a-zA-Z_][a-zA-Z_0-9]*;
 WHITESPACE: [ \t\r\n]+ -> skip;
 LINE_COMMENT : '//' ~[\r\n]* -> skip ;
+COMMENT: '/*' .*? '*/' -> skip ;

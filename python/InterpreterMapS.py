@@ -161,6 +161,7 @@ class MapInterpreter(MapSVisitor):
         return self.visitChildren(ctx)
     
     def visitAndExpr(self, ctx:MapSParser.AndExprContext):
+        print("visitAndExpr")
         left = self.visit(ctx.expression(0))
         if isinstance(left, bool) and not left:
             return False
@@ -168,6 +169,7 @@ class MapInterpreter(MapSVisitor):
         return left and right
 
     def visitOrExpr(self, ctx:MapSParser.OrExprContext):
+        print("visitOrExpr")
         left = self.visit(ctx.expression(0))
         if isinstance(left, bool) and left:
             return True
@@ -296,8 +298,46 @@ class MapInterpreter(MapSVisitor):
     
     def visitAddSubExpr(self, ctx:MapSParser.AddSubExprContext):
         print("visitAddSubExpr")
-        return self.visitChildren(ctx)
+        left = self.visit(ctx.expression(0))
+        right = self.visit(ctx.expression(1))
 
+        if not ((isinstance(left, (int, float)) and not isinstance(left, bool))):
+            self.errorListener.interpreterError
+            (f"Type Error: Cannot add/subtract non-number types: {type(left).__name__}", ctx)
+        if not ((isinstance(right, (int, float)) and not isinstance(right, bool))):
+            self.errorListener.interpreterError
+            (f"Type Error: Cannot add/subtract non-number types: {type(right).__name__}", ctx)
+
+        if ctx.getChild(1).getText() == '+':
+            return left + right
+        else:
+            return left - right
+    
+    def visitUnaryMinusExpr(self, ctx:MapSParser.UnaryMinusExprContext):
+        print("visitUnaryMinusExpr")
+        value = self.visit(ctx.expression())
+        if not (isinstance(value, (int, float)) and not isinstance(value, bool)):
+            self.errorListener.interpreterError
+            (f"Type Error: Cannot negate non-number type: {type(value).__name__}",ctx)
+        return -value
+    
+    def visitMulDivExpr(self, ctx:MapSParser.MulDivExprContext):
+        print("visitMulDivExpr")
+        left = self.visit(ctx.expression(0))
+        right = self.visit(ctx.expression(1))
+
+        if not ((isinstance(left, (int, float)) and not isinstance(left, bool))):
+            self.errorListener.interpreterError
+            (f"Type Error: Cannot multiply/divide non-number types: {type(left).__name__}", ctx)
+        if not ((isinstance(right, (int, float)) and not isinstance(right, bool))):
+            self.errorListener.interpreterError
+            (f"Type Error: Cannot multiply/divide non-number types: {type(right).__name__}", ctx)
+
+        if ctx.getChild(1).getText() == '*':
+            return left * right
+        else:
+            return left / right
+    
     def visitSqrtExpr(self, ctx:MapSParser.SqrtExprContext):
         print("visitSqrtExpr")
         return self.visitChildren(ctx)
@@ -309,17 +349,9 @@ class MapInterpreter(MapSVisitor):
     def visitParenExpr(self, ctx:MapSParser.ParenExprContext):
         print("visitParenExpr")
         return self.visitChildren(ctx)
-
-    def visitUnaryMinusExpr(self, ctx:MapSParser.UnaryMinusExprContext):
-        print("visitUnaryMinusExpr")
-        return self.visitChildren(ctx)
-
+    
     def visitPowExpr(self, ctx:MapSParser.PowExprContext):
         print("visitPowExpr")
-        return self.visitChildren(ctx)
-
-    def visitMulDivExpr(self, ctx:MapSParser.MulDivExprContext):
-        print("visitMulDivExpr")
         return self.visitChildren(ctx)
 
     def visitPointAccessExpr(self, ctx:MapSParser.PointAccessExprContext):
@@ -360,9 +392,9 @@ class MapInterpreter(MapSVisitor):
     #endregion Niezdefiniowane
 
 def main():
-    # filename = sys.argv[1]
-    # input_stream = FileStream(filename)
-    input_stream = FileStream("whysoserious.map")
+    filename = sys.argv[1]
+    input_stream = FileStream(filename)
+    # input_stream = FileStream("whysoserious.map")
     lexer = MapSLexer(input_stream)
     stream = CommonTokenStream(lexer)
     parser = MapSParser(stream)
