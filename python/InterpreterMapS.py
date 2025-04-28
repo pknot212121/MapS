@@ -153,8 +153,8 @@ class MapInterpreter(MapSVisitor):
             ctxList = ctx.expression()            
             x = self.visit(ctxList[0])
             y = self.visit(ctxList[1])
-            if type(x) is float and type(y) is float:
-                result = InterpreterPoint(x,y)
+            if (type(x) is float or type(x) is int) and (type(y) is float or type(y) is int):
+                result = InterpreterPoint(float(x),float(y))
             return result
         else:
             return self.memory.accessId(ctx, identifier.getText(), InterpreterPoint)
@@ -392,9 +392,9 @@ class MapInterpreter(MapSVisitor):
     #endregion Niezdefiniowane
 
 def main():
-    filename = sys.argv[1]
-    input_stream = FileStream(filename)
-    # input_stream = FileStream("whysoserious.map")
+    # filename = sys.argv[1]
+    # input_stream = FileStream(filename)
+    input_stream = FileStream("input2.map")
     lexer = MapSLexer(input_stream)
     stream = CommonTokenStream(lexer)
     parser = MapSParser(stream)
