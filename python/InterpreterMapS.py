@@ -214,7 +214,22 @@ class MapInterpreter(MapSVisitor):
         identifier = ctx.IDENTIFIER().getText()
         return self.memory.accessId(ctx, identifier)      
 
+    def visitAssignment(self, ctx:MapSParser.AssignmentContext):
+        print("visitAssignment")
+        if ctx.variableAssignment() is not None:
+            self.visit(ctx.variableAssignment())
+        elif ctx.pointFieldAssignment() is not None:
+            self.visit(ctx.pointFieldAssignment())
+        else:
+            self.visit(ctx.listAssignment())                    
     
+    def visitVariableAssignment(self, ctx:MapSParser.VariableAssignmentContext):
+        print("visitVariableAssignment")
+        identifier = ctx.IDENTIFIER().getText()
+        self.memory.assignValue(ctx, identifier, self.visit(ctx.expression()))
+        return identifier  
+    
+     
     #endregion
 
     #region Pomijalne 
@@ -252,9 +267,7 @@ class MapInterpreter(MapSVisitor):
         print("visitReturnStatement")
         return self.visitChildren(ctx)  
        
-    def visitVariableAssignment(self, ctx:MapSParser.VariableAssignmentContext):
-        print("visitVariableAssignment")
-        return self.visitChildren(ctx)        
+          
 
     def visitHeightVariableDeclaration(self, ctx:MapSParser.HeightVariableDeclarationContext):
         print("visitHeightVariableDeclaration")
@@ -372,11 +385,7 @@ class MapInterpreter(MapSVisitor):
 
     def visitListAccess(self, ctx:MapSParser.ListAccessContext):
         print("visitListAccess")
-        return self.visitChildren(ctx)
-
-    def visitAssignment(self, ctx:MapSParser.AssignmentContext):
-        print("visitAssignment")
-        return self.visitChildren(ctx)    
+        return self.visitChildren(ctx)  
 
     def visitPointFieldAssignment(self, ctx:MapSParser.PointFieldAssignmentContext):
         print("visitPointFieldAssignment")
@@ -392,9 +401,10 @@ class MapInterpreter(MapSVisitor):
     #endregion Niezdefiniowane
 
 def main():
-    # filename = sys.argv[1]
-    # input_stream = FileStream(filename)
-    input_stream = FileStream("input2.map")
+    #filename = sys.argv[1]
+    #input_stream = FileStream(filename)
+    #input_stream = FileStream("input2.map")
+    input_stream = FileStream("whysoserious.map")
     lexer = MapSLexer(input_stream)
     stream = CommonTokenStream(lexer)
     parser = MapSParser(stream)

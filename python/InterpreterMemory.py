@@ -29,8 +29,24 @@ class InterpreterMemory():
         if idType is None:
             idValue = InterpreterIdentifier(value, type(value))
         else:
-            idValue = InterpreterIdentifier(value, type)
+            idValue = InterpreterIdentifier(value, idType)
         self.identfierDict[identifier] = idValue
+
+    def releaseId(self, ctx: ParserRuleContext, identifier):
+        if (identifier not in self.identfierDict):
+            self.error_listener.interpreterError(f"No variable named: {identifier}.", ctx)
+            return None
+        self.identfierDict.pop(identifier)
+
+    def assignValue(self, ctx: ParserRuleContext, identifier, value):
+        if (identifier not in self.identfierDict):
+            self.error_listener.interpreterError(f"No variable named: {identifier}.", ctx)
+            return None        
+        idObject = self.identfierDict[identifier]
+        if idObject.type_() != type(value):
+            self.error_listener.interpreterError(f"Value of type {type(value)}, cannot be assigned for a variable {identifier} of type {idObject.type()}.", ctx)
+            return None        
+        idObject.value = value        
 
     def world(self):
         return self.intereterWorld

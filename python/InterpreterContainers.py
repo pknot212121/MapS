@@ -1,18 +1,18 @@
 class InterpreterIdentifier:
     def __init__(self, value, type):
         self.value = value
-        self.type = type
+        self.t = type
     
     def type_(self):
-        return self.type
+        return self.t
 
     def get(self):
         return self.value
     
-    def sameType(self, other):
-        if type(self) != type(other):
-            return False        
-        return self.type == other.type
+    # def sameType(self, other):
+    #     if type(self) != type(other):
+    #         return False        
+    #     return self.type == other.type
 
 class InterpreterList:
     def __init__(self, type, elements):
