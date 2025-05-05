@@ -1,0 +1,16 @@
+int i is 3;
+int j is i + 5;
+int c is i * j;
+print(i);
+print(j);
+print(c);
+
+bool b is True;
+bool n is False;
+print(b);
+print(c);
+
+
+//Wyjątki
+//bool b is True; //Re-deklaracja
+//o is 3; //Brak zmiennej
