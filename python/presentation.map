@@ -14,3 +14,22 @@ print(c);
 //Wyjątki
 //bool b is True; //Re-deklaracja
 //o is 3; //Brak zmiennej
+
+
+bool aaa is i=j;
+print(aaa);
+
+bool bbb is c>i;
+print(bbb);
+
+bool ccc is i<j;
+print(ccc)
+
+bool ddd is i<j and i!=j;
+print(ddd);
+
+bool eee is i<j or i!=j;
+print(eee);
+
+bool fff is i<j and not i!=j;
+print(fff);
