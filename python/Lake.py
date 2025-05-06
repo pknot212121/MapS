@@ -10,6 +10,11 @@ class Lake:
         self.perimeter = perimeter
         self.start = start
         self.height_map = self.get_heightmap_from_perimeter(perimeter)
+    @classmethod
+    def from_intlake(cls,intlake: InterpreterLake):
+        start = point_to_list(intlake.displacement)
+        perimeter = Perimeter.from_intpoint(intlake.perimeter)
+        return cls(perimeter,start)
 
     def get_heightmap_from_perimeter(self,perimeter: Perimeter) -> np.ndarray:
         x = perimeter.x
@@ -51,6 +56,7 @@ class Lake:
 # intpoints = [InterpreterPoint(point[0],point[1]) for point in points]
 
 # per = Perimeter.from_intpoint(intpoints)
-# lake = Lake(per)
+# intlake = InterpreterLake(InterpreterPoint(100,100),intpoints)
+# lake = Lake.from_intlake(intlake)
 # lake.get_heightmap_from_perimeter(per)
 # print(lake)

@@ -40,13 +40,24 @@ class InterpreterLand:
         self.perimeter = perimeter
         self.height = height
         self.perimeterFunc = perimeterFunc
-        self.heightFunc = heightFunc 
+        self.heightFunc = heightFunc
+
+class InterpreterLake:
+    def __init__(self, displacement: InterpreterPoint=None,  perimeter: list[InterpreterPoint]=None,perimeterFunc=None):
+        self.displacement = displacement
+        self.perimeter = perimeter
+        self.perimeterFunc = perimeterFunc 
 
 class InterpreterWorld:
-    def __init__(self, lands : list[InterpreterLand] = [], size: InterpreterPoint = InterpreterPoint(500,500)):
+    def __init__(self, lands : list[InterpreterLand] = [], size: InterpreterPoint = InterpreterPoint(500,500),lakes : list[InterpreterLake] = []):
         self.lands = lands
         self.size = size
+        self.lakes = lakes
 
     def addLand(self, land: InterpreterLand):
         if land is not None:
             self.lands.append(land)
+            
+    def addLake(self, lake: InterpreterLake):
+        if(lake is not None):
+            self.lakes.append(lake)

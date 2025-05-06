@@ -18,7 +18,8 @@ class World:
     def from_intworld(cls,intworld: InterpreterWorld):
         size = point_to_list(intworld.size)
         lands = [Land.from_intland(x) for x in intworld.lands]
-        return cls(lands,size)
+        lakes = [Lake.from_intlake(x) for x in intworld.lakes]
+        return cls(lands,lakes,size)
         
     def height_phases_positive(self,n: int) -> list[float]:
         maks=-np.inf
@@ -72,13 +73,15 @@ class World:
         land_size_x = lake.height_map.shape[1]
         land_size_y = lake.height_map.shape[0]
         for (row,col),value in np.ndenumerate(lake.height_map):
-            if value!=np.nan:
+            if value==0:
                 self.pixels[int(self.size[0]//2-row-y_move+land_size_y//2)][int(col+x_move+self.size[1]//2-land_size_x//2)] = [0,180,255]
 
     
     def draw(self):
         for land in self.lands:
             self.give_color(land,10)
+        for lake in self.lakes:
+            self.give_color_to_lake(lake)
         arr = self.pixels.astype(np.uint8)
         # pixel_array_rgb = arr.astype(np.uint8)
         print("Kształt tablicy:", arr.shape)
@@ -86,25 +89,37 @@ class World:
         img_rgb.save("obraz_rgb.png")
         img_rgb.show()
 
-# points3D = np.array([
-# [200, 400, 400],
-# [200, 300, 1000],
-# [200, 200, -600]
-# ])
-# points2D = np.array([
-#     [0, 0],
-#     [100,500],
-#     [100, 1000],
-#     [300, 100],
-#     [200, -100],
-#     [0, 0]
-# ])
-# intpoints2D = [InterpreterPoint(point[0],point[1]) for point in points2D]
-# heights = [InterpreterHeight(InterpreterPoint(point[0],point[1]),point[2],0) for point in points3D]
+points3D = np.array([
+[200, 400, 400],
+[200, 300, 1000],
+[200, 200, -600]
+])
+points2D = np.array([
+    [0, 0],
+    [100,500],
+    [100, 1000],
+    [300, 100],
+    [200, -100],
+    [0, 0]
+])
+intpoints2D = [InterpreterPoint(point[0],point[1]) for point in points2D]
+heights = [InterpreterHeight(InterpreterPoint(point[0],point[1]),point[2],0) for point in points3D]
+points = np.array([
+    [0, 0],
+    [10,50],
+    [10, 100],
+    [30, 10],
+    [20, -10],
+    [0, 0]
+])
+intpoints = [InterpreterPoint(point[0],point[1]) for point in points]
 
-# intland1 = Land(InterpreterPoint(0,0),intpoints2D,heights,"Nic","Nic")
-# intworld = InterpreterWorld([intland1],InterpreterPoint(2000,2000))
-# draw_image_from_InterpreterWorld(intworld)
+per = Perimeter.from_intpoint(intpoints)
+intlake = InterpreterLake(InterpreterPoint(0,0),intpoints)
+lake = Lake.from_intlake(intlake)
+intland1 = InterpreterLand(InterpreterPoint(0,0),intpoints2D,heights)
+intworld = InterpreterWorld([intland1],InterpreterPoint(2000,2000),[intlake])
+draw_image_from_InterpreterWorld(intworld)
 
 # w = World([l],[2000,2000])
 # w.draw()
