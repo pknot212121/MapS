@@ -40,17 +40,17 @@ class Lake:
         
 
 
-points = np.array([
-    [0, 0],
-    [10,50],
-    [10, 100],
-    [30, 10],
-    [20, -10],
-    [0, 0]
-])
-intpoints = [InterpreterPoint(point[0],point[1]) for point in points]
+# points = np.array([
+#     [0, 0],
+#     [10,50],
+#     [10, 100],
+#     [30, 10],
+#     [20, -10],
+#     [0, 0]
+# ])
+# intpoints = [InterpreterPoint(point[0],point[1]) for point in points]
 
-per = Perimeter.from_intpoint(intpoints)
-lake = Lake(per)
-lake.get_heightmap_from_perimeter(per)
-print(lake)
+# per = Perimeter.from_intpoint(intpoints)
+# lake = Lake(per)
+# lake.get_heightmap_from_perimeter(per)
+# print(lake)
