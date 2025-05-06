@@ -1,6 +1,6 @@
 int i is 3;
-int j is i + 5;
-int c is i * j;
+int j is (i + 5) * 3;
+int c is i / 3 - 4;
 print(i);
 print(j);
 print(c);
@@ -8,11 +8,11 @@ print(c);
 bool b is true;
 bool n is false;
 print(b);
-print(c);
+print(n);
 
 
 //Wyjatki
-//bool b is True; //Re-deklaracja
+//bool b is true; //Re-deklaracja
 //o is 3; //Brak zmiennej
 
 

@@ -137,28 +137,28 @@ def serializedATN():
         330,332,1,0,0,0,331,288,1,0,0,0,331,301,1,0,0,0,331,317,1,0,0,0,
         332,37,1,0,0,0,333,334,6,19,-1,0,334,335,5,13,0,0,335,336,3,38,19,
         0,336,337,5,3,0,0,337,351,1,0,0,0,338,339,5,37,0,0,339,351,3,38,
-        19,17,340,341,5,55,0,0,341,351,3,38,19,9,342,351,3,40,20,0,343,351,
-        5,56,0,0,344,351,5,57,0,0,345,351,5,58,0,0,346,351,5,59,0,0,347,
-        351,5,60,0,0,348,351,3,42,21,0,349,351,3,44,22,0,350,333,1,0,0,0,
-        350,338,1,0,0,0,350,340,1,0,0,0,350,342,1,0,0,0,350,343,1,0,0,0,
-        350,344,1,0,0,0,350,345,1,0,0,0,350,346,1,0,0,0,350,347,1,0,0,0,
-        350,348,1,0,0,0,350,349,1,0,0,0,351,375,1,0,0,0,352,353,10,16,0,
-        0,353,354,5,54,0,0,354,374,3,38,19,17,355,356,10,15,0,0,356,357,
-        5,53,0,0,357,374,3,38,19,16,358,359,10,14,0,0,359,360,5,38,0,0,360,
-        374,3,38,19,15,361,362,10,13,0,0,362,363,5,39,0,0,363,374,3,38,19,
-        14,364,365,10,12,0,0,365,366,7,1,0,0,366,374,3,38,19,13,367,368,
-        10,11,0,0,368,369,7,2,0,0,369,374,3,38,19,12,370,371,10,10,0,0,371,
-        372,7,3,0,0,372,374,3,38,19,11,373,352,1,0,0,0,373,355,1,0,0,0,373,
-        358,1,0,0,0,373,361,1,0,0,0,373,364,1,0,0,0,373,367,1,0,0,0,373,
-        370,1,0,0,0,374,377,1,0,0,0,375,373,1,0,0,0,375,376,1,0,0,0,376,
-        39,1,0,0,0,377,375,1,0,0,0,378,379,5,60,0,0,379,388,5,13,0,0,380,
-        385,3,38,19,0,381,382,5,14,0,0,382,384,3,38,19,0,383,381,1,0,0,0,
-        384,387,1,0,0,0,385,383,1,0,0,0,385,386,1,0,0,0,386,389,1,0,0,0,
-        387,385,1,0,0,0,388,380,1,0,0,0,388,389,1,0,0,0,389,390,1,0,0,0,
-        390,391,5,3,0,0,391,41,1,0,0,0,392,393,5,60,0,0,393,394,7,4,0,0,
-        394,43,1,0,0,0,395,396,5,60,0,0,396,397,5,50,0,0,397,398,3,38,19,
-        0,398,399,5,51,0,0,399,45,1,0,0,0,400,401,5,13,0,0,401,402,3,38,
-        19,0,402,403,5,14,0,0,403,404,3,38,19,0,404,405,5,3,0,0,405,408,
+        19,17,340,341,5,55,0,0,341,351,3,38,19,11,342,351,3,40,20,0,343,
+        351,5,56,0,0,344,351,5,57,0,0,345,351,5,58,0,0,346,351,5,59,0,0,
+        347,351,5,60,0,0,348,351,3,42,21,0,349,351,3,44,22,0,350,333,1,0,
+        0,0,350,338,1,0,0,0,350,340,1,0,0,0,350,342,1,0,0,0,350,343,1,0,
+        0,0,350,344,1,0,0,0,350,345,1,0,0,0,350,346,1,0,0,0,350,347,1,0,
+        0,0,350,348,1,0,0,0,350,349,1,0,0,0,351,375,1,0,0,0,352,353,10,16,
+        0,0,353,354,5,38,0,0,354,374,3,38,19,17,355,356,10,15,0,0,356,357,
+        5,39,0,0,357,374,3,38,19,16,358,359,10,14,0,0,359,360,7,1,0,0,360,
+        374,3,38,19,15,361,362,10,13,0,0,362,363,7,2,0,0,363,374,3,38,19,
+        14,364,365,10,12,0,0,365,366,7,3,0,0,366,374,3,38,19,13,367,368,
+        10,10,0,0,368,369,5,54,0,0,369,374,3,38,19,11,370,371,10,9,0,0,371,
+        372,5,53,0,0,372,374,3,38,19,10,373,352,1,0,0,0,373,355,1,0,0,0,
+        373,358,1,0,0,0,373,361,1,0,0,0,373,364,1,0,0,0,373,367,1,0,0,0,
+        373,370,1,0,0,0,374,377,1,0,0,0,375,373,1,0,0,0,375,376,1,0,0,0,
+        376,39,1,0,0,0,377,375,1,0,0,0,378,379,5,60,0,0,379,388,5,13,0,0,
+        380,385,3,38,19,0,381,382,5,14,0,0,382,384,3,38,19,0,383,381,1,0,
+        0,0,384,387,1,0,0,0,385,383,1,0,0,0,385,386,1,0,0,0,386,389,1,0,
+        0,0,387,385,1,0,0,0,388,380,1,0,0,0,388,389,1,0,0,0,389,390,1,0,
+        0,0,390,391,5,3,0,0,391,41,1,0,0,0,392,393,5,60,0,0,393,394,7,4,
+        0,0,394,43,1,0,0,0,395,396,5,60,0,0,396,397,5,50,0,0,397,398,3,38,
+        19,0,398,399,5,51,0,0,399,45,1,0,0,0,400,401,5,13,0,0,401,402,3,
+        38,19,0,402,403,5,14,0,0,403,404,3,38,19,0,404,405,5,3,0,0,405,408,
         1,0,0,0,406,408,5,60,0,0,407,400,1,0,0,0,407,406,1,0,0,0,408,47,
         1,0,0,0,409,410,5,13,0,0,410,411,3,46,23,0,411,412,5,14,0,0,412,
         413,3,38,19,0,413,414,5,14,0,0,414,415,3,38,19,0,415,416,5,3,0,0,
@@ -2483,6 +2483,34 @@ class MapSParser ( Parser ):
                 return visitor.visitChildren(self)
 
 
+    class CompareExprContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MapSParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expression(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(MapSParser.ExpressionContext)
+            else:
+                return self.getTypedRuleContext(MapSParser.ExpressionContext,i)
+
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterCompareExpr" ):
+                listener.enterCompareExpr(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitCompareExpr" ):
+                listener.exitCompareExpr(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCompareExpr" ):
+                return visitor.visitCompareExpr(self)
+            else:
+                return visitor.visitChildren(self)
+
+
     class AndExprContext(ExpressionContext):
 
         def __init__(self, parser, ctx:ParserRuleContext): # actually a MapSParser.ExpressionContext
@@ -2509,34 +2537,6 @@ class MapSParser ( Parser ):
         def accept(self, visitor:ParseTreeVisitor):
             if hasattr( visitor, "visitAndExpr" ):
                 return visitor.visitAndExpr(self)
-            else:
-                return visitor.visitChildren(self)
-
-
-    class CompareExprContext(ExpressionContext):
-
-        def __init__(self, parser, ctx:ParserRuleContext): # actually a MapSParser.ExpressionContext
-            super().__init__(parser)
-            self.copyFrom(ctx)
-
-        def expression(self, i:int=None):
-            if i is None:
-                return self.getTypedRuleContexts(MapSParser.ExpressionContext)
-            else:
-                return self.getTypedRuleContext(MapSParser.ExpressionContext,i)
-
-
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterCompareExpr" ):
-                listener.enterCompareExpr(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitCompareExpr" ):
-                listener.exitCompareExpr(self)
-
-        def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitCompareExpr" ):
-                return visitor.visitCompareExpr(self)
             else:
                 return visitor.visitChildren(self)
 
@@ -2585,7 +2585,7 @@ class MapSParser ( Parser ):
                 self.state = 340
                 self.match(MapSParser.NOT)
                 self.state = 341
-                self.expression(9)
+                self.expression(11)
                 pass
 
             elif la_ == 4:
@@ -2666,59 +2666,69 @@ class MapSParser ( Parser ):
                     self._errHandler.sync(self)
                     la_ = self._interp.adaptivePredict(self._input,24,self._ctx)
                     if la_ == 1:
-                        localctx = MapSParser.OrExprContext(self, MapSParser.ExpressionContext(self, _parentctx, _parentState))
+                        localctx = MapSParser.PowExprContext(self, MapSParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
                         self.state = 352
                         if not self.precpred(self._ctx, 16):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 16)")
                         self.state = 353
-                        self.match(MapSParser.OR)
+                        self.match(MapSParser.T__37)
                         self.state = 354
                         self.expression(17)
                         pass
 
                     elif la_ == 2:
-                        localctx = MapSParser.AndExprContext(self, MapSParser.ExpressionContext(self, _parentctx, _parentState))
+                        localctx = MapSParser.SqrtExprContext(self, MapSParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
                         self.state = 355
                         if not self.precpred(self._ctx, 15):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 15)")
                         self.state = 356
-                        self.match(MapSParser.AND)
+                        self.match(MapSParser.T__38)
                         self.state = 357
                         self.expression(16)
                         pass
 
                     elif la_ == 3:
-                        localctx = MapSParser.PowExprContext(self, MapSParser.ExpressionContext(self, _parentctx, _parentState))
+                        localctx = MapSParser.MulDivExprContext(self, MapSParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
                         self.state = 358
                         if not self.precpred(self._ctx, 14):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 14)")
                         self.state = 359
-                        self.match(MapSParser.T__37)
+                        _la = self._input.LA(1)
+                        if not(_la==40 or _la==41):
+                            self._errHandler.recoverInline(self)
+                        else:
+                            self._errHandler.reportMatch(self)
+                            self.consume()
                         self.state = 360
                         self.expression(15)
                         pass
 
                     elif la_ == 4:
-                        localctx = MapSParser.SqrtExprContext(self, MapSParser.ExpressionContext(self, _parentctx, _parentState))
+                        localctx = MapSParser.AddSubExprContext(self, MapSParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
                         self.state = 361
                         if not self.precpred(self._ctx, 13):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 13)")
                         self.state = 362
-                        self.match(MapSParser.T__38)
+                        _la = self._input.LA(1)
+                        if not(_la==37 or _la==42):
+                            self._errHandler.recoverInline(self)
+                        else:
+                            self._errHandler.reportMatch(self)
+                            self.consume()
                         self.state = 363
                         self.expression(14)
                         pass
 
                     elif la_ == 5:
-                        localctx = MapSParser.MulDivExprContext(self, MapSParser.ExpressionContext(self, _parentctx, _parentState))
+                        localctx = MapSParser.CompareExprContext(self, MapSParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
                         self.state = 364
                         if not self.precpred(self._ctx, 12):
@@ -2726,7 +2736,7 @@ class MapSParser ( Parser ):
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 12)")
                         self.state = 365
                         _la = self._input.LA(1)
-                        if not(_la==40 or _la==41):
+                        if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 272678883690496) != 0)):
                             self._errHandler.recoverInline(self)
                         else:
                             self._errHandler.reportMatch(self)
@@ -2736,39 +2746,29 @@ class MapSParser ( Parser ):
                         pass
 
                     elif la_ == 6:
-                        localctx = MapSParser.AddSubExprContext(self, MapSParser.ExpressionContext(self, _parentctx, _parentState))
+                        localctx = MapSParser.OrExprContext(self, MapSParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
                         self.state = 367
-                        if not self.precpred(self._ctx, 11):
-                            from antlr4.error.Errors import FailedPredicateException
-                            raise FailedPredicateException(self, "self.precpred(self._ctx, 11)")
-                        self.state = 368
-                        _la = self._input.LA(1)
-                        if not(_la==37 or _la==42):
-                            self._errHandler.recoverInline(self)
-                        else:
-                            self._errHandler.reportMatch(self)
-                            self.consume()
-                        self.state = 369
-                        self.expression(12)
-                        pass
-
-                    elif la_ == 7:
-                        localctx = MapSParser.CompareExprContext(self, MapSParser.ExpressionContext(self, _parentctx, _parentState))
-                        self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
-                        self.state = 370
                         if not self.precpred(self._ctx, 10):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 10)")
-                        self.state = 371
-                        _la = self._input.LA(1)
-                        if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 272678883690496) != 0)):
-                            self._errHandler.recoverInline(self)
-                        else:
-                            self._errHandler.reportMatch(self)
-                            self.consume()
-                        self.state = 372
+                        self.state = 368
+                        self.match(MapSParser.OR)
+                        self.state = 369
                         self.expression(11)
+                        pass
+
+                    elif la_ == 7:
+                        localctx = MapSParser.AndExprContext(self, MapSParser.ExpressionContext(self, _parentctx, _parentState))
+                        self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
+                        self.state = 370
+                        if not self.precpred(self._ctx, 9):
+                            from antlr4.error.Errors import FailedPredicateException
+                            raise FailedPredicateException(self, "self.precpred(self._ctx, 9)")
+                        self.state = 371
+                        self.match(MapSParser.AND)
+                        self.state = 372
+                        self.expression(10)
                         pass
 
              
@@ -3730,11 +3730,11 @@ class MapSParser ( Parser ):
          
 
             if predIndex == 5:
-                return self.precpred(self._ctx, 11)
+                return self.precpred(self._ctx, 10)
          
 
             if predIndex == 6:
-                return self.precpred(self._ctx, 10)
+                return self.precpred(self._ctx, 9)
          
 
 

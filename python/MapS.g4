@@ -17,7 +17,7 @@ statement
 printStatement
     : 'print(' expression ')' ';'
     ;
-    
+
 returnStatement
     : 'return' expression ';'
     ;
@@ -107,15 +107,15 @@ loopStatement
 // Wyrażenie to może być liczba, identyfikator, wywołanie funkcji, operacja arytmetyczna, dostęp do punktów lub list
 expression    
     : '(' expression ')'                  # parenExpr    
-    |'-' expression                     #unaryMinusExpr
-    | expression OR expression         # orExpr       
-    | expression AND expression        # andExpr 
+    |'-' expression                     #unaryMinusExpr 
     | expression '^' expression   # powExpr
     | expression '?' expression   # sqrtExpr
     | expression ('*' | '/') expression   # mulDivExpr
     | expression ('+' | '-') expression   # addSubExpr
     | expression ('>' | '<' | '>=' | '<=' | '=' | '!=') expression # compareExpr    
-    | NOT expression  # notExpr    
+    | NOT expression  # notExpr  
+    | expression OR expression         # orExpr       
+    | expression AND expression        # andExpr  
     | functionCall                         # funcCallExpr        // Wywołanie funkcji    
     | INT                                  # intExpr
     | DOUBLE                               # doubleExpr

@@ -341,21 +341,21 @@ class MapSListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by MapSParser#andExpr.
-    def enterAndExpr(self, ctx:MapSParser.AndExprContext):
-        pass
-
-    # Exit a parse tree produced by MapSParser#andExpr.
-    def exitAndExpr(self, ctx:MapSParser.AndExprContext):
-        pass
-
-
     # Enter a parse tree produced by MapSParser#compareExpr.
     def enterCompareExpr(self, ctx:MapSParser.CompareExprContext):
         pass
 
     # Exit a parse tree produced by MapSParser#compareExpr.
     def exitCompareExpr(self, ctx:MapSParser.CompareExprContext):
+        pass
+
+
+    # Enter a parse tree produced by MapSParser#andExpr.
+    def enterAndExpr(self, ctx:MapSParser.AndExprContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#andExpr.
+    def exitAndExpr(self, ctx:MapSParser.AndExprContext):
         pass
 
 

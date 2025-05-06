@@ -194,13 +194,13 @@ class MapSVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MapSParser#andExpr.
-    def visitAndExpr(self, ctx:MapSParser.AndExprContext):
+    # Visit a parse tree produced by MapSParser#compareExpr.
+    def visitCompareExpr(self, ctx:MapSParser.CompareExprContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MapSParser#compareExpr.
-    def visitCompareExpr(self, ctx:MapSParser.CompareExprContext):
+    # Visit a parse tree produced by MapSParser#andExpr.
+    def visitAndExpr(self, ctx:MapSParser.AndExprContext):
         return self.visitChildren(ctx)
 
 
