@@ -398,13 +398,27 @@ class MapInterpreter(MapSVisitor):
     def visitListUpdate(self, ctx:MapSParser.ListUpdateContext):
         print("visitListUpdate")
         return self.visitChildren(ctx)
+    
+    def visitPrintStatement(self, ctx:MapSParser.PrintStatementContext):
+        value = self.visit(ctx.expression())
+        if sameType(value, True):
+            print("true" if value else "false")
+        else:
+            print(value)
+    
+def sameType(value, other):
+    if type(value) != type(other):
+        return False        
+    return True
+    
     #endregion Niezdefiniowane
 
+#region Main
 def main():
     #filename = sys.argv[1]
     #input_stream = FileStream(filename)
     #input_stream = FileStream("input2.map")
-    input_stream = FileStream("input.map")
+    input_stream = FileStream("presentation.map")
     lexer = MapSLexer(input_stream)
     stream = CommonTokenStream(lexer)
     parser = MapSParser(stream)
@@ -432,3 +446,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+#endregion Main

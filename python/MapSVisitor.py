@@ -19,6 +19,11 @@ class MapSVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by MapSParser#printStatement.
+    def visitPrintStatement(self, ctx:MapSParser.PrintStatementContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by MapSParser#returnStatement.
     def visitReturnStatement(self, ctx:MapSParser.ReturnStatementContext):
         return self.visitChildren(ctx)

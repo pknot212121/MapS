@@ -89,7 +89,7 @@ class World:
         img_rgb = Image.fromarray(arr, mode='RGB')
         img_rgb.save("obraz_rgb.png")
         img_rgb.show()
-
+'''
 points3D = np.array([
 [200, 400, 400],
 [200, 300, 1000],
@@ -121,6 +121,6 @@ lake = Lake.from_intlake(intlake)
 intland1 = InterpreterLand(InterpreterPoint(0,0),intpoints2D,heights)
 intworld = InterpreterWorld([intland1],InterpreterPoint(2000,2000),[intlake])
 draw_image_from_InterpreterWorld(intworld)
-
+'''
 # w = World([l],[2000,2000])
 # w.draw()

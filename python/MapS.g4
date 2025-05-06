@@ -11,8 +11,13 @@ statement
     | assignment
     | expression ';'
     | returnStatement
+    | printStatement
     ;
 
+printStatement
+    : 'print(' expression ')' ';'
+    ;
+    
 returnStatement
     : 'return' expression ';'
     ;
