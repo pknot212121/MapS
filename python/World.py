@@ -1,14 +1,16 @@
 from PIL import ImageDraw,Image
 import numpy as np
 from Land import *
+from Lake import *
 
 def draw_image_from_InterpreterWorld(intworld: InterpreterWorld):
     w = World.from_intworld(intworld)
     w.draw()
 
 class World:
-    def __init__(self,lands: list[Land],size: list[int]):
+    def __init__(self,lands: list[Land],lakes: list[Lake],size: list[int]):
         self.lands = lands
+        self.lakes = lakes
         self.size = size
         self.pixels = np.full((size[0],size[1],3),[0,0,255])
     
@@ -64,6 +66,14 @@ class World:
                         if y<=value:
                             self.pixels[int(self.size[0]//2-row-y_move+land_size_y//2)][int(col+x_move+self.size[1]//2-land_size_x//2)]=c_neg[i]
                             break
+    def give_color_to_lake(self,lake: Lake):
+        x_move = lake.start[0]
+        y_move = lake.start[1]
+        land_size_x = lake.height_map.shape[1]
+        land_size_y = lake.height_map.shape[0]
+        for (row,col),value in np.ndenumerate(lake.height_map):
+            if value!=np.nan:
+                self.pixels[int(self.size[0]//2-row-y_move+land_size_y//2)][int(col+x_move+self.size[1]//2-land_size_x//2)] = [0,180,255]
 
     
     def draw(self):
@@ -92,7 +102,7 @@ class World:
 # intpoints2D = [InterpreterPoint(point[0],point[1]) for point in points2D]
 # heights = [InterpreterHeight(InterpreterPoint(point[0],point[1]),point[2],0) for point in points3D]
 
-# intland1 = InterpreterLand(InterpreterPoint(0,0),intpoints2D,heights,"Nic","Nic")
+# intland1 = Land(InterpreterPoint(0,0),intpoints2D,heights,"Nic","Nic")
 # intworld = InterpreterWorld([intland1],InterpreterPoint(2000,2000))
 # draw_image_from_InterpreterWorld(intworld)
 
