@@ -163,21 +163,31 @@ class MapInterpreter(MapSVisitor):
     def visitAndExpr(self, ctx:MapSParser.AndExprContext):
         #print("visitAndExpr")
         left = self.visit(ctx.expression(0))
+        if not isinstance(left, bool):
+            self.errorListener.interpreterError(f"Invalid operand for 'and': {left} (expected boolean)", ctx)
         if isinstance(left, bool) and not left:
             return False
         right = self.visit(ctx.expression(1))
+        if not isinstance(right, bool):
+            self.errorListener.interpreterError(f"Invalid operand for 'and': {right} (expected boolean)", ctx)
         return left and right
 
     def visitOrExpr(self, ctx:MapSParser.OrExprContext):
         #print("visitOrExpr")
         left = self.visit(ctx.expression(0))
+        if not isinstance(left, bool):
+            self.errorListener.interpreterError(f"Invalid operand for 'or': {left} (expected boolean)", ctx)
         if isinstance(left, bool) and left:
             return True
         right = self.visit(ctx.expression(1))
+        if not isinstance(right, bool):
+            self.errorListener.interpreterError(f"Invalid operand for 'or': {left} (expected boolean)", ctx)
         return left or right
 
     def visitNotExpr(self, ctx:MapSParser.NotExprContext):
         operand = self.visit(ctx.expression())
+        if not isinstance(operand, bool):
+            self.errorListener.interpreterError(f"Invalid operand for 'not': {operand} (expected boolean)", ctx)
         return not operand
     
     def visitPrimitiveVariableDeclaration(self, ctx:MapSParser.PrimitiveVariableDeclarationContext):
