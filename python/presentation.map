@@ -15,21 +15,26 @@ print(n);
 //bool b is true; //Re-deklaracja
 //o is 3; //Brak zmiennej
 
-
+print("3==24");
 bool aaa is i=j;
 print(aaa);
 
+print("-3 > 3");
 bool bbb is c>i;
 print(bbb);
 
+print("3 < 24");
 bool ccc is i<j;
 print(ccc);
 
+print("3 < 24 and 3 == 24");
 bool ddd is i<j and i=j;
 print(ddd);
 
+print("3 < 24 or 3 == 24");
 bool eee is i<j or i=j;
 print(eee);
 
+print("3 < 24 and not 3 != 24");
 bool fff is i<j and not i!=j;
 print(fff);
