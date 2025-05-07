@@ -25,10 +25,10 @@ print(bbb);
 bool ccc is i<j;
 print(ccc);
 
-bool ddd is i<j and i!=j;
+bool ddd is i<j and i=j;
 print(ddd);
 
-bool eee is i<j or i!=j;
+bool eee is i<j or i=j;
 print(eee);
 
 bool fff is i<j and not i!=j;
