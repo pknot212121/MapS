@@ -350,7 +350,7 @@ class MapInterpreter(MapSVisitor):
         left = self.visit(ctx.expression(0))
         right = self.visit(ctx.expression(1))
 
-        if not (sameType(left, 1) and sameType(right, 1) or (sameType(left, 1) and sameType(right, 1))):
+        if not ((sameType(left, 1) and sameType(right, 1)) or (sameType(left, 1.0) and sameType(right, 1.0))):
             self.errorListener.interpreterError(f"Cannot multiply/divide types: {type(left).__name__} and {type(right).__name__}", ctx)
 
         if ctx.getChild(1).getText() == '*':

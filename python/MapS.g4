@@ -113,9 +113,9 @@ expression
     | expression ('*' | '/') expression   # mulDivExpr
     | expression ('+' | '-') expression   # addSubExpr
     | expression ('>' | '<' | '>=' | '<=' | '=' | '!=') expression # compareExpr    
-    | NOT expression  # notExpr  
-    | expression OR expression         # orExpr       
+    | NOT expression  # notExpr 
     | expression AND expression        # andExpr  
+    | expression OR expression         # orExpr       
     | functionCall                         # funcCallExpr        // Wywołanie funkcji    
     | INT                                  # intExpr
     | DOUBLE                               # doubleExpr

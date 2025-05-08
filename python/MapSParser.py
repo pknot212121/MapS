@@ -147,8 +147,8 @@ def serializedATN():
         5,39,0,0,357,374,3,38,19,16,358,359,10,14,0,0,359,360,7,1,0,0,360,
         374,3,38,19,15,361,362,10,13,0,0,362,363,7,2,0,0,363,374,3,38,19,
         14,364,365,10,12,0,0,365,366,7,3,0,0,366,374,3,38,19,13,367,368,
-        10,10,0,0,368,369,5,54,0,0,369,374,3,38,19,11,370,371,10,9,0,0,371,
-        372,5,53,0,0,372,374,3,38,19,10,373,352,1,0,0,0,373,355,1,0,0,0,
+        10,10,0,0,368,369,5,53,0,0,369,374,3,38,19,11,370,371,10,9,0,0,371,
+        372,5,54,0,0,372,374,3,38,19,10,373,352,1,0,0,0,373,355,1,0,0,0,
         373,358,1,0,0,0,373,361,1,0,0,0,373,364,1,0,0,0,373,367,1,0,0,0,
         373,370,1,0,0,0,374,377,1,0,0,0,375,373,1,0,0,0,375,376,1,0,0,0,
         376,39,1,0,0,0,377,375,1,0,0,0,378,379,5,60,0,0,379,388,5,13,0,0,
@@ -2746,27 +2746,27 @@ class MapSParser ( Parser ):
                         pass
 
                     elif la_ == 6:
-                        localctx = MapSParser.OrExprContext(self, MapSParser.ExpressionContext(self, _parentctx, _parentState))
+                        localctx = MapSParser.AndExprContext(self, MapSParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
                         self.state = 367
                         if not self.precpred(self._ctx, 10):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 10)")
                         self.state = 368
-                        self.match(MapSParser.OR)
+                        self.match(MapSParser.AND)
                         self.state = 369
                         self.expression(11)
                         pass
 
                     elif la_ == 7:
-                        localctx = MapSParser.AndExprContext(self, MapSParser.ExpressionContext(self, _parentctx, _parentState))
+                        localctx = MapSParser.OrExprContext(self, MapSParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
                         self.state = 370
                         if not self.precpred(self._ctx, 9):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 9)")
                         self.state = 371
-                        self.match(MapSParser.AND)
+                        self.match(MapSParser.OR)
                         self.state = 372
                         self.expression(10)
                         pass

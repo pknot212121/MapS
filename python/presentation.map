@@ -1,8 +1,35 @@
+int a is 5;
+//print(a);
+
+
+int a2 is (2+2)*3;
+//print(a2);
+
+bool b is (true or false) and false;
+//print(b);
+
+double a3 is 3;
+//print(a3);
+
+double d is 1.0/2.0;
+//print(d);
+
+int c is a;
+//print(c);
+int x is 7+-7;
+//print(x);
+
+bool y is 5 > 5;
+print(y);
+/*
 int i is 3;
-int j is (i + 5) * 3;
-int c is i / 3 - 4;
+int j is (3 + 5) * 3;
+int c is 4 / 3 - 4;
 print(i);
 print(j);
+print(c);
+
+c is -17;
 print(c);
 
 bool b is true;
@@ -38,3 +65,4 @@ print(eee);
 print("3 < 24 and not 3 != 24");
 bool fff is i<j and not i!=j;
 print(fff);
+*/
