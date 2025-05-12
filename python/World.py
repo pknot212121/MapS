@@ -2,16 +2,18 @@ from PIL import ImageDraw,Image
 import numpy as np
 from Land import *
 from Lake import *
+from River import *
 
 def draw_image_from_InterpreterWorld(intworld: InterpreterWorld):
     w = World.from_intworld(intworld)
     w.draw()
 
 class World:
-    def __init__(self,lands: list[Land],lakes: list[Lake],size: list[int]):
+    def __init__(self,lands: list[Land],size: list[int],lakes: list[Lake],rivers: list[River]):
         self.lands = lands
         self.lakes = lakes
         self.size = size
+        self.rivers = rivers
         self.pixels = np.full((size[0],size[1],3),[0,0,255])
     
     @classmethod
@@ -76,7 +78,9 @@ class World:
         for (row,col),value in np.ndenumerate(lake.height_map):
             if value==0:
                 self.pixels[int(self.size[0]//2-row-y_move+land_size_y//2)][int(col+x_move+self.size[1]//2-land_size_x//2)] = [0,180,255]
-
+    def give_color_to_river(self,river: River):
+        for point in river.river_points:
+            self.pixels[point[0],point[1]]=[0,180,255]
     
     def draw(self):
         for land in self.lands:
@@ -84,6 +88,10 @@ class World:
         if self.lakes:
             for lake in self.lakes:
                 self.give_color_to_lake(lake)
+        if self.rivers:
+            for river in self.rivers:
+                print(river.river_points)
+                self.give_color_to_river(river)
         arr = self.pixels.astype(np.uint8)
         # pixel_array_rgb = arr.astype(np.uint8)
         print("Kształt tablicy:", arr.shape)
@@ -123,5 +131,7 @@ intland1 = InterpreterLand(InterpreterPoint(0,0),intpoints2D,heights)
 intworld = InterpreterWorld([intland1],InterpreterPoint(2000,2000),[intlake])
 draw_image_from_InterpreterWorld(intworld)
 '''
-# w = World([l],None,[2000,2000])
-# w.draw()
+river = River(l,[0,0])
+river.simulate_river()
+w = World([l],[2000,2000],None,[river])
+w.draw()
