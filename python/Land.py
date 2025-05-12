@@ -105,7 +105,7 @@ def rad(theta):
 per = Perimeter.from_radial_function(rad)
 
 def two_arg(x,y):
-    return x**2+y**2
+    return 10*math.sin(x/10)+50*math.cos(y/30)+math.sin(x)
 
 l = Land.from_two_argument_function(two_arg,per,[0,0])
 print(l)

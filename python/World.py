@@ -81,8 +81,9 @@ class World:
     def draw(self):
         for land in self.lands:
             self.give_color(land,10)
-        for lake in self.lakes:
-            self.give_color_to_lake(lake)
+        if self.lakes:
+            for lake in self.lakes:
+                self.give_color_to_lake(lake)
         arr = self.pixels.astype(np.uint8)
         # pixel_array_rgb = arr.astype(np.uint8)
         print("Kształt tablicy:", arr.shape)
@@ -122,5 +123,5 @@ intland1 = InterpreterLand(InterpreterPoint(0,0),intpoints2D,heights)
 intworld = InterpreterWorld([intland1],InterpreterPoint(2000,2000),[intlake])
 draw_image_from_InterpreterWorld(intworld)
 '''
-# w = World([l],[2000,2000])
+# w = World([l],None,[2000,2000])
 # w.draw()
