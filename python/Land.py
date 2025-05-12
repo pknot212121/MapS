@@ -36,8 +36,18 @@ class Land:
         x = perimeter.x
         y = perimeter.y
         drawn = np.full((int(max(y)-min(y)),int(max(x)-min(x))),np.nan)
-        for point in perimeter.points:
-            drawn[int(point[0]),int(point[1])]=function(point[0],point[1])
+        # for point in perimeter.points:
+        #     drawn[int(point[0]),int(point[1])]=function(point[0],point[1])
+        for (row,col),value in np.ndenumerate(drawn):
+            drawn[row,col]=function(row,col)
+        row_indices, col_indices = np.indices(drawn.shape)
+        x_coords_grid = min(x) + col_indices.ravel()
+        y_coords_grid = min(y) + row_indices.ravel()
+        indices_flat = np.column_stack((x_coords_grid, y_coords_grid))
+        boundary_points = np.column_stack([perimeter.x, perimeter.y])
+        boundary_path = Path(boundary_points)
+        mask = boundary_path.contains_points(indices_flat).reshape(drawn.shape)
+        drawn[~mask] = np.nan
         return drawn
 
     def interpolate_heightmap_from_points(self,points3D: np.ndarray,perimeter: Perimeter) -> np.ndarray:
@@ -90,8 +100,12 @@ class Land:
 # l = Land(np.array([[0,0,200]]),per,[0,0])
 # print(l)
 
-# def two_arg(x,y):
-#     return math.sin(x**2-y**2)
+def rad(theta):
+    return 2*50 + 50*np.sin(5 * theta)
+per = Perimeter.from_radial_function(rad)
 
-# l = Land.from_two_argument_function(two_arg,per,[0,0])
-# print(l)
+def two_arg(x,y):
+    return x**2+y**2
+
+l = Land.from_two_argument_function(two_arg,per,[0,0])
+print(l)
