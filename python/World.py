@@ -17,6 +17,7 @@ class World:
         self.rivers = rivers
         self.pixels = np.full((size[0],size[1],3),[0,0,255])
         self.hmap = np.full((size[0],size[1]),np.nan)
+        self.all_river_points = []
     
     @classmethod
     def from_intworld(cls,intworld: InterpreterWorld):
@@ -86,9 +87,10 @@ class World:
     def give_color_to_river(self,river: River):
         # self.pixels[river.source[0],river.source[1]]=[0,180,255]
         river_new = river
-        while not np.isnan(self.hmap[river_new.current_point[0],river_new.current_point[1]]) and river_new.current_point not in river_new.river_points:
+        while not np.isnan(self.hmap[river_new.current_point[0],river_new.current_point[1]]) and river_new.current_point not in self.all_river_points:
             river_new.river_points.append(river_new.current_point)
             self.pixels[river_new.current_point[0],river_new.current_point[1]]=[0,180,255]
+            self.all_river_points.append(river_new.current_point)
             river_new.current_point = self.get_lowest_neighbor(river_new)
             # print(river_new.current_point)
     def get_lowest_neighbor(self,river: River):
@@ -176,9 +178,10 @@ def two_arg(x,y):
 l = Land.from_two_argument_function(two_arg,per,[0,0])
 
 river = River([990,1050])
+river2 = River([990,1080])
 # river.simulate_river()
 # river.get_lowest_neighbor()
-w = World([l],[2000,2000],None,[river])
+w = World([l],[2000,2000],None,[river,river2])
 
 # print(w.hmap)
 w.draw()

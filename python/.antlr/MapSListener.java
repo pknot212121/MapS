@@ -27,6 +27,16 @@ public interface MapSListener extends ParseTreeListener {
 	 */
 	void exitStatement(MapSParser.StatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MapSParser#printStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrintStatement(MapSParser.PrintStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MapSParser#printStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrintStatement(MapSParser.PrintStatementContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MapSParser#returnStatement}.
 	 * @param ctx the parse tree
 	 */
@@ -405,18 +415,6 @@ public interface MapSListener extends ParseTreeListener {
 	 */
 	void exitPointAccessExpr(MapSParser.PointAccessExprContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code andExpr}
-	 * labeled alternative in {@link MapSParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterAndExpr(MapSParser.AndExprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code andExpr}
-	 * labeled alternative in {@link MapSParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitAndExpr(MapSParser.AndExprContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code compareExpr}
 	 * labeled alternative in {@link MapSParser#expression}.
 	 * @param ctx the parse tree
@@ -428,6 +426,18 @@ public interface MapSListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCompareExpr(MapSParser.CompareExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code andExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterAndExpr(MapSParser.AndExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code andExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitAndExpr(MapSParser.AndExprContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MapSParser#functionCall}.
 	 * @param ctx the parse tree
