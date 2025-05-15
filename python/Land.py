@@ -100,12 +100,5 @@ class Land:
 # l = Land(np.array([[0,0,200]]),per,[0,0])
 # print(l)
 
-def rad(theta):
-    return 2*50 + 50*np.sin(5 * theta)
-per = Perimeter.from_radial_function(rad)
 
-def two_arg(x,y):
-    return 10*math.sin(x/10)+50*math.cos(y/30)+math.sin(x)
-
-l = Land.from_two_argument_function(two_arg,per,[0,0])
-print(l)
+# print(l)
