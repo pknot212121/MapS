@@ -3,6 +3,7 @@ import numpy as np
 from Land import *
 from Lake import *
 from River import *
+import random
 
 def draw_image_from_InterpreterWorld(intworld: InterpreterWorld):
     w = World.from_intworld(intworld)
@@ -89,12 +90,13 @@ class World:
             river_new.river_points.append(river_new.current_point)
             self.pixels[river_new.current_point[0],river_new.current_point[1]]=[0,180,255]
             river_new.current_point = self.get_lowest_neighbor(river_new)
-            
-            print(river_new.current_point)
+            # print(river_new.current_point)
     def get_lowest_neighbor(self,river: River):
         min_value = np.inf
         first_value = self.hmap[river.current_point[0]][river.current_point[1]]
         min_neighbor = river.current_point
+        descents = []
+        neighbor_choices = []
         for neighbor in river.get_neighbors():
             value = self.hmap[neighbor[0]][neighbor[1]]
             # print(neighbor,value)
@@ -102,9 +104,18 @@ class World:
             if(value<min_value):
                 min_value=value
                 min_neighbor = neighbor
-        descent = first_value-min_value
-
-        return min_neighbor
+            descent = first_value-value
+            if(descent>0):
+                descents.append(descent)
+                neighbor_choices.append(neighbor)
+        suma = sum(descents)
+        probabilities = [x / suma for x in descents]
+        # print(probabilities)
+        # print(neighbor_choices)
+        if(len(neighbor_choices)>0):
+            choice = random.choices(neighbor_choices,weights=probabilities,k=1)[0]
+            return choice
+        else: return min_neighbor
     
     def draw(self):
         for land in self.lands:
@@ -155,20 +166,20 @@ intland1 = InterpreterLand(InterpreterPoint(0,0),intpoints2D,heights)
 intworld = InterpreterWorld([intland1],InterpreterPoint(2000,2000),[intlake])
 draw_image_from_InterpreterWorld(intworld)
 '''
-# def rad(theta):
-#     return 2*50 + 50*np.sin(5 * theta)
-# per = Perimeter.from_radial_function(rad)
+def rad(theta):
+    return 2*50 + 50*np.sin(5 * theta)
+per = Perimeter.from_radial_function(rad)
 
-# def two_arg(x,y):
-#     return 10*math.sin(x/10)+50*math.cos(y/30)+math.sin(x)
+def two_arg(x,y):
+    return 10*math.sin(x/10)+50*math.cos(y/30)+math.sin(x)
 
-# l = Land.from_two_argument_function(two_arg,per,[0,0])
+l = Land.from_two_argument_function(two_arg,per,[0,0])
 
-# river = River([1000,1000])
-# # river.simulate_river()
-# # river.get_lowest_neighbor()
-# w = World([l],[2000,2000],None,[river])
+river = River([990,1050])
+# river.simulate_river()
+# river.get_lowest_neighbor()
+w = World([l],[2000,2000],None,[river])
 
-# # print(w.hmap)
-# w.draw()
-# print(w.get_lowest_neighbor(river))
+# print(w.hmap)
+w.draw()
+print(w.get_lowest_neighbor(river))
