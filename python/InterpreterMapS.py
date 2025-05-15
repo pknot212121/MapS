@@ -461,7 +461,7 @@ def main():
     #filename = sys.argv[1]
     #input_stream = FileStream(filename)
     #input_stream = FileStream("input2.map")
-    input_stream = FileStream("presentation.map")
+    input_stream = FileStream("input2.map")
     lexer = MapSLexer(input_stream)
     stream = CommonTokenStream(lexer)
     parser = MapSParser(stream)

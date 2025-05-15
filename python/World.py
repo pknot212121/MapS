@@ -10,7 +10,7 @@ def draw_image_from_InterpreterWorld(intworld: InterpreterWorld):
     w.draw()
 
 class World:
-    def __init__(self,lands: list[Land],size: list[int],lakes: list[Lake],rivers: list[River]):
+    def __init__(self,lands: list[Land],size: list[int],lakes: list[Lake] = [],rivers: list[River] = []):
         self.lands = lands
         self.lakes = lakes
         self.size = size
@@ -24,7 +24,7 @@ class World:
         size = point_to_list(intworld.size)
         lands = [Land.from_intland(x) for x in intworld.lands]
         lakes = [Lake.from_intlake(x) for x in intworld.lakes]
-        return cls(lands,lakes,size)
+        return cls(lands,size,lakes)
         
     def height_phases_positive(self,n: int) -> list[float]:
         maks=-np.inf
