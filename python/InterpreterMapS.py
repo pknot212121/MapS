@@ -307,7 +307,12 @@ class MapInterpreter(MapSVisitor):
 
     def visitIfStatement(self, ctx:MapSParser.IfStatementContext):
         print("visitIfStatement")
-        return self.visitChildren(ctx)
+        condition_value = self.visit(ctx.expression(0))
+        if condition_value:
+            for stmt_ctx in ctx.statement():
+                result = self.visit(stmt_ctx)
+                return result
+        return None
 
     def visitRepeatFixedLoop(self, ctx:MapSParser.RepeatFixedLoopContext):
         print("visitRepeatFixedLoop")
@@ -461,7 +466,7 @@ def main():
     #filename = sys.argv[1]
     #input_stream = FileStream(filename)
     #input_stream = FileStream("input2.map")
-    input_stream = FileStream("input2.map")
+    input_stream = FileStream("input.map")
     lexer = MapSLexer(input_stream)
     stream = CommonTokenStream(lexer)
     parser = MapSParser(stream)

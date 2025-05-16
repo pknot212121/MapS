@@ -74,6 +74,8 @@ class World:
                         if y<=value:
                             self.pixels[int(self.size[0]//2-row-y_move+land_size_y//2)][int(col+x_move+self.size[1]//2-land_size_x//2)]=c_neg[i]
                             break
+
+                        
     def give_color_to_lake(self,lake: Lake):
         x_move = lake.start[0]
         y_move = lake.start[1]
@@ -93,6 +95,8 @@ class World:
             self.all_river_points.append(river_new.current_point)
             river_new.current_point = self.get_lowest_neighbor(river_new)
             # print(river_new.current_point)
+
+
     def get_lowest_neighbor(self,river: River):
         min_value = np.inf
         first_value = self.hmap[river.current_point[0]][river.current_point[1]]
@@ -168,21 +172,21 @@ intland1 = InterpreterLand(InterpreterPoint(0,0),intpoints2D,heights)
 intworld = InterpreterWorld([intland1],InterpreterPoint(2000,2000),[intlake])
 draw_image_from_InterpreterWorld(intworld)
 '''
-def rad(theta):
-    return 2*50 + 50*np.sin(5 * theta)
-per = Perimeter.from_radial_function(rad)
+# def rad(theta):
+#     return 2*50 + 50*np.sin(5 * theta)
+# per = Perimeter.from_radial_function(rad)
 
-def two_arg(x,y):
-    return 10*math.sin(x/10)+50*math.cos(y/30)+math.sin(x)
+# def two_arg(x,y):
+#     return 10*math.sin(x/10)+50*math.cos(y/30)+math.sin(x)
 
-l = Land.from_two_argument_function(two_arg,per,[0,0])
+# l = Land.from_two_argument_function(two_arg,per,[0,0])
 
-river = River([990,1050])
-river2 = River([990,1080])
-# river.simulate_river()
-# river.get_lowest_neighbor()
-w = World([l],[2000,2000],None,[river,river2])
+# river = River([990,1050])
+# river2 = River([990,1080])
+# # river.simulate_river()
+# # river.get_lowest_neighbor()
+# w = World([l],[2000,2000],None,[river,river2])
 
-# print(w.hmap)
-w.draw()
-print(w.get_lowest_neighbor(river))
+# # print(w.hmap)
+# w.draw()
+# print(w.get_lowest_neighbor(river))
