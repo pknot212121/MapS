@@ -11,8 +11,8 @@ bool b is (true or false) and false;
 double a3 is 3;
 //print(a3);
 
-double d is 1.0/2.0;
-//print(d);
+double d is 1+2;
+print(d);
 
 int c is a;
 //print(c);
@@ -21,20 +21,20 @@ int x is 7+-7;
 
 bool y is 5 > 5;
 print(y);
-/*
+
 int i is 3;
 int j is (3 + 5) * 3;
-int c is 4 / 3 - 4;
+int c2 is 4 / 3 - 4;
 print(i);
 print(j);
-print(c);
+print(c2);
 
-c is -17;
-print(c);
+c2 is -17;
+print(c2);
 
-bool b is true;
+bool b2 is true;
 bool n is false;
-print(b);
+print(b2);
 print(n);
 
 
@@ -65,4 +65,3 @@ print(eee);
 print("3 < 24 and not 3 != 24");
 bool fff is i<j and not i!=j;
 print(fff);
-*/

@@ -61,10 +61,7 @@ class MapInterpreter(MapSVisitor):
         else:
             return self.memory.accessId(ctx, identifier.getText())
 
-    def visitDoubleExpr(self, ctx:MapSParser.DoubleExprContext):
-        #print("visitDoubleExpr")
-        return float(ctx.DOUBLE().getText())
-        return self.visitChildren(ctx)
+    
     
     def visitHeightDeclaration(self, ctx:MapSParser.HeightDeclarationContext):
         #print("visitHeightDeclaration")
@@ -160,35 +157,7 @@ class MapInterpreter(MapSVisitor):
             return self.memory.accessId(ctx, identifier.getText(), InterpreterPoint)
         return self.visitChildren(ctx)
     
-    def visitAndExpr(self, ctx:MapSParser.AndExprContext):
-        #print("visitAndExpr")
-        left = self.visit(ctx.expression(0))
-        if not isinstance(left, bool):
-            self.errorListener.interpreterError(f"Invalid operand for 'and': {left} (expected boolean)", ctx)
-        if isinstance(left, bool) and not left:
-            return False
-        right = self.visit(ctx.expression(1))
-        if not isinstance(right, bool):
-            self.errorListener.interpreterError(f"Invalid operand for 'and': {right} (expected boolean)", ctx)
-        return left and right
-
-    def visitOrExpr(self, ctx:MapSParser.OrExprContext):
-        #print("visitOrExpr")
-        left = self.visit(ctx.expression(0))
-        if not isinstance(left, bool):
-            self.errorListener.interpreterError(f"Invalid operand for 'or': {left} (expected boolean)", ctx)
-        if isinstance(left, bool) and left:
-            return True
-        right = self.visit(ctx.expression(1))
-        if not isinstance(right, bool):
-            self.errorListener.interpreterError(f"Invalid operand for 'or': {left} (expected boolean)", ctx)
-        return left or right
-
-    def visitNotExpr(self, ctx:MapSParser.NotExprContext):
-        operand = self.visit(ctx.expression())
-        if not isinstance(operand, bool):
-            self.errorListener.interpreterError(f"Invalid operand for 'not': {operand} (expected boolean)", ctx)
-        return not operand
+    
     
     def visitPrimitiveVariableDeclaration(self, ctx:MapSParser.PrimitiveVariableDeclarationContext):
         #print("visitPrimitiveVariableDeclaration")
@@ -203,7 +172,7 @@ class MapInterpreter(MapSVisitor):
             case 'string':
                 type_name = str            
         identifier = ctx.IDENTIFIER().getText()
-        exp = type_name(self.visit(ctx.expression()))
+        exp = self.visit(ctx.expression())
         self.memory.storeId(ctx, identifier, exp, type_name)
         return identifier
     
@@ -211,6 +180,11 @@ class MapInterpreter(MapSVisitor):
         #print("visitIntExpr")
         return int(ctx.INT().getText())       
     
+    def visitDoubleExpr(self, ctx:MapSParser.DoubleExprContext):
+        #print("visitDoubleExpr")
+        return float(ctx.DOUBLE().getText())
+        return self.visitChildren(ctx)
+
     def visitStringExpr(self, ctx:MapSParser.StringExprContext):
         #print("visitStringExpr")
         value = ctx.STRING().getText()
@@ -278,12 +252,7 @@ class MapInterpreter(MapSVisitor):
     #------Powyżej 1 Etap (03.04.25)-----
     #------------------------------------
     
-    #region Niezdefiniowane
-    def visitReturnStatement(self, ctx:MapSParser.ReturnStatementContext):
-        print("visitReturnStatement")
-        return self.visitChildren(ctx)  
-       
-          
+    #region Niezdefiniowane   
 
     def visitHeightVariableDeclaration(self, ctx:MapSParser.HeightVariableDeclarationContext):
         print("visitHeightVariableDeclaration")
@@ -304,6 +273,12 @@ class MapInterpreter(MapSVisitor):
         self.memory.storeId(ctx, identifier, river, InterpreterRiver)
         self.memory.world().addRiver(river)
         return river
+
+    #region Function if loop
+
+    def visitReturnStatement(self, ctx:MapSParser.ReturnStatementContext):
+        print("visitReturnStatement")
+        return self.visitChildren(ctx)  
 
     def visitFunctionDeclaration(self, ctx:MapSParser.FunctionDeclarationContext):
         print("visitFunctionDeclaration")
@@ -353,16 +328,47 @@ class MapInterpreter(MapSVisitor):
         print("visitWhileLoop")
         return self.visitChildren(ctx)
 
+    #region Expression
     def visitListAccessExpr(self, ctx:MapSParser.ListAccessExprContext):
         print("visitListAccessExpr")
         return self.visitChildren(ctx)    
     
+    def visitAndExpr(self, ctx:MapSParser.AndExprContext):
+        #print("visitAndExpr")
+        left = self.visit(ctx.expression(0))
+        if not isinstance(left, bool):
+            self.errorListener.interpreterError(f"Invalid operand for 'and': {left} (expected boolean)", ctx)
+        if isinstance(left, bool) and not left:
+            return False
+        right = self.visit(ctx.expression(1))
+        if not isinstance(right, bool):
+            self.errorListener.interpreterError(f"Invalid operand for 'and': {right} (expected boolean)", ctx)
+        return left and right
+
+    def visitOrExpr(self, ctx:MapSParser.OrExprContext):
+        #print("visitOrExpr")
+        left = self.visit(ctx.expression(0))
+        if not isinstance(left, bool):
+            self.errorListener.interpreterError(f"Invalid operand for 'or': {left} (expected boolean)", ctx)
+        if isinstance(left, bool) and left:
+            return True
+        right = self.visit(ctx.expression(1))
+        if not isinstance(right, bool):
+            self.errorListener.interpreterError(f"Invalid operand for 'or': {left} (expected boolean)", ctx)
+        return left or right
+
+    def visitNotExpr(self, ctx:MapSParser.NotExprContext):
+        operand = self.visit(ctx.expression())
+        if not isinstance(operand, bool):
+            self.errorListener.interpreterError(f"Invalid operand for 'not': {operand} (expected boolean)", ctx)
+        return not operand
+
     def visitAddSubExpr(self, ctx:MapSParser.AddSubExprContext):
         #print("visitAddSubExpr")
         left = self.visit(ctx.expression(0))
         right = self.visit(ctx.expression(1))
 
-        if not ((sameType(left, 1) and sameType(right, 1)) or (sameType(left, 1.0) and sameType(right, 1.0))):
+        if not isinstance(left, (int, float)) or not isinstance(right, (int, float)) or isinstance(left, bool) or isinstance(right, bool):
             self.errorListener.interpreterError(f"Cannot add/subtract types {type(left).__name__} and {type(right).__name__}", ctx)
 
         if ctx.getChild(1).getText() == '+':
@@ -373,7 +379,7 @@ class MapInterpreter(MapSVisitor):
     def visitUnaryMinusExpr(self, ctx:MapSParser.UnaryMinusExprContext):
         #print("visitUnaryMinusExpr")
         value = self.visit(ctx.expression())
-        if not (sameType(value, 1) or sameType(value, 1.0)):
+        if not isinstance(value, (int, float)) or isinstance(value, bool):
             self.errorListener.interpreterError(f"Cannot negate non-number type: {type(value).__name__}",ctx)
         return -value
     
@@ -382,7 +388,7 @@ class MapInterpreter(MapSVisitor):
         left = self.visit(ctx.expression(0))
         right = self.visit(ctx.expression(1))
 
-        if not ((sameType(left, 1) and sameType(right, 1)) or (sameType(left, 1.0) and sameType(right, 1.0))):
+        if not isinstance(left, (int, float)) or not isinstance(right, (int, float)) or isinstance(left, bool) or isinstance(right, bool):
             self.errorListener.interpreterError(f"Cannot multiply/divide types: {type(left).__name__} and {type(right).__name__}", ctx)
 
         if ctx.getChild(1).getText() == '*':
@@ -391,8 +397,8 @@ class MapInterpreter(MapSVisitor):
             if right == 0:
                 self.errorListener.interpreterError("Division by zero", ctx)
             else:
-                if sameType(left, 1):
-                    return int(left / right)
+                if isinstance(left, int) and isinstance(right, int):
+                    return left // right
                 return left / right
         return 0
             
@@ -422,19 +428,19 @@ class MapInterpreter(MapSVisitor):
         left = self.visit(ctx.expression(0))
         right = self.visit(ctx.expression(1))
 
-        if not sameType(left, right):
-            self.errorListener.interpreterError(f"Cannot compare different types: {type(left).__name__}, {type(right).__name__}", ctx)
+        if not ((type(left) in (int, float) and type(right) in (int, float)) or (type(left) is bool and type(right) is bool)):
+            self.errorListener.interpreterError(f"Cannot compare types: {type(left).__name__}, {type(right).__name__}", ctx)
 
         comp = ctx.getChild(1).getText()
         if comp == '=' or comp == '!=':
-            if not (sameType(left, True) or sameType(left, 1) or sameType(left, 1.0)):
+            if not isinstance(left, (int, float)) or not isinstance(right, (int, float)):
                 self.errorListener.interpreterError(f"Cannot compare {type(left).__name__} and {type(right).__name__}", ctx)
             if comp == '=':
                 return left == right
             else:
                 return left != right
         else:
-            if not (sameType(left, 1) or sameType(left, 1.0)):
+            if isinstance(left, bool):
                 self.errorListener.interpreterError(f"Cannot compare {type(left).__name__} and {type(right).__name__}", ctx)
             if comp == '>':
                 return left > right
@@ -458,6 +464,8 @@ class MapInterpreter(MapSVisitor):
     def visitListAccess(self, ctx:MapSParser.ListAccessContext):
         print("visitListAccess")
         return self.visitChildren(ctx)  
+
+#region Niezdefiniowane
 
     def visitPointFieldAssignment(self, ctx:MapSParser.PointFieldAssignmentContext):
         print("visitPointFieldAssignment")
@@ -492,8 +500,10 @@ def sameType(value, other):
 def main():
     #filename = sys.argv[1]
     #input_stream = FileStream(filename)
-    #input_stream = FileStream("input2.map")
+    #input_stream = FileStream("input.map")
     input_stream = FileStream("input2.map")
+    #input_stream = FileStream("presentation.map")
+
     lexer = MapSLexer(input_stream)
     stream = CommonTokenStream(lexer)
     parser = MapSParser(stream)

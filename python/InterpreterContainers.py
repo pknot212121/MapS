@@ -1,7 +1,9 @@
 class InterpreterIdentifier:
-    def __init__(self, value, type):
+    def __init__(self, value, type, ctx):
         self.value = value
         self.t = type
+        self.ctx = ctx
+
     
     def type_(self):
         return self.t
@@ -9,6 +11,9 @@ class InterpreterIdentifier:
     def get(self):
         return self.value
     
+    def ctx_(self):
+        return self.ctx
+        
     # def sameType(self, other):
     #     if type(self) != type(other):
     #         return False        
