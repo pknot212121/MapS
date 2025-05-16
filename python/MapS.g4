@@ -7,6 +7,7 @@ statement
     : variableDeclaration
     | functionDeclaration
     | ifStatement
+    | blockStatement
     | loopStatement
     | assignment
     | expression ';'
@@ -95,7 +96,11 @@ parameters
     ;
 
 ifStatement
-    : 'if' '(' expression ')' 'do' '{' statement* '}' ( 'eif' '(' expression ')' 'do' '{' statement* '}' )* ( 'else do' '{' statement* '}' )?
+    : 'if' '(' expression ')' 'do' '{' statement* '}' ( 'eif' '(' expression ')' 'do' blockStatement )* ( 'else do' blockStatement )?
+    ;
+
+blockStatement
+    : '{' statement* '}'
     ;
 
 loopStatement

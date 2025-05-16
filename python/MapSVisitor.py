@@ -99,6 +99,11 @@ class MapSVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by MapSParser#blockStatement.
+    def visitBlockStatement(self, ctx:MapSParser.BlockStatementContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by MapSParser#RepeatFixedLoop.
     def visitRepeatFixedLoop(self, ctx:MapSParser.RepeatFixedLoopContext):
         return self.visitChildren(ctx)

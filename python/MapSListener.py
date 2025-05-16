@@ -170,6 +170,15 @@ class MapSListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by MapSParser#blockStatement.
+    def enterBlockStatement(self, ctx:MapSParser.BlockStatementContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#blockStatement.
+    def exitBlockStatement(self, ctx:MapSParser.BlockStatementContext):
+        pass
+
+
     # Enter a parse tree produced by MapSParser#RepeatFixedLoop.
     def enterRepeatFixedLoop(self, ctx:MapSParser.RepeatFixedLoopContext):
         pass

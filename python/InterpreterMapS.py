@@ -307,11 +307,30 @@ class MapInterpreter(MapSVisitor):
 
     def visitIfStatement(self, ctx:MapSParser.IfStatementContext):
         print("visitIfStatement")
-        condition_value = self.visit(ctx.expression(0))
-        if condition_value:
-            for stmt_ctx in ctx.statement():
-                result = self.visit(stmt_ctx)
-                return result
+        # IF-y
+        if self.visit(ctx.expression(0)):
+            for stmt_node in ctx.statement():
+                self.visit(stmt_node)
+            return
+        # EIF-y
+        eif_expression_index = 1
+        eif_block_index = 0      
+        while eif_expression_index < len(ctx.expression()) and \
+            eif_block_index < len(ctx.blockStatement()):
+            if self.visit(ctx.expression(eif_expression_index)):
+                self.visit(ctx.blockStatement(eif_block_index))
+                return
+            eif_expression_index += 1
+            eif_block_index += 1
+        # ELSE-y
+        if eif_block_index < len(ctx.blockStatement()):
+            self.visit(ctx.blockStatement(eif_block_index))
+        return None
+    
+    def visitBlockStatement(self, ctx:MapSParser.BlockStatementContext):
+        print(f"Odwiedzam BlockStatement: {ctx.getText()}")
+        for stmt_node in ctx.statement():
+            self.visit(stmt_node)
         return None
 
     def visitRepeatFixedLoop(self, ctx:MapSParser.RepeatFixedLoopContext):
