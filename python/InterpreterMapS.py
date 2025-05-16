@@ -328,10 +328,7 @@ class MapInterpreter(MapSVisitor):
         print("visitWhileLoop")
         return self.visitChildren(ctx)
 
-    #region Expression
-    def visitListAccessExpr(self, ctx:MapSParser.ListAccessExprContext):
-        print("visitListAccessExpr")
-        return self.visitChildren(ctx)    
+    #region Expression   
     
     def visitAndExpr(self, ctx:MapSParser.AndExprContext):
         #print("visitAndExpr")
@@ -404,24 +401,38 @@ class MapInterpreter(MapSVisitor):
             
     
     def visitSqrtExpr(self, ctx:MapSParser.SqrtExprContext):
-        print("visitSqrtExpr")
-        return self.visitChildren(ctx)
+        #print("visitSqrtExpr")
+        left = self.visit(ctx.expression(0))
+        right = self.visit(ctx.expression(1))
 
-    def visitFuncCallExpr(self, ctx:MapSParser.FuncCallExprContext):
-        print("visitFuncCallExpr")
-        return self.visitChildren(ctx)
+        if not (type(left) in (int, float) and type(right) in (int, float)):
+            self.errorListener.interpreterError(f"Sqrt (^) only supports numbers, not: {type(left).__name__} and {type(right).__name__}", ctx)
+            return None
 
+        if right == 0:
+            self.errorListener.interpreterError("Root degree cannot be zero", ctx)
+            return None
+
+        return math.pow(left, 1 / right)
+    
     def visitParenExpr(self, ctx:MapSParser.ParenExprContext):
         #print("visitParenExpr")
         return self.visit(ctx.expression())
     
     def visitPowExpr(self, ctx:MapSParser.PowExprContext):
-        print("visitPowExpr")
-        return self.visitChildren(ctx)
+        #print("visitPowExpr")
+        left = self.visit(ctx.expression(0))
+        right = self.visit(ctx.expression(1))
 
-    def visitPointAccessExpr(self, ctx:MapSParser.PointAccessExprContext):
-        print("visitPointAccessExpr")
-        return self.visitChildren(ctx)
+        if not (type(left) in (int, float) and type(right) in (int, float)):
+            self.errorListener.interpreterError(f"Pow (^) only supports numbers, not: {type(left).__name__} and {type(right).__name__}", ctx)
+            return None
+
+        if isinstance(left, int) and isinstance(right, int):
+                    return int(math.pow(left, right))
+
+        return math.pow(left, right)
+
 
     def visitCompareExpr(self, ctx:MapSParser.CompareExprContext):
         #print("visitCompareExpr")
@@ -451,21 +462,28 @@ class MapInterpreter(MapSVisitor):
             elif comp == '<=':
                 return left <= right
             
-        
-
-    def visitFunctionCall(self, ctx:MapSParser.FunctionCallContext):
-        print("visitFunctionCall")
+#region Niezdefiniowane
+    def visitPointAccessExpr(self, ctx:MapSParser.PointAccessExprContext):
+        print("visitPointAccessExpr")
         return self.visitChildren(ctx)
 
     def visitPointAccess(self, ctx:MapSParser.PointAccessContext):
         print("visitPointAccess")
         return self.visitChildren(ctx)
+        
+
+    def visitListAccessExpr(self, ctx:MapSParser.ListAccessExprContext):
+        print("visitListAccessExpr")
+        return self.visitChildren(ctx) 
 
     def visitListAccess(self, ctx:MapSParser.ListAccessContext):
         print("visitListAccess")
         return self.visitChildren(ctx)  
 
-#region Niezdefiniowane
+
+    def visitFunctionCall(self, ctx:MapSParser.FunctionCallContext):
+        print("visitFunctionCall")
+        return self.visitChildren(ctx)
 
     def visitPointFieldAssignment(self, ctx:MapSParser.PointFieldAssignmentContext):
         print("visitPointFieldAssignment")
@@ -478,31 +496,28 @@ class MapInterpreter(MapSVisitor):
     def visitListUpdate(self, ctx:MapSParser.ListUpdateContext):
         print("visitListUpdate")
         return self.visitChildren(ctx)
-    
+
+    #endregion Niezdefiniowane
+
     def visitPrintStatement(self, ctx:MapSParser.PrintStatementContext):
         if len(self.errorListener.interpreter_errors) > 0:
             return
         
         value = self.visit(ctx.expression())
-        if sameType(value, True):
+        if isinstance(value, bool):
             print("true" if value else "false")
         else:
             print(value)
     
-def sameType(value, other):
-    if type(value) != type(other):
-        return False        
-    return True
     
-    #endregion Niezdefiniowane
 
 #region Main
 def main():
     #filename = sys.argv[1]
     #input_stream = FileStream(filename)
     #input_stream = FileStream("input.map")
-    input_stream = FileStream("input2.map")
-    #input_stream = FileStream("presentation.map")
+    #input_stream = FileStream("input2.map")
+    input_stream = FileStream("mathTest.map")
 
     lexer = MapSLexer(input_stream)
     stream = CommonTokenStream(lexer)

@@ -1,10 +1,131 @@
-int a is 1;
-int b is 2;
-bool c is true;
-a is a * c;
-b is -b;
-/*
-sfdsdfs
-sdfdsedf
-dsff
-*/
+
+// Arithmetic operations on int
+int a is 10;
+int b is 3;
+int add is a + b;
+int sub is a - b;
+int mul is a * b;
+int div is a / b; // integer division
+
+print("expected: 13"); print(add);
+print("expected: 7"); print(sub);
+print("expected: 30"); print(mul);
+print("expected: 3"); print(div);
+
+// Operations on double
+double x is 10.0;
+double y is 4.0;
+double addD is 4 + 10;
+double subD is x - y;
+double mulD is 4 * 10;
+double divD is x / y;
+
+print("expected: 14.0"); print(addD);
+print("expected: 6.0"); print(subD);
+print("expected: 40.0"); print(mulD);
+print("expected: 2.5"); print(divD);
+
+// Mixed types
+double mix1 is a + x;
+print("expected: 20.0"); print(mix1);
+
+// Note: does this work? a -4 without space
+int trickySub is a -4;
+print("expected: 6"); print(trickySub);
+
+// Operator precedence
+int precedence1 is 2 + 3 * 4;
+int precedence2 is (2 + 3) * 4;
+print("expected: 14"); print(precedence1);
+print("expected: 20"); print(precedence2);
+
+// Logical operations
+bool t is true;
+bool f is false;
+bool andTest is t and f;
+bool orTest is t or f;
+bool notTest is not t;
+bool doubleNot is not not t;
+
+print("expected: false"); print(andTest);
+print("expected: true"); print(orTest);
+print("expected: false"); print(notTest);
+print("expected: true"); print(doubleNot);
+
+// Comparisons
+bool gt is a > b;
+bool lt is a < b;
+bool eq is a = 10;
+bool eq2 is t = true;
+bool neq is a != b;
+bool gte is a >= 10;
+bool lte is b <= 3;
+
+print("expected: true"); print(gt);
+print("expected: false"); print(lt);
+print("expected: true"); print(eq);
+print("expected: true"); print(eq2);
+print("expected: true"); print(neq);
+print("expected: true"); print(gte);
+print("expected: true"); print(lte);
+
+// Unary minus
+int negInt is -a;
+double negDouble is -x;
+print("expected: -10"); print(negInt);
+print("expected: -10.0"); print(negDouble);
+
+// Type error check (should be rejected or raise error)
+//int wrongAdd is t + f;
+
+// Division by 0
+//int divZero is a / 0;
+
+// Logical op on numbers (type error)
+//bool badLogic is a and b;
+
+// --- Power tests ---
+double pow1 is 2 ^ 3;
+print("expected: 8.0");
+print(pow1);         // 2^3 = 8
+
+double pow2 is 4 ^ 2;
+print("expected: 16.0");
+print(pow2);         // 4^2 = 16
+
+double pow3 is 10 ^ 0;
+print("expected: 1.0");
+print(pow3);        // x^0 = 1
+
+double pow4 is 2 ^ -2;
+print("expected: 0.25");
+print(pow4);        // 2^-2 = 0.25
+
+double pow5 is 3.1 ^ 2;
+print("expected: 9.61...");
+print(pow5);       // 3.1^2 = 9.61
+
+int powInt is 2 ^ 2;
+print("expected: 4");
+print(powInt);      
+
+// --- Root tests ---
+double sqrt1 is 9 ? 2;
+print("expected: 3");
+print(sqrt1);         // sqrt(9) = 3
+
+double sqrt2 is 8 ? 3;
+print("expected: 2");
+print(sqrt2);         // 3rd root of 8 = 2
+
+double sqrt3 is 16 ? 2;
+print("expected: 4.0");
+print(sqrt3);        // sqrt(16) = 4
+
+double sqrt4 is 32 ? 5;
+print("expected: 2.0");
+print(sqrt4);        // 5th root of 32 = 2
+
+double sqrt5 is 10 ? 100;
+print("expected: 1.0...");
+print(sqrt5);      // 100th root of 10 = 1
