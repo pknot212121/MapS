@@ -998,8 +998,8 @@ public class MapSParser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class RiverVariableDeclarationContext extends ParserRuleContext {
 		public TerminalNode IDENTIFIER() { return getToken(MapSParser.IDENTIFIER, 0); }
-		public ListExpressionContext listExpression() {
-			return getRuleContext(ListExpressionContext.class,0);
+		public PointExpressionContext pointExpression() {
+			return getRuleContext(PointExpressionContext.class,0);
 		}
 		public RiverVariableDeclarationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1020,7 +1020,7 @@ public class MapSParser extends Parser {
 			setState(198);
 			match(T__8);
 			setState(199);
-			listExpression();
+			pointExpression();
 			setState(200);
 			match(T__0);
 			}
@@ -2889,7 +2889,7 @@ public class MapSParser extends Parser {
 		"\u00c1\u00c2\u0003\u0014\n\u0000\u00c2\u00c3\u0005\u0001\u0000\u0000\u00c3"+
 		"\u001b\u0001\u0000\u0000\u0000\u00c4\u00c5\u0005\u0018\u0000\u0000\u00c5"+
 		"\u00c6\u0005<\u0000\u0000\u00c6\u00c7\u0005\t\u0000\u0000\u00c7\u00c8"+
-		"\u00034\u001a\u0000\u00c8\u00c9\u0005\u0001\u0000\u0000\u00c9\u001d\u0001"+
+		"\u00030\u0018\u0000\u00c8\u00c9\u0005\u0001\u0000\u0000\u00c9\u001d\u0001"+
 		"\u0000\u0000\u0000\u00ca\u00cb\u0005\u0019\u0000\u0000\u00cb\u00cc\u0005"+
 		"<\u0000\u0000\u00cc\u00ce\u0005\r\u0000\u0000\u00cd\u00cf\u0003 \u0010"+
 		"\u0000\u00ce\u00cd\u0001\u0000\u0000\u0000\u00ce\u00cf\u0001\u0000\u0000"+

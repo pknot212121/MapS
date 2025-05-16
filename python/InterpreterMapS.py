@@ -295,7 +295,15 @@ class MapInterpreter(MapSVisitor):
 
     def visitRiverVariableDeclaration(self, ctx:MapSParser.RiverVariableDeclarationContext):
         print("visitRiverVariableDeclaration")
-        return self.visitChildren(ctx)
+        identifier = ctx.IDENTIFIER().getText()
+        source = None
+        pointExpression = ctx.pointExpression()
+        if pointExpression is not None:
+            source = self.visit(pointExpression)
+        river = InterpreterRiver(source)
+        self.memory.storeId(ctx, identifier, river, InterpreterRiver)
+        self.memory.world().addRiver(river)
+        return river
 
     def visitFunctionDeclaration(self, ctx:MapSParser.FunctionDeclarationContext):
         print("visitFunctionDeclaration")
@@ -485,7 +493,7 @@ def main():
     #filename = sys.argv[1]
     #input_stream = FileStream(filename)
     #input_stream = FileStream("input2.map")
-    input_stream = FileStream("input.map")
+    input_stream = FileStream("input2.map")
     lexer = MapSLexer(input_stream)
     stream = CommonTokenStream(lexer)
     parser = MapSParser(stream)

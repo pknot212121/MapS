@@ -56,7 +56,6 @@ landVariableDeclaration
     | 'Land' IDENTIFIER 'is' expression ';'
     ;
 
-
 // Deklaracja obwodu dla Land
 perimeterDeclaration
     : 'perimeter is' shape
@@ -81,7 +80,7 @@ lakeVariableDeclaration
     ;
 
 riverVariableDeclaration
-    : 'River' IDENTIFIER 'is' listExpression ';'
+    : 'River' IDENTIFIER 'is' pointExpression ';'
     ;
 
 // Deklaracja funkcji

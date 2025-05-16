@@ -24,7 +24,8 @@ class World:
         size = point_to_list(intworld.size)
         lands = [Land.from_intland(x) for x in intworld.lands]
         lakes = [Lake.from_intlake(x) for x in intworld.lakes]
-        return cls(lands,size,lakes)
+        rivers = [River.from_intriver(x) for x in intworld.rivers]
+        return cls(lands,size,lakes,rivers)
         
     def height_phases_positive(self,n: int) -> list[float]:
         maks=-np.inf
@@ -89,22 +90,22 @@ class World:
     def give_color_to_river(self,river: River):
         # self.pixels[river.source[0],river.source[1]]=[0,180,255]
         river_new = river
-        while not np.isnan(self.hmap[river_new.current_point[0],river_new.current_point[1]]) and river_new.current_point not in self.all_river_points:
+        while not np.isnan(self.hmap[int(river_new.current_point[0]),int(river_new.current_point[1])]) and river_new.current_point not in self.all_river_points:
             river_new.river_points.append(river_new.current_point)
-            self.pixels[river_new.current_point[0],river_new.current_point[1]]=[0,180,255]
+            self.pixels[int(river_new.current_point[0]),int(river_new.current_point[1])]=[0,180,255]
             self.all_river_points.append(river_new.current_point)
-            river_new.current_point = self.get_lowest_neighbor(river_new)
             # print(river_new.current_point)
+            river_new.current_point = self.get_lowest_neighbor(river_new)
 
 
     def get_lowest_neighbor(self,river: River):
         min_value = np.inf
-        first_value = self.hmap[river.current_point[0]][river.current_point[1]]
+        first_value = self.hmap[int(river.current_point[0])][int(river.current_point[1])]
         min_neighbor = river.current_point
         descents = []
         neighbor_choices = []
         for neighbor in river.get_neighbors():
-            value = self.hmap[neighbor[0]][neighbor[1]]
+            value = self.hmap[int(neighbor[0])][int(neighbor[1])]
             # print(neighbor,value)
             if(np.isnan(value)): return neighbor
             if(value<min_value):

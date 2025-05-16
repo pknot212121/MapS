@@ -13,5 +13,7 @@ List<Point> perimeter1 is [
 (78, 107), (79, 87), (87, 64), (78, 45), (55, 52)
 ];
 
+River wisla is (230,250);
+
 
 Land land1 is (0,-20) with perimeter is perimeter1, height is height1;

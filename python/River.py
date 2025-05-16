@@ -8,11 +8,13 @@ import math
 class River:
     def __init__(self, source: list[int]):
         self.source = source
-        self.width = 1
-        self.meander = 0
-        self.search_radius = 10
         self.current_point = source
         self.river_points = []
+    @classmethod
+    def from_intriver(cls,intriver: InterpreterRiver):
+        s = point_to_list(intriver.source)
+        return cls(s)
+
     def get_neighbors(self):
         x = self.current_point[0]
         y = self.current_point[1]

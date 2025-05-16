@@ -97,7 +97,7 @@ def serializedATN():
         189,191,3,48,24,0,190,188,1,0,0,0,190,191,1,0,0,0,191,192,1,0,0,
         0,192,193,5,17,0,0,193,194,3,20,10,0,194,195,5,1,0,0,195,27,1,0,
         0,0,196,197,5,24,0,0,197,198,5,60,0,0,198,199,5,9,0,0,199,200,3,
-        52,26,0,200,201,5,1,0,0,201,29,1,0,0,0,202,203,5,25,0,0,203,204,
+        48,24,0,200,201,5,1,0,0,201,29,1,0,0,0,202,203,5,25,0,0,203,204,
         5,60,0,0,204,206,5,13,0,0,205,207,3,32,16,0,206,205,1,0,0,0,206,
         207,1,0,0,0,207,208,1,0,0,0,208,209,5,3,0,0,209,210,5,26,0,0,210,
         211,3,56,28,0,211,215,5,27,0,0,212,214,3,2,1,0,213,212,1,0,0,0,214,
@@ -1443,8 +1443,8 @@ class MapSParser ( Parser ):
         def IDENTIFIER(self):
             return self.getToken(MapSParser.IDENTIFIER, 0)
 
-        def listExpression(self):
-            return self.getTypedRuleContext(MapSParser.ListExpressionContext,0)
+        def pointExpression(self):
+            return self.getTypedRuleContext(MapSParser.PointExpressionContext,0)
 
 
         def getRuleIndex(self):
@@ -1480,7 +1480,7 @@ class MapSParser ( Parser ):
             self.state = 198
             self.match(MapSParser.T__8)
             self.state = 199
-            self.listExpression()
+            self.pointExpression()
             self.state = 200
             self.match(MapSParser.T__0)
         except RecognitionException as re:
