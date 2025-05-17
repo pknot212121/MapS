@@ -1,4 +1,27 @@
 
+function nazwa ( int a ) : double {
+    print(a);
+    List<Point> perimeterL is [ (0,0), (0,40), (10,40), (10,10), (30,10), (30,0), (0,0)] ;
+    List<Height> heightL is [ ( (5,5), 30, 1 )];
+    Land landL4 is (a,0) with perimeter is perimeterL, height is heightL;
+    //return a;
+    }
+
+
+double x is nazwa(40);
+
+double y is nazwa(0);
+print(x);
+print(y);
+
+function nazwa2 (  )  {
+    print(1);
+    return;
+    }
+
+nazwa2();
+
+
 int a is 1;
 {
     int a is 2;

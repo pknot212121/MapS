@@ -21,6 +21,7 @@ printStatement
 
 returnStatement
     : 'return' expression ';'
+    | 'return' ';'
     ;
 
 // Deklaracja zmiennych

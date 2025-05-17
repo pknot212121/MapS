@@ -74,3 +74,10 @@ class InterpreterWorld:
     def addRiver(self, river: InterpreterRiver):
         if(river is not None):
             self.rivers.append(river)
+
+class InterpreterFunction:
+    def __init__(self, params, return_type, body_ctx, ctx):
+        self.params = params
+        self.return_type = return_type
+        self.body = body_ctx
+        self.ctx = ctx

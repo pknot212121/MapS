@@ -12,7 +12,9 @@ import sys
 class MapInterpreter(MapSVisitor):    
     def __init__(self, errorListener_: ErrorListenerMapS):
         self.memory = InterpreterMemory(errorListener_)
-        self.errorListener = errorListener_      
+        self.errorListener = errorListener_  
+        self.functions = {} 
+        self.in_function = False 
         
 
     #region Zdefiniowane
@@ -277,16 +279,109 @@ class MapInterpreter(MapSVisitor):
     #region Function if loop
 
     def visitReturnStatement(self, ctx:MapSParser.ReturnStatementContext):
-        print("visitReturnStatement")
-        return self.visitChildren(ctx)  
+        #print("visitReturnStatement")
+        if not self.in_function:
+             self.errorListener.interpreterError(f"'return' used outside of function", ctx)
+             return
+        
+        if ctx.expression() is not None:
+            value = self.visit(ctx.expression())
+        else:
+            value = None
+        raise self.ReturnException(value)
+
+    class ReturnException(Exception):
+        def __init__(self, value):
+            self.value = value
 
     def visitFunctionDeclaration(self, ctx:MapSParser.FunctionDeclarationContext):
-        print("visitFunctionDeclaration")
-        return self.visitChildren(ctx)
+        #print("visitFunctionDeclaration")
+        name = ctx.IDENTIFIER().getText()
+        if ctx.parameters() is not None:
+            params = self.visit(ctx.parameters())
+        else:
+            params = []
+        if ctx.type_() is not None:
+            returnType = self.visit(ctx.type_())
+        else:
+            returnType = None
+        body = ctx.statement()
+
+        if name  in self.functions:
+            line = self.functions.get(name).ctx.start.line
+            self.errorListener.interpreterError(f"Function '{name}' already defined.\n"
+                                                 +f"Previous definition of {name} at line {line}.", ctx)
+            return
+        
+        self.functions[name] = InterpreterFunction(params, returnType, body, ctx)
+        #self.functions[name] = (params, returnType, body, ctx)
 
     def visitParameters(self, ctx:MapSParser.ParametersContext):
-        print("visitParameters")
-        return self.visitChildren(ctx)
+        #print("visitParameters")
+        parameters = []
+        names = set()
+
+        types = ctx.type_()
+        idents = ctx.IDENTIFIER()
+
+        for param_type_ctx, param_name_ctx in zip(types, idents):
+            param_type = self.visit(param_type_ctx)
+            param_name = param_name_ctx.getText()
+
+            if param_name in names:
+                self.errorListener.interpreterError(
+                    f"Param name '{param_name}' can't be used twice in one function declaration.", ctx)
+                return []
+
+            names.add(param_name)
+            parameters.append((param_type, param_name))
+        
+        return parameters
+
+    def visitFunctionCall(self, ctx:MapSParser.FunctionCallContext):
+        #print("visitFunctionCall")
+        func_name = ctx.IDENTIFIER().getText()
+        if func_name not in self.functions:
+            self.errorListener.interpreterError(f"Function '{func_name}' not defined", ctx)
+            return
+
+        func_ctx = self.functions.get(func_name)
+        
+        self.in_function = True
+        params = func_ctx.params
+        args = ctx.expression()
+        if len(args) != len(params):
+            self.errorListener.interpreterError(f"Function '{func_name}' expects {len(params)} arguments", ctx)
+            self.in_function = False
+            return
+
+        self.memory.pushScope()
+        for param, arg in zip(params, args):
+            arg_val = self.visit(arg)
+            self.memory.storeId(ctx, param[1], arg_val, param[0])
+
+        result = None
+        try:
+            for stmt_node in func_ctx.body:
+                self.visit(stmt_node)
+        except self.ReturnException as e:
+            result = e.value
+        finally:
+            self.in_function = False
+            self.memory.popScope()
+        
+        return_type = func_ctx.return_type
+        if return_type is None:
+            if result is not None:
+                self.errorListener.interpreterError("'return' with a value, in function returning void", ctx)
+            return None
+        
+        if return_type is not type(result):
+            if not(return_type is float and type(result) is int):
+                self.errorListener.interpreterError(
+                    f"returning {type(result).__name__} from a function with return type {return_type.__name__}", ctx)
+                return None
+        return result
 
     def visitIfStatement(self, ctx:MapSParser.IfStatementContext):
         print("visitIfStatement")
@@ -472,7 +567,7 @@ class MapInterpreter(MapSVisitor):
     def visitPointAccess(self, ctx:MapSParser.PointAccessContext):
         print("visitPointAccess")
         return self.visitChildren(ctx)
-        
+
 
     def visitListAccessExpr(self, ctx:MapSParser.ListAccessExprContext):
         print("visitListAccessExpr")
@@ -481,11 +576,6 @@ class MapInterpreter(MapSVisitor):
     def visitListAccess(self, ctx:MapSParser.ListAccessContext):
         print("visitListAccess")
         return self.visitChildren(ctx)  
-
-
-    def visitFunctionCall(self, ctx:MapSParser.FunctionCallContext):
-        print("visitFunctionCall")
-        return self.visitChildren(ctx)
 
     def visitPointFieldAssignment(self, ctx:MapSParser.PointFieldAssignmentContext):
         print("visitPointFieldAssignment")

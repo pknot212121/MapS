@@ -46,7 +46,7 @@ class InterpreterMemory():
             if type(value) is int and idType is float:
                 value = float(value)
             else:
-                self.error_listener.interpreterError(f"Value of type {type(value)}, cannot be assigned to variable {identifier} of type {idType}.", ctx)
+                self.error_listener.interpreterError(f"Value of type {type(value).__name__}, cannot be assigned to variable {identifier} of type {idType.__name__}.", ctx)
                 return None
 
         if idType is None:
