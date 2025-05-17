@@ -312,8 +312,10 @@ class MapInterpreter(MapSVisitor):
     
     def visitBlockStatement(self, ctx:MapSParser.BlockStatementContext):
         print(f"Odwiedzam BlockStatement: {ctx.getText()}")
+        self.memory.pushScope()
         for stmt_node in ctx.statement():
             self.visit(stmt_node)
+        self.memory.popScope()
         return None
 
     def visitRepeatFixedLoop(self, ctx:MapSParser.RepeatFixedLoopContext):
@@ -517,7 +519,7 @@ def main():
     #input_stream = FileStream(filename)
     #input_stream = FileStream("input.map")
     #input_stream = FileStream("input2.map")
-    input_stream = FileStream("mathTest.map")
+    input_stream = FileStream("booleantest.map")
 
     lexer = MapSLexer(input_stream)
     stream = CommonTokenStream(lexer)

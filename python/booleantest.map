@@ -1,3 +1,7 @@
-bool a is true;
-bool b is false;
-bool c is a and b;
+
+int a is 1;
+{
+    int a is 2;
+    print(a);
+}
+print(a);
