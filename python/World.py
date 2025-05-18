@@ -90,29 +90,30 @@ class World:
     def give_color_to_river(self,river: River):
         # self.pixels[river.source[0],river.source[1]]=[0,180,255]
         river_new = river
-        while not np.isnan(self.hmap[int(river_new.current_point[0]),int(river_new.current_point[1])]) and river_new.current_point not in self.all_river_points:
+        while not np.isnan(self.hmap[self.size[0]//2+int(river_new.current_point[0]),self.size[1]//2+int(river_new.current_point[1])]) and river_new.current_point not in self.all_river_points:
             river_new.river_points.append(river_new.current_point)
-            self.pixels[int(river_new.current_point[0]),int(river_new.current_point[1])]=[0,180,255]
+            self.pixels[self.size[0]//2+int(river_new.current_point[0]),self.size[1]//2+int(river_new.current_point[1])]=[0,180,255]
             self.all_river_points.append(river_new.current_point)
+            river.river_points.append(river_new.current_point)
             # print(river_new.current_point)
             river_new.current_point = self.get_lowest_neighbor(river_new)
 
 
     def get_lowest_neighbor(self,river: River):
         min_value = np.inf
-        first_value = self.hmap[int(river.current_point[0])][int(river.current_point[1])]
+        first_value = self.hmap[self.size[0]//2+int(river.current_point[0])][self.size[1]//2+int(river.current_point[1])]
         min_neighbor = river.current_point
         descents = []
         neighbor_choices = []
         for neighbor in river.get_neighbors():
-            value = self.hmap[int(neighbor[0])][int(neighbor[1])]
+            value = self.hmap[self.size[0]//2+int(neighbor[0])][self.size[1]//2+int(neighbor[1])]
             # print(neighbor,value)
             if(np.isnan(value)): return neighbor
             if(value<min_value):
                 min_value=value
                 min_neighbor = neighbor
             descent = first_value-value
-            if(descent>0):
+            if(descent>=0 and neighbor not in river.river_points):
                 descents.append(descent)
                 neighbor_choices.append(neighbor)
         suma = sum(descents)
@@ -173,21 +174,21 @@ intland1 = InterpreterLand(InterpreterPoint(0,0),intpoints2D,heights)
 intworld = InterpreterWorld([intland1],InterpreterPoint(2000,2000),[intlake])
 draw_image_from_InterpreterWorld(intworld)
 '''
-# def rad(theta):
-#     return 2*50 + 50*np.sin(5 * theta)
-# per = Perimeter.from_radial_function(rad)
+def rad(theta):
+    return 2*50 + 50*np.sin(5 * theta)
+per = Perimeter.from_radial_function(rad)
 
-# def two_arg(x,y):
-#     return 10*math.sin(x/10)+50*math.cos(y/30)+math.sin(x)
+def two_arg(x,y):
+    return 10*math.sin(x/10)+50*math.cos(y/30)+math.sin(x)
 
-# l = Land.from_two_argument_function(two_arg,per,[0,0])
+l = Land.from_two_argument_function(two_arg,per,[0,0])
 
-# river = River([990,1050])
-# river2 = River([990,1080])
-# # river.simulate_river()
-# # river.get_lowest_neighbor()
-# w = World([l],[2000,2000],None,[river,river2])
+river = River([0,0])
+# river2 = River([0,20])
+# river.simulate_river()
+# river.get_lowest_neighbor()
+w = World([l],[2000,2000],None,[river])
 
-# # print(w.hmap)
-# w.draw()
-# print(w.get_lowest_neighbor(river))
+# print(w.hmap)
+w.draw()
+print(w.get_lowest_neighbor(river))

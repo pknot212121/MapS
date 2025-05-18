@@ -608,8 +608,8 @@ def main():
     #filename = sys.argv[1]
     #input_stream = FileStream(filename)
     #input_stream = FileStream("input.map")
-    #input_stream = FileStream("input2.map")
-    input_stream = FileStream("booleantest.map")
+    input_stream = FileStream("input3.map")
+    # input_stream = FileStream("booleantest.map")
 
     lexer = MapSLexer(input_stream)
     stream = CommonTokenStream(lexer)
