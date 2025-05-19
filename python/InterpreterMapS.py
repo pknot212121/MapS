@@ -414,16 +414,68 @@ class MapInterpreter(MapSVisitor):
         return None
 
     def visitRepeatFixedLoop(self, ctx:MapSParser.RepeatFixedLoopContext):
-        print("visitRepeatFixedLoop")
-        return self.visitChildren(ctx)
+        #print("visitRepeatFixedLoop")
+        identifier = ctx.IDENTIFIER().getText()
+        if identifier is None:
+            self.errorListener.interpreterError("Repeat loop requires identifier", ctx)
+            return        
+        self.memory.storeId(ctx, identifier, 0, int)
+
+        expression = self.visit(ctx.expression())
+        if expression is None or type(expression) is not int:
+            self.errorListener.interpreterError(f"Repeat loop requires integer expression, not {type(expression).__name__}", ctx)
+            return
+        
+        for i in range(expression):
+            self.memory.assignValue(ctx, identifier, i)
+            for stmt_node in ctx.statement():
+                self.visit(stmt_node)
+
+        self.memory.releaseId(ctx, identifier)
+        #return self.visitChildren(ctx)
 
     def visitRepeatRangeLoop(self, ctx:MapSParser.RepeatRangeLoopContext):
-        print("visitRepeatRangeLoop")
-        return self.visitChildren(ctx)
+        #print("visitRepeatRangeLoop")
+        identifier = ctx.IDENTIFIER().getText()
+        if identifier is None:
+            self.errorListener.interpreterError("Repeat loop requires identifier", ctx)
+            return        
+        self.memory.storeId(ctx, identifier, 0, int)
+
+        start = self.visit(ctx.expression(0))
+        end = self.visit(ctx.expression(1))
+        if start is None or end is None or type(start) is not int or type(end) is not int:
+            self.errorListener.interpreterError(f"Repeat loop requires integer expression, not {type(start).__name__} and {type(end).__name__}", ctx)
+            return
+        
+        step = 1
+        if start > end:
+            step = -1
+        elif start == end:
+            return
+        
+        for i in range(start, end, step):
+            self.memory.assignValue(ctx, identifier, i)
+            for stmt_node in ctx.statement():
+                self.visit(stmt_node)
+            
+        #return self.visitChildren(ctx)
 
     def visitWhileLoop(self, ctx:MapSParser.WhileLoopContext):
-        print("visitWhileLoop")
-        return self.visitChildren(ctx)
+        #print("visitWhileLoop")
+        condition = self.visit(ctx.expression())
+        if condition is None or type(condition) is not bool:
+            self.errorListener.interpreterError(f"While loop requires boolean expression, not {type(condition).__name__}", ctx)
+            return
+        
+        while condition:
+            for stmt_node in ctx.statement():
+                self.visit(stmt_node)
+            condition = self.visit(ctx.expression())
+            if condition is None or type(condition) is not bool:
+                self.errorListener.interpreterError(f"While loop requires boolean expression, not {type(condition).__name__}", ctx)
+                return
+        #return self.visitChildren(ctx)
 
     #region Expression   
     

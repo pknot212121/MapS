@@ -1,4 +1,4 @@
-// Generated from d:/MapS/python/MapS.g4 by ANTLR 4.13.1
+// Generated from f:/Studia2Rok/2ROK_KOMPILATORY/kompilatory/python/MapS.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -186,6 +186,16 @@ public interface MapSListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitIfStatement(MapSParser.IfStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MapSParser#blockStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlockStatement(MapSParser.BlockStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MapSParser#blockStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlockStatement(MapSParser.BlockStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code RepeatFixedLoop}
 	 * labeled alternative in {@link MapSParser#loopStatement}.

@@ -1,4 +1,4 @@
-// Generated from d:/MapS/python/MapS.g4 by ANTLR 4.13.1
+// Generated from f:/Studia2Rok/2ROK_KOMPILATORY/kompilatory/python/MapS.g4 by ANTLR 4.13.1
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -227,6 +227,18 @@ public class MapSBaseListener implements MapSListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitIfStatement(MapSParser.IfStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBlockStatement(MapSParser.BlockStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBlockStatement(MapSParser.BlockStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
