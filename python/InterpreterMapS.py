@@ -22,7 +22,14 @@ class MapInterpreter(MapSVisitor):
         #print("visitListVariableDeclaration")
         identifier = ctx.IDENTIFIER().getText()
         idType = self.visit(ctx.type_())
-        elements = self.visit(ctx.listExpression())        
+        elements = self.visit(ctx.listExpression())
+        if type(idType) is tuple:
+            self.errorListener.interpreterError(f"Can't create a list of lists", ctx) # trzeba zmienić gramatyke
+            return
+        for element in elements:
+            if type(element) is not idType:
+                self.errorListener.interpreterError(f"Can't add {element} to list of {idType.__name__}", ctx)
+                return
         result = InterpreterList(idType, elements)
         self.memory.storeId(ctx, identifier, result, idType)
         return result
@@ -73,7 +80,11 @@ class MapInterpreter(MapSVisitor):
             print(f"[NOT IMPLEMENTED] visitHeightDeclaration -> functionCall")
             return None
         elif listExpression is not None:
-            return self.visit(listExpression)
+            listHeight = self.visit(listExpression)
+            if type(listHeight) is not InterpreterList or listHeight.innerType is not InterpreterHeight:
+                self.errorListener.interpreterError(f"Land height has to be a list of Height", ctx)
+                return
+            return listHeight
         return None
     
     def visitLandVariableDeclaration(self, ctx:MapSParser.LandVariableDeclarationContext):
@@ -128,8 +139,12 @@ class MapInterpreter(MapSVisitor):
                 return None            
             else:
                 return None
-        else:            
-            return self.visit(listExpression)
+        else:      
+            listPerimeter = self.visit(listExpression)
+            if type(listPerimeter) is not InterpreterList or listPerimeter.innerType is not InterpreterPoint:
+                self.errorListener.interpreterError(f"Land perimeter has to be a list of Point", ctx)
+                return
+            return listPerimeter      
         
     def visitHeightExpression(self, ctx:MapSParser.HeightExpressionContext):
         #print("visitHeightExpression")
@@ -141,6 +156,8 @@ class MapInterpreter(MapSVisitor):
         if len(ctxList)==2:
             z = self.visit(ctxList[0])
             steep = self.visit(ctxList[1])
+            if type(z) not in (int, float) or type(steep) not in (int, float):
+                self.errorListener.interpreterError(f"Invalid Height declaration: expected int or float", ctx)
         return InterpreterHeight(point, z, steep)
 
     
@@ -154,6 +171,8 @@ class MapInterpreter(MapSVisitor):
             y = self.visit(ctxList[1])
             if (type(x) is float or type(x) is int) and (type(y) is float or type(y) is int):
                 result = InterpreterPoint(float(x),float(y))
+            else:
+                self.errorListener.interpreterError(f"Invalid Point coordinates: expected int or float", ctx)
             return result
         else:
             return self.memory.accessId(ctx, identifier.getText(), InterpreterPoint)
@@ -243,7 +262,9 @@ class MapInterpreter(MapSVisitor):
     
     def visitPointVariableDeclaration(self, ctx:MapSParser.PointVariableDeclarationContext):
         #print("visitPointVariableDeclaration")
-        return self.visitChildren(ctx)                    
+        identifier = ctx.IDENTIFIER().getText()
+        self.memory.storeId(ctx, identifier, self.visit(ctx.pointExpression()), InterpreterPoint)
+        return identifier                  
             
     def visitPerimeterDeclaration(self, ctx:MapSParser.PerimeterDeclarationContext):
         #print("visitPerimeterDeclaration")
@@ -611,20 +632,26 @@ class MapInterpreter(MapSVisitor):
             elif comp == '<=':
                 return left <= right
             
-#region Niezdefiniowane
+
     def visitPointAccessExpr(self, ctx:MapSParser.PointAccessExprContext):
-        print("visitPointAccessExpr")
+        #print("visitPointAccessExpr")
         return self.visitChildren(ctx)
 
     def visitPointAccess(self, ctx:MapSParser.PointAccessContext):
-        print("visitPointAccess")
-        return self.visitChildren(ctx)
+        #print("visitPointAccess")
+        identifier = ctx.IDENTIFIER().getText()
+        point = self.memory.accessId(ctx, identifier, InterpreterPoint)
+        XorY = ctx.getChild(1).getText()
+        if XorY == ".x":
+            return point.x
+        return point.y
 
 
     def visitListAccessExpr(self, ctx:MapSParser.ListAccessExprContext):
         print("visitListAccessExpr")
         return self.visitChildren(ctx) 
 
+#region Niezdefiniowane
     def visitListAccess(self, ctx:MapSParser.ListAccessContext):
         print("visitListAccess")
         return self.visitChildren(ctx)  

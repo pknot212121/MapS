@@ -44,7 +44,7 @@ listVariableDeclaration
     ;
 
 pointVariableDeclaration
-    : 'Point' IDENTIFIER 'is' '(' expression ',' expression ')' ';'
+    : 'Point' IDENTIFIER 'is' pointExpression ';'
     ;
 
 // Deklaracja zmiennej typu Height (punkt + wysokość + stromość)

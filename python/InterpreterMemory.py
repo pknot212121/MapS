@@ -28,6 +28,7 @@ class InterpreterMemory():
                 idvalue = scope[identifier]
                 if type(idvalue) == InterpreterIdentifier and ( idType is None or idvalue.type_() == idType ):
                     return idvalue.get()
+                self.error_listener.interpreterError(f"No variable named: {identifier}.", ctx)
                 return None
         self.error_listener.interpreterError(f"No variable named: {identifier}.", ctx)
         return None
