@@ -4,6 +4,7 @@ from antlr4 import ParserRuleContext
 
 class InterpreterMemory():
     def __init__(self, errorListener_: ErrorListenerMapS):
+        self.functions = {} 
         self.identfierDict = {}
         self.scopes = [self.identfierDict]
         self.intereterWorld = InterpreterWorld()

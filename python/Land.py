@@ -25,8 +25,10 @@ class Land:
     def from_intland(cls,intland: InterpreterLand):
         start = point_to_list(intland.displacement)
         perimeter = Perimeter.from_intpoint(intland.perimeter)
-        points3D = heights_to_ndarray(intland.height)
-        return cls(points3D,perimeter,start)
+        if intland.heightFunc is None:
+            points3D = heights_to_ndarray(intland.height)
+            return cls(points3D,perimeter,start)
+        return cls(None,perimeter,start,intland.heightFunc)
     
     @classmethod
     def from_two_argument_function(cls,function,perimeter: Perimeter,start: list[int]):

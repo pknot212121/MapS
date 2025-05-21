@@ -13,7 +13,6 @@ class MapInterpreter(MapSVisitor):
     def __init__(self, errorListener_: ErrorListenerMapS):
         self.memory = InterpreterMemory(errorListener_)
         self.errorListener = errorListener_  
-        self.functions = {} 
         self.in_function = False 
         
 
@@ -77,8 +76,24 @@ class MapInterpreter(MapSVisitor):
         funcCall = ctx.functionCall()
         listExpression = ctx.listExpression()
         if funcCall is not None:
-            print(f"[NOT IMPLEMENTED] visitHeightDeclaration -> functionCall")
-            return None
+            #print(f"[NOT IMPLEMENTED] visitHeightDeclaration -> functionCall")
+            name = funcCall.IDENTIFIER().getText()
+            if name not in self.memory.functions:
+                self.errorListener.interpreterError(f"Function '{name}' not defined", funcCall)
+                return
+            func = self.memory.functions.get(name)
+            if func.return_type not in (int, float):
+                self.errorListener.interpreterError(f"Height function '{name}' must return int or double.", funcCall)
+                return
+
+            params = func.params
+            if len(params) == 2 and params[0][0] in (int, float) and params[1][0] in (int, float):
+                return self.make_height_function(ctx, name, False)
+            elif len(params) == 1 and params[0][0] is InterpreterPoint:
+                return self.make_height_function(ctx, name, True)
+            else:
+                self.errorListener.interpreterError(f"Height function '{name}' must take two numeric parameters or a Point.", funcCall)
+            
         elif listExpression is not None:
             listHeight = self.visit(listExpression)
             if type(listHeight) is not InterpreterList or listHeight.innerType is not InterpreterHeight:
@@ -87,6 +102,16 @@ class MapInterpreter(MapSVisitor):
             return listHeight
         return None
     
+
+    def make_height_function(self, ctx, function_name: str, argPoint: bool):
+        def height_func(x, y):
+            return self.callFunctionByName(ctx, function_name, [x, y])
+        def height_func_point(x, y):
+            return self.callFunctionByName(ctx, function_name, [InterpreterPoint(float(x),float(y))])
+        if argPoint:
+            return height_func_point
+        return height_func
+
     def visitLandVariableDeclaration(self, ctx:MapSParser.LandVariableDeclarationContext):
         #print("visitLandVariableDeclaration")
         identifier = ctx.IDENTIFIER().getText()
@@ -328,14 +353,13 @@ class MapInterpreter(MapSVisitor):
             returnType = None
         body = ctx.statement()
 
-        if name  in self.functions:
-            line = self.functions.get(name).ctx.start.line
+        if name  in self.memory.functions:
+            line = self.memory.functions.get(name).ctx.start.line
             self.errorListener.interpreterError(f"Function '{name}' already defined.\n"
                                                  +f"Previous definition of {name} at line {line}.", ctx)
             return
         
-        self.functions[name] = InterpreterFunction(params, returnType, body, ctx)
-        #self.functions[name] = (params, returnType, body, ctx)
+        self.memory.functions[name] = InterpreterFunction(params, returnType, body, ctx)
 
     def visitParameters(self, ctx:MapSParser.ParametersContext):
         #print("visitParameters")
@@ -362,11 +386,11 @@ class MapInterpreter(MapSVisitor):
     def visitFunctionCall(self, ctx:MapSParser.FunctionCallContext):
         #print("visitFunctionCall")
         func_name = ctx.IDENTIFIER().getText()
-        if func_name not in self.functions:
+        if func_name not in self.memory.functions:
             self.errorListener.interpreterError(f"Function '{func_name}' not defined", ctx)
             return
 
-        func_ctx = self.functions.get(func_name)
+        func_ctx = self.memory.functions.get(func_name)
         
         self.in_function = True
         params = func_ctx.params
@@ -403,9 +427,39 @@ class MapInterpreter(MapSVisitor):
                     f"returning {type(result).__name__} from a function with return type {return_type.__name__}", ctx)
                 return None
         return result
+    
+    def callFunctionByName(self, ctx, name, args):
+        func_ctx = self.memory.functions.get(name)
+        params = func_ctx.params
+        if len(args) != len(params):
+            self.errorListener.interpreterError(f"Function '{func_name}' expects {len(params)} arguments", ctx)
+            return
+
+        self.memory.pushScope()
+        self.in_function = True
+
+        try:
+            for (param_type, param_name), arg_val in zip(params, args):
+                self.memory.storeId(ctx, param_name, arg_val, param_type)
+            result = None
+            for stmt_node in func_ctx.body:
+                self.visit(stmt_node)
+        except self.ReturnException as e:
+            result = e.value
+        finally:
+            self.in_function = False
+            self.memory.popScope()
+
+        return_type = func_ctx.return_type
+        if return_type is not type(result):
+            if not (return_type is float and type(result) is int):
+                self.errorListener.interpreterError(
+                    f"Returning {type(result).__name__} from function declared to return {return_type.__name__}", ctx)
+                return None
+        return result
 
     def visitIfStatement(self, ctx:MapSParser.IfStatementContext):
-        print("visitIfStatement")
+        #print("visitIfStatement")
         # IF-y
         if self.visit(ctx.expression(0)):
             for stmt_node in ctx.statement():
@@ -427,7 +481,7 @@ class MapInterpreter(MapSVisitor):
         return None
     
     def visitBlockStatement(self, ctx:MapSParser.BlockStatementContext):
-        print(f"Odwiedzam BlockStatement: {ctx.getText()}")
+        #print(f"Odwiedzam BlockStatement: {ctx.getText()}")
         self.memory.pushScope()
         for stmt_node in ctx.statement():
             self.visit(stmt_node)

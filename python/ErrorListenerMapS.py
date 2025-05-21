@@ -1,5 +1,6 @@
 from antlr4.error.ErrorListener import ErrorListener
 from antlr4 import ParserRuleContext
+import sys
 
 class ErrorListenerMapS(ErrorListener):
     def __init__(self):
@@ -19,4 +20,6 @@ class ErrorListenerMapS(ErrorListener):
         if ctx is not None and ctx.start is not None:
             col = ctx.start.column        
         error_message = f"Error at line {line}, column: {col}: {msg}"
+        print(error_message) # na razie tak bo mi przy funkcjach zaczeło wywalać
+        sys.exit()
         self.interpreter_errors.append(error_message)

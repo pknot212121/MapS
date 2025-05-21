@@ -190,5 +190,5 @@ river = River([0,0])
 w = World([l],[2000,2000],None,[river])
 
 # print(w.hmap)
-w.draw()
-print(w.get_lowest_neighbor(river))
+#w.draw()
+#print(w.get_lowest_neighbor(river))
