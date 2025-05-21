@@ -423,6 +423,7 @@ class MapInterpreter(MapSVisitor):
             self.in_function = False
             return
 
+        scopes = len(self.memory.scopes)
         self.memory.pushScope()
         for param, arg in zip(params, args):
             arg_val = self.visit(arg)
@@ -434,9 +435,13 @@ class MapInterpreter(MapSVisitor):
                 self.visit(stmt_node)
         except self.ReturnException as e:
             result = e.value
+        except RecursionError:
+                self.errorListener.interpreterError("Recursion limit reached (possibly infinite recursion)", ctx)
+                return None
         finally:
             self.in_function = False
-            self.memory.popScope()
+            while len(self.memory.scopes) != scopes:
+                self.memory.popScope()
         
         return_type = func_ctx.return_type
         if return_type is None:
@@ -457,8 +462,9 @@ class MapInterpreter(MapSVisitor):
         if len(args) != len(params):
             self.errorListener.interpreterError(f"Function '{func_name}' expects {len(params)} arguments", ctx)
             return
-
-        self.memory.pushScope()
+        
+        scopes = len(self.memory.scopes)
+        self.memory.pushScope() 
         self.in_function = True
 
         try:
@@ -469,9 +475,13 @@ class MapInterpreter(MapSVisitor):
                 self.visit(stmt_node)
         except self.ReturnException as e:
             result = e.value
+        except RecursionError:
+                self.errorListener.interpreterError("Recursion limit reached (possibly infinite recursion)", ctx)
+                return None
         finally:
             self.in_function = False
-            self.memory.popScope()
+            while len(self.memory.scopes) != scopes:
+                self.memory.popScope()
 
         return_type = func_ctx.return_type
         if return_type is not type(result):
