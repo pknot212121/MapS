@@ -17,6 +17,15 @@ class MapSListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by MapSParser#progStatement.
+    def enterProgStatement(self, ctx:MapSParser.ProgStatementContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#progStatement.
+    def exitProgStatement(self, ctx:MapSParser.ProgStatementContext):
+        pass
+
+
     # Enter a parse tree produced by MapSParser#statement.
     def enterStatement(self, ctx:MapSParser.StatementContext):
         pass

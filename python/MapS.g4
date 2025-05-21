@@ -1,11 +1,15 @@
 grammar MapS;
 
 // Parser rules
-program: statement* EOF;
+program: progStatement* EOF;
+
+progStatement
+    : functionDeclaration
+    | statement
+    ;
 
 statement
     : variableDeclaration
-    | functionDeclaration
     | ifStatement
     | blockStatement
     | loopStatement

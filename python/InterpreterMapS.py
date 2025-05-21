@@ -463,8 +463,10 @@ class MapInterpreter(MapSVisitor):
         #print("visitIfStatement")
         # IF-y
         if self.visit(ctx.expression(0)):
+            self.memory.pushScope()
             for stmt_node in ctx.statement():
                 self.visit(stmt_node)
+            self.memory.popScope()
             return
         # EIF-y
         eif_expression_index = 1
@@ -495,7 +497,7 @@ class MapInterpreter(MapSVisitor):
         if identifier is None:
             self.errorListener.interpreterError("Repeat loop requires identifier", ctx)
             return        
-        self.memory.storeId(ctx, identifier, 0, int)
+        #self.memory.storeId(ctx, identifier, 0, int)
 
         expression = self.visit(ctx.expression())
         if expression is None or type(expression) is not int:
@@ -503,11 +505,13 @@ class MapInterpreter(MapSVisitor):
             return
         
         for i in range(expression):
-            self.memory.assignValue(ctx, identifier, i)
+            self.memory.pushScope() 
+            self.memory.storeId(ctx, identifier, i, int)
             for stmt_node in ctx.statement():
                 self.visit(stmt_node)
+            self.memory.popScope()
 
-        self.memory.releaseId(ctx, identifier)
+        #self.memory.releaseId(ctx, identifier)
         #return self.visitChildren(ctx)
 
     def visitRepeatRangeLoop(self, ctx:MapSParser.RepeatRangeLoopContext):
@@ -516,7 +520,7 @@ class MapInterpreter(MapSVisitor):
         if identifier is None:
             self.errorListener.interpreterError("Repeat loop requires identifier", ctx)
             return        
-        self.memory.storeId(ctx, identifier, 0, int)
+        #self.memory.storeId(ctx, identifier, 0, int)
 
         start = self.visit(ctx.expression(0))
         end = self.visit(ctx.expression(1))
@@ -531,9 +535,11 @@ class MapInterpreter(MapSVisitor):
             return
         
         for i in range(start, end, step):
-            self.memory.assignValue(ctx, identifier, i)
+            self.memory.pushScope()
+            self.memory.storeId(ctx, identifier, i, int)
             for stmt_node in ctx.statement():
                 self.visit(stmt_node)
+            self.memory.popScope()
             
         #return self.visitChildren(ctx)
 
@@ -545,8 +551,10 @@ class MapInterpreter(MapSVisitor):
             return
         
         while condition:
+            self.memory.pushScope()
             for stmt_node in ctx.statement():
                 self.visit(stmt_node)
+            self.memory.popScope()
             condition = self.visit(ctx.expression())
             if condition is None or type(condition) is not bool:
                 self.errorListener.interpreterError(f"While loop requires boolean expression, not {type(condition).__name__}", ctx)
@@ -755,10 +763,10 @@ class MapInterpreter(MapSVisitor):
 
 #region Main
 def main():
-    #filename = sys.argv[1]
-    #input_stream = FileStream(filename)
+    filename = sys.argv[1]
+    input_stream = FileStream(filename)
     #input_stream = FileStream("input.map")
-    input_stream = FileStream("input3.map")
+    #input_stream = FileStream("input3.map")
     # input_stream = FileStream("booleantest.map")
 
     lexer = MapSLexer(input_stream)
