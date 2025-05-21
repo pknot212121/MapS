@@ -53,7 +53,7 @@ pointVariableDeclaration
 
 // Deklaracja zmiennej typu Height (punkt + wysokość + stromość)
 heightVariableDeclaration
-    : 'Height' IDENTIFIER 'is' '(' pointExpression ',' expression ',' expression ')' ';'
+    : 'Height' IDENTIFIER 'is' heightExpression ';'
     ;
 
 landVariableDeclaration
@@ -156,7 +156,8 @@ pointExpression
     ;
 
 heightExpression
-    : '(' pointExpression ',' expression ',' expression ')'      
+    : '(' pointExpression ',' expression ',' expression ')'  
+    |  IDENTIFIER 
     ;
 
 // Wyrażenie typu List
@@ -166,7 +167,7 @@ listExpression
     ;
 
 listElementExpression
-    : pointExpression| heightExpression |  expression 
+    : expression | pointExpression | heightExpression  
     ;
     
 // Typy danych

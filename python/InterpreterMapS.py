@@ -28,7 +28,7 @@ class MapInterpreter(MapSVisitor):
             return
         for element in elements:
             if type(element) is not idType:
-                self.errorListener.interpreterError(f"Can't add {element} to list of {idType.__name__}", ctx)
+                self.errorListener.interpreterError(f"Can't add {type(element).__name__} to list of {idType.__name__}", ctx)
                 return
         result = InterpreterList(idType, elements)
         self.memory.storeId(ctx, identifier, result, InterpreterList)
@@ -175,16 +175,20 @@ class MapInterpreter(MapSVisitor):
     def visitHeightExpression(self, ctx:MapSParser.HeightExpressionContext):
         #print("visitHeightExpression")
         result = None
-        point = self.visit(ctx.pointExpression())
-        z = None
-        steep = None
-        ctxList = ctx.expression()            
-        if len(ctxList)==2:
-            z = self.visit(ctxList[0])
-            steep = self.visit(ctxList[1])
-            if type(z) not in (int, float) or type(steep) not in (int, float):
-                self.errorListener.interpreterError(f"Invalid Height declaration: expected int or float", ctx)
-        return InterpreterHeight(point, z, steep)
+        identifier = ctx.IDENTIFIER()
+        if identifier is None:  
+            point = self.visit(ctx.pointExpression())
+            z = None
+            steep = None
+            ctxList = ctx.expression()            
+            if len(ctxList)==2:
+                z = self.visit(ctxList[0])
+                steep = self.visit(ctxList[1])
+                if type(z) not in (int, float) or type(steep) not in (int, float):
+                    self.errorListener.interpreterError(f"Invalid Height declaration: expected int or float", ctx)
+            return InterpreterHeight(point, z, steep)
+        else:
+            return self.memory.accessId(ctx, identifier.getText(), InterpreterHeight)
 
     
     def visitPointExpression(self, ctx:MapSParser.PointExpressionContext):
@@ -202,7 +206,6 @@ class MapInterpreter(MapSVisitor):
             return result
         else:
             return self.memory.accessId(ctx, identifier.getText(), InterpreterPoint)
-        return self.visitChildren(ctx)
     
     
     
@@ -301,15 +304,34 @@ class MapInterpreter(MapSVisitor):
     #------Powyżej 1 Etap (03.04.25)-----
     #------------------------------------
     
-    #region Niezdefiniowane   
 
     def visitHeightVariableDeclaration(self, ctx:MapSParser.HeightVariableDeclarationContext):
-        print("visitHeightVariableDeclaration")
-        return self.visitChildren(ctx)
+        #print("visitHeightVariableDeclaration")
+        identifier = ctx.IDENTIFIER().getText()
+        self.memory.storeId(ctx, identifier, self.visit(ctx.heightExpression()), InterpreterHeight)
 
     def visitLakeVariableDeclaration(self, ctx:MapSParser.LakeVariableDeclarationContext):
         print("visitLakeVariableDeclaration")
-        return self.visitChildren(ctx)
+        identifier = ctx.IDENTIFIER().getText()
+
+        lake = None
+        displacement = None
+        perimeter = None
+        perimeterFunc = None
+
+        pointExpression = ctx.pointExpression()
+        if pointExpression is not None:
+            displacement = self.visit(pointExpression)            
+        
+        p = self.visit(ctx.perimeterDeclaration())  
+        if (type(p)==InterpreterList and p.innerType==InterpreterPoint):
+            perimeter = p.get()
+        else:
+            perimeterFunc = p
+        lake = InterpreterLake(displacement, perimeter, perimeterFunc)       
+        self.memory.storeId(ctx, identifier, lake, InterpreterLake)
+        self.memory.world().addLake(lake)
+        return lake
 
     def visitRiverVariableDeclaration(self, ctx:MapSParser.RiverVariableDeclarationContext):
         print("visitRiverVariableDeclaration")
