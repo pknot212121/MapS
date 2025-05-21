@@ -120,7 +120,8 @@ expression
     | expression ('>' | '<' | '>=' | '<=' | '=' | '!=') expression # compareExpr    
     | NOT expression  # notExpr 
     | expression AND expression        # andExpr  
-    | expression OR expression         # orExpr       
+    | expression OR expression         # orExpr   
+    | ('sin'|'cos'|'tg'|'ctg')'('expression')' #trygExpr
     | functionCall                         # funcCallExpr        // Wywołanie funkcji    
     | INT                                  # intExpr
     | DOUBLE                               # doubleExpr

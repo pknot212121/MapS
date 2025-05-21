@@ -8,6 +8,7 @@ from InterpreterMemory import *
 from World import *
 from ErrorListenerMapS import ErrorListenerMapS
 import sys
+import math
 
 class MapInterpreter(MapSVisitor):    
     def __init__(self, errorListener_: ErrorListenerMapS):
@@ -686,6 +687,22 @@ class MapInterpreter(MapSVisitor):
             elif comp == '<=':
                 return left <= right
             
+    def visitTrygExpr(self, ctx):
+        func_name = ctx.getChild(0).getText()
+        arg = self.visit(ctx.expression())
+
+        if type(arg) not in (int, float): 
+            self.errorListener.interpreterError(f"Argument of {func_name} must be numeric.", ctx)
+            return None
+
+        if func_name == 'sin':
+            return math.sin(arg)
+        elif func_name == 'cos':
+            return math.cos(arg)
+        elif func_name == 'tg':
+            return math.tan(arg)
+        elif func_name == 'ctg':
+            return 1 / math.tan(arg) if arg != 0 else float('inf') # nie wydaje się najlepszym rozwiązaniem, ale na razie może być
 
     def visitPointAccessExpr(self, ctx:MapSParser.PointAccessExprContext):
         #print("visitPointAccessExpr")

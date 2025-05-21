@@ -179,6 +179,11 @@ class MapSVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by MapSParser#trygExpr.
+    def visitTrygExpr(self, ctx:MapSParser.TrygExprContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by MapSParser#boolExpr.
     def visitBoolExpr(self, ctx:MapSParser.BoolExprContext):
         return self.visitChildren(ctx)
