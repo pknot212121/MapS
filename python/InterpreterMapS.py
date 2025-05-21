@@ -31,7 +31,7 @@ class MapInterpreter(MapSVisitor):
                 self.errorListener.interpreterError(f"Can't add {element} to list of {idType.__name__}", ctx)
                 return
         result = InterpreterList(idType, elements)
-        self.memory.storeId(ctx, identifier, result, idType)
+        self.memory.storeId(ctx, identifier, result, InterpreterList)
         return result
 
     def visitType(self, ctx:MapSParser.TypeContext):
@@ -77,7 +77,7 @@ class MapInterpreter(MapSVisitor):
         funcCall = ctx.functionCall()
         listExpression = ctx.listExpression()
         if funcCall is not None:
-            #print(f"[NOT IMPLEMENTED] visitHeightDeclaration -> functionCall")
+            #print(f"visitHeightDeclaration -> functionCall")
             name = funcCall.IDENTIFIER().getText()
             if name not in self.memory.functions:
                 self.errorListener.interpreterError(f"Function '{name}' not defined", funcCall)
@@ -727,27 +727,89 @@ class MapInterpreter(MapSVisitor):
 
 
     def visitListAccessExpr(self, ctx:MapSParser.ListAccessExprContext):
-        print("visitListAccessExpr")
+        #print("visitListAccessExpr")
         return self.visitChildren(ctx) 
 
-#region Niezdefiniowane
     def visitListAccess(self, ctx:MapSParser.ListAccessContext):
-        print("visitListAccess")
-        return self.visitChildren(ctx)  
+        #print("visitListAccess")
+        list_name = ctx.IDENTIFIER().getText()
+        index = self.visit(ctx.expression())
+
+        if type(index) is not int:
+            self.errorListener.interpreterError("List index must be an integer.", ctx)
+            return None
+
+        lst = self.memory.accessId(ctx, list_name, InterpreterList)
+        if lst is None:
+            return None
+        
+        elements = lst.get()
+        try:
+            return elements[index]
+        except IndexError:
+            self.errorListener.interpreterError(f"List index {index} out of bounds for '{list_name}'.", ctx)
+            return None
 
     def visitPointFieldAssignment(self, ctx:MapSParser.PointFieldAssignmentContext):
-        print("visitPointFieldAssignment")
-        return self.visitChildren(ctx)
+        #print("visitPointFieldAssignment")
+        var_name = ctx.IDENTIFIER().getText()
+        point = self.memory.accessId(ctx, var_name, InterpreterPoint)
+        if point is None:
+            return
+
+        field = ctx.getChild(1).getText()  # '.x' or '.y'
+        value = self.visit(ctx.expression())
+
+        if type(value) not in (int, float):
+            self.errorListener.interpreterError(f"Cannot assign non-numeric value to {var_name}{field}.", ctx)
+            return
+
+        if field == '.x':
+            point.x = float(value)
+        elif field == '.y':
+            point.y = float(value)
+        else:
+            self.errorListener.interpreterError(f"Unknown point field '{field}'", ctx)
 
     def visitListAdd(self, ctx:MapSParser.ListAddContext):
-        print("visitListAdd")
-        return self.visitChildren(ctx)
+        #print("visitListAdd")
+        list_name = ctx.IDENTIFIER().getText()
+        item = self.visit(ctx.expression())
+        lst = self.memory.accessId(ctx, list_name, InterpreterList)
+        if lst is None:
+            return None
+        if lst.innerType is not type(item):
+            if lst.innerType is float and type(item) is int:
+                lst.elements.append(float(item))
+            else:
+                self.errorListener.interpreterError(f"Cannot add {type(item).__name__} to list of {lst.innerType.__name__}.", ctx)
+        lst.elements.append(item)
 
     def visitListUpdate(self, ctx:MapSParser.ListUpdateContext):
-        print("visitListUpdate")
+        #print("visitListUpdate")
+        list_name = ctx.IDENTIFIER().getText()
+        index = self.visit(ctx.expression(0))
+        new_value = self.visit(ctx.expression(1))
+
+        if type(index) is not int:
+            self.errorListener.interpreterError("List index must be an integer.", ctx)
+            return
+
+        lst = self.memory.accessId(ctx, list_name, InterpreterList)
+        if lst is None:
+            return
+        
+        if lst.innerType is not type(new_value):
+            if lst.innerType is float and type(new_value) is int:
+                new_value = float(new_value)
+            else:
+                self.errorListener.interpreterError(f"Cannot add {type(new_value).__name__} to list of {lst.innerType.__name__}.", ctx)
+        try:
+            lst.elements[index] = new_value
+        except IndexError:
+            self.errorListener.interpreterError(f"Index {index} out of range for list '{list_name}'", ctx)
         return self.visitChildren(ctx)
 
-    #endregion Niezdefiniowane
 
     def visitPrintStatement(self, ctx:MapSParser.PrintStatementContext):
         if len(self.errorListener.interpreter_errors) > 0:

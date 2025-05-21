@@ -44,7 +44,7 @@ class InterpreterMemory():
                                                  + f"Previous definition of {identifier} at line {line}.", ctx)
             return None
 
-        if idType in (int, float, bool, str) and idType != type(value):
+        if idType != type(value):
             if type(value) is int and idType is float:
                 value = float(value)
             else:
