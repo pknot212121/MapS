@@ -781,8 +781,10 @@ class MapInterpreter(MapSVisitor):
         if lst.innerType is not type(item):
             if lst.innerType is float and type(item) is int:
                 lst.elements.append(float(item))
+                return
             else:
                 self.errorListener.interpreterError(f"Cannot add {type(item).__name__} to list of {lst.innerType.__name__}.", ctx)
+                return
         lst.elements.append(item)
 
     def visitListUpdate(self, ctx:MapSParser.ListUpdateContext):

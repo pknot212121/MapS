@@ -1,67 +1,70 @@
-int a is 5;
-//print(a);
+// -------- Operacje arytmetyczne na zmiennych --------
+int a is 10;
+int b is 3;
+int sum is a + b;
+int diff is a - b;
+int prod is a * b;
+int quot is a / b;
 
+print(sum);
+print(diff);
+print(prod);
+print(quot);
 
-int a2 is (2+2)*3;
-//print(a2);
+// -------- Porownania bool --------
+bool t is true;
+bool f is false;
+bool comp1 is t = true;
+bool comp2 is t = f;
+bool comp3 is t != f;
 
-bool b is (true or false) and false;
-//print(b);
+print("expected: true"); print(comp1);
+print("expected: false"); print(comp2);
+print("expected: true"); print(comp3);
 
-double a3 is 3;
-//print(a3);
+// -------- Instrukcja warunkowa if / else --------
 
-double d is 1+2;
-print(d);
+if (a > b) do {
+    print("if okej");
+}
+else do {
+    print("unexpected");
+}
 
-int c is a;
-//print(c);
-int x is 7+-7;
-//print(x);
+// -------- Petla for (repeat) --------
+print("repeat loop"); 
 
-bool y is 5 > 5;
-print(y);
+repeat with i from 3 to 7 {
+    print(i);
+} 
 
-int i is 3;
-int j is (3 + 5) * 3;
-int c2 is 4 / 3 - 4;
-print(i);
-print(j);
-print(c2);
+// -------- Petla while --------
+print("while loop"); 
 
-c2 is -17;
-print(c2);
+int counter is 0;
+while (counter < 3) do {
+    print(counter);
+    counter is counter + 1;
+}
 
-bool b2 is true;
-bool n is false;
-print(b2);
-print(n);
+// -------- Funkcja zwracajaca wynik --------
 
+function max(int a, int b) : int {
+    if (a > b) do {
+        return a;
+    }
+    else do{
+        return b;
+    }
+}
 
-//Wyjatki
-//bool b is true; //Re-deklaracja
-//o is 3; //Brak zmiennej
+int bigger is max(10, 20);
+print("max(10, 20):"); print(bigger);
 
-print("3==24");
-bool aaa is i=j;
-print(aaa);
+// -------- Funkcja typu void --------
 
-print("-3 > 3");
-bool bbb is c>i;
-print(bbb);
+function sayHello() {
+    print("Hello!");
+}
 
-print("3 < 24");
-bool ccc is i<j;
-print(ccc);
-
-print("3 < 24 and 3 == 24");
-bool ddd is i<j and i=j;
-print(ddd);
-
-print("3 < 24 or 3 == 24");
-bool eee is i<j or i=j;
-print(eee);
-
-print("3 < 24 and not 3 != 24");
-bool fff is i<j and not i!=j;
-print(fff);
+sayHello();
