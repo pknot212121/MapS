@@ -8,7 +8,7 @@ function silnia_iteracyjna(int a) : int {
 }
 
 function silnia_rekurencyjna(int a) : int {
-    if (a < 2) do {
+    if (a > 200) do {
         return 1;
     }
     else do{
@@ -16,7 +16,41 @@ function silnia_rekurencyjna(int a) : int {
     }
 }
 
-print(silnia_iteracyjna(6));
+function foo(int n) : int {
+    int x is n;
+    if(n>0) do{
+        if (true) do {
+            foo(n-1);
+        }
+        
+    }
+    print(x);
+    return 0;
+}
 
-print(silnia_rekurencyjna(6));
 
+function sum (int a, int b) : int {
+    return a+b;
+}
+
+function bar (int a) : int {
+    if (a>0) do{
+        print(">0");
+    }
+    eif (a=0) do{
+        print("=0");
+    }
+    else do {
+        print("a<0");
+    }
+    return 1;
+}
+
+//print(silnia_iteracyjna(5));
+
+//print(silnia_rekurencyjna(7));
+
+foo(6);
+
+//print(sum(5,6));
+//print(bar(0));

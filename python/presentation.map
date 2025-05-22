@@ -1,26 +1,6 @@
-// -------- Operacje arytmetyczne na zmiennych --------
+
 int a is 10;
 int b is 3;
-int sum is a + b;
-int diff is a - b;
-int prod is a * b;
-int quot is a / b;
-
-print(sum);
-print(diff);
-print(prod);
-print(quot);
-
-// -------- Porownania bool --------
-bool t is true;
-bool f is false;
-bool comp1 is t = true;
-bool comp2 is t = f;
-bool comp3 is t != f;
-
-print("expected: true"); print(comp1);
-print("expected: false"); print(comp2);
-print("expected: true"); print(comp3);
 
 // -------- Instrukcja warunkowa if / else --------
 

@@ -14,7 +14,7 @@ class MapInterpreter(MapSVisitor):
     def __init__(self, errorListener_: ErrorListenerMapS):
         self.memory = InterpreterMemory(errorListener_)
         self.errorListener = errorListener_  
-        self.in_function = False 
+        self.in_function = 0 
         
 
     #region Zdefiniowane
@@ -415,12 +415,12 @@ class MapInterpreter(MapSVisitor):
 
         func_ctx = self.memory.functions.get(func_name)
         
-        self.in_function = True
+        self.in_function += 1
         params = func_ctx.params
         args = ctx.expression()
         if len(args) != len(params):
             self.errorListener.interpreterError(f"Function '{func_name}' expects {len(params)} arguments", ctx)
-            self.in_function = False
+            self.in_function -= 1
             return
 
         scopes = len(self.memory.scopes)
@@ -439,7 +439,7 @@ class MapInterpreter(MapSVisitor):
                 self.errorListener.interpreterError("Recursion limit reached (possibly infinite recursion)", ctx)
                 return None
         finally:
-            self.in_function = False
+            self.in_function -= 1
             while len(self.memory.scopes) != scopes:
                 self.memory.popScope()
         
