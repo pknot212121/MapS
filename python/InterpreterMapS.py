@@ -460,7 +460,7 @@ class MapInterpreter(MapSVisitor):
         func_ctx = self.memory.functions.get(name)
         params = func_ctx.params
         if len(args) != len(params):
-            self.errorListener.interpreterError(f"Function '{func_name}' expects {len(params)} arguments", ctx)
+            self.errorListener.interpreterError(f"Function '{name}' expects {len(params)} arguments", ctx)
             return
         
         scopes = len(self.memory.scopes)

@@ -1,0 +1,22 @@
+
+function silnia_iteracyjna(int a) : int {
+    int wynik is 1;
+    repeat with i from 2 to a + 1 {
+        wynik is wynik * i;
+    } 
+    return wynik;
+}
+
+function silnia_rekurencyjna(int a) : int {
+    if (a < 2) do {
+        return 1;
+    }
+    else do{
+        return a * silnia_rekurencyjna(a - 1);
+    }
+}
+
+print(silnia_iteracyjna(6));
+
+print(silnia_rekurencyjna(6));
+
