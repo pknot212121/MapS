@@ -1,0 +1,12 @@
+//float a is 1;
+List<int> li is [1,2,3];
+int b is (bool)1.4;
+print(b);
+//print(b);
+//float s is (float)b;
+//print(s);
+/*int c is (int)a;
+print(a);
+print(b);
+print(c);
+*/

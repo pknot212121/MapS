@@ -116,6 +116,7 @@ loopStatement
 // Wyrażenie to może być liczba, identyfikator, wywołanie funkcji, operacja arytmetyczna, dostęp do punktów lub list
 expression    
     : '(' expression ')'                  # parenExpr    
+    | '(' type ')' expression            # castExpr
     |'-' expression                     #unaryMinusExpr 
     | expression '^' expression   # powExpr
     | expression '?' expression   # sqrtExpr

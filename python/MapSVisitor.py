@@ -144,6 +144,11 @@ class MapSVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by MapSParser#castExpr.
+    def visitCastExpr(self, ctx:MapSParser.CastExprContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by MapSParser#sqrtExpr.
     def visitSqrtExpr(self, ctx:MapSParser.SqrtExprContext):
         return self.visitChildren(ctx)

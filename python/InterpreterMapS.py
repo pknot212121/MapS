@@ -594,6 +594,15 @@ class MapInterpreter(MapSVisitor):
         #return self.visitChildren(ctx)
 
     #region Expression   
+
+    def visitCastExpr(self, ctx:MapSParser.CastExprContext):
+        t = self.visit(ctx.type_())
+        try:
+            value = t(self.visit(ctx.expression()))
+            return value
+        except (ValueError, TypeError):
+            self.errorListener.interpreterError(f"Cannot cast to {t.__name__} from {type(self.visit(ctx.expression())).__name__}", ctx)
+            return None        
     
     def visitAndExpr(self, ctx:MapSParser.AndExprContext):
         #print("visitAndExpr")
@@ -861,6 +870,7 @@ class MapInterpreter(MapSVisitor):
 def main():
     filename = sys.argv[1]
     input_stream = FileStream(filename)
+    #input_stream = FileStream("input4.map")
     #input_stream = FileStream("input.map")
     #input_stream = FileStream("input3.map")
     # input_stream = FileStream("booleantest.map")

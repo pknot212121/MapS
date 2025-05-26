@@ -17,6 +17,16 @@ public interface MapSListener extends ParseTreeListener {
 	 */
 	void exitProgram(MapSParser.ProgramContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MapSParser#progStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterProgStatement(MapSParser.ProgStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MapSParser#progStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitProgStatement(MapSParser.ProgStatementContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MapSParser#statement}.
 	 * @param ctx the parse tree
 	 */
@@ -376,6 +386,18 @@ public interface MapSListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitUnaryMinusExpr(MapSParser.UnaryMinusExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code trygExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterTrygExpr(MapSParser.TrygExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code trygExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitTrygExpr(MapSParser.TrygExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code boolExpr}
 	 * labeled alternative in {@link MapSParser#expression}.

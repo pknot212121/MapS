@@ -251,6 +251,15 @@ class MapSListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by MapSParser#castExpr.
+    def enterCastExpr(self, ctx:MapSParser.CastExprContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#castExpr.
+    def exitCastExpr(self, ctx:MapSParser.CastExprContext):
+        pass
+
+
     # Enter a parse tree produced by MapSParser#sqrtExpr.
     def enterSqrtExpr(self, ctx:MapSParser.SqrtExprContext):
         pass
