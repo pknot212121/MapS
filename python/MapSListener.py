@@ -341,6 +341,15 @@ class MapSListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by MapSParser#scopeAccessExpr.
+    def enterScopeAccessExpr(self, ctx:MapSParser.ScopeAccessExprContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#scopeAccessExpr.
+    def exitScopeAccessExpr(self, ctx:MapSParser.ScopeAccessExprContext):
+        pass
+
+
     # Enter a parse tree produced by MapSParser#boolExpr.
     def enterBoolExpr(self, ctx:MapSParser.BoolExprContext):
         pass

@@ -118,8 +118,8 @@ expression
     : '(' expression ')'                  # parenExpr    
     | '(' type ')' expression            # castExpr
     |'-' expression                     #unaryMinusExpr 
-    | expression '^' expression   # powExpr
-    | expression '?' expression   # sqrtExpr
+    | expression '^' ('^'|expression)   # powExpr
+    | expression '?' ('?'|expression)   # sqrtExpr
     | expression ('*' | '/') expression   # mulDivExpr
     | expression ('+' | '-') expression   # addSubExpr
     | expression ('>' | '<' | '>=' | '<=' | '=' | '!=') expression # compareExpr    
@@ -127,7 +127,8 @@ expression
     | expression AND expression        # andExpr  
     | expression OR expression         # orExpr   
     | ('sin'|'cos'|'tg'|'ctg')'('expression')' #trygExpr
-    | functionCall                         # funcCallExpr        // Wywołanie funkcji    
+    | functionCall                         # funcCallExpr        // Wywołanie funkcji  
+    | ('parent' '::')+ IDENTIFIER                         # scopeAccessExpr  
     | INT                                  # intExpr
     | DOUBLE                               # doubleExpr
     | STRING                               # stringExpr    

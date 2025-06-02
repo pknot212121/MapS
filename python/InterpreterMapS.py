@@ -1,4 +1,4 @@
-import nbimporter
+#import nbimporter
 from antlr4 import *
 from MapSLexer import MapSLexer
 from MapSParser import MapSParser
@@ -311,7 +311,7 @@ class MapInterpreter(MapSVisitor):
         self.memory.storeId(ctx, identifier, self.visit(ctx.heightExpression()), InterpreterHeight)
 
     def visitLakeVariableDeclaration(self, ctx:MapSParser.LakeVariableDeclarationContext):
-        print("visitLakeVariableDeclaration")
+        #print("visitLakeVariableDeclaration")
         identifier = ctx.IDENTIFIER().getText()
 
         lake = None
@@ -334,7 +334,7 @@ class MapInterpreter(MapSVisitor):
         return lake
 
     def visitRiverVariableDeclaration(self, ctx:MapSParser.RiverVariableDeclarationContext):
-        print("visitRiverVariableDeclaration")
+        #print("visitRiverVariableDeclaration")
         identifier = ctx.IDENTIFIER().getText()
         source = None
         pointExpression = ctx.pointExpression()
@@ -465,7 +465,7 @@ class MapInterpreter(MapSVisitor):
         
         scopes = len(self.memory.scopes)
         self.memory.pushScope() 
-        self.in_function = True
+        self.in_function += 1
 
         try:
             for (param_type, param_name), arg_val in zip(params, args):
@@ -479,7 +479,7 @@ class MapInterpreter(MapSVisitor):
                 self.errorListener.interpreterError("Recursion limit reached (possibly infinite recursion)", ctx)
                 return None
         finally:
-            self.in_function = False
+            self.in_function -= 1
             while len(self.memory.scopes) != scopes:
                 self.memory.popScope()
 
@@ -595,6 +595,19 @@ class MapInterpreter(MapSVisitor):
 
     #region Expression   
 
+    def visitScopeAccessExpr(self, ctx: MapSParser.ScopeAccessExprContext):
+        tokens = [child.getText() for child in ctx.children if child.getText() != '::']
+        if not tokens or tokens[0] != 'parent':
+            self.errorListener.interpreterError("Invalid scoped access expression.", ctx)
+            return None
+        
+        steps_up = len(tokens) - 1
+        var_name = tokens[-1]
+        if steps_up >= len(self.memory.scopes):
+            self.errorListener.interpreterError(f"No such parent scope ({steps_up} levels up).", ctx)
+            return None
+        return self.memory.accessId(ctx, var_name, idType=None, levels_up=steps_up)
+
     def visitCastExpr(self, ctx:MapSParser.CastExprContext):
         t = self.visit(ctx.type_())
         try:
@@ -677,7 +690,10 @@ class MapInterpreter(MapSVisitor):
     def visitSqrtExpr(self, ctx:MapSParser.SqrtExprContext):
         #print("visitSqrtExpr")
         left = self.visit(ctx.expression(0))
-        right = self.visit(ctx.expression(1))
+        if ctx.expression(1) is None:
+            right = 2
+        else:
+            right = self.visit(ctx.expression(1))
 
         if not (type(left) in (int, float) and type(right) in (int, float)):
             self.errorListener.interpreterError(f"Sqrt (^) only supports numbers, not: {type(left).__name__} and {type(right).__name__}", ctx)
@@ -696,7 +712,10 @@ class MapInterpreter(MapSVisitor):
     def visitPowExpr(self, ctx:MapSParser.PowExprContext):
         #print("visitPowExpr")
         left = self.visit(ctx.expression(0))
-        right = self.visit(ctx.expression(1))
+        if ctx.expression(1) is None:
+            right = 2
+        else:
+            right = self.visit(ctx.expression(1))
 
         if not (type(left) in (int, float) and type(right) in (int, float)):
             self.errorListener.interpreterError(f"Pow (^) only supports numbers, not: {type(left).__name__} and {type(right).__name__}", ctx)

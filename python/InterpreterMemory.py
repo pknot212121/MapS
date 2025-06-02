@@ -23,8 +23,9 @@ class InterpreterMemory():
             self.error_listener.interpreterError("This should be impossible.", None)
 
     # Aby dostać zmienną podajemy ctx, identifier, opcjonlanie: typ zmiennej
-    def accessId(self,ctx: ParserRuleContext, identifier, idType = None):
-        for scope in reversed(self.scopes):
+    def accessId(self,ctx: ParserRuleContext, identifier, idType = None, levels_up: int = 0):
+        scopes_to_check = reversed(self.scopes) if levels_up == 0 else [self.scopes[-(levels_up + 1)]]
+        for scope in scopes_to_check:
             if identifier in scope:
                 idvalue = scope[identifier]
                 if type(idvalue) == InterpreterIdentifier and ( idType is None or idvalue.type_() == idType ):
