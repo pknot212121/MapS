@@ -155,6 +155,8 @@ class MapInterpreter(MapSVisitor):
         if listExpression is None:
             expressions = ctx.expression()            
             funcArg = self.visit(expressions[0])
+            if type(funcArg) is not int:
+                self.errorListener.interpreterError("Perimeter function argument has to be int", ctx)
             funcName = ctx.getChild(0).getText()
             if "Circle" in funcName:
                 circle = InterpreterCircle(funcArg)
@@ -165,6 +167,8 @@ class MapInterpreter(MapSVisitor):
                 return intlist
             elif "Square" in funcName:
                 funcArg2 = self.visit(expressions[1])
+                if type(funcArg2) is not int:
+                    self.errorListener.interpreterError("Perimeter function argument has to be int", ctx)
                 square = InterpreterSquare(funcArg,funcArg2)
                 per = Perimeter.from_intsquare(square)
                 intpoints = per.to_intpoints()
@@ -172,6 +176,8 @@ class MapInterpreter(MapSVisitor):
                 return intlist
             elif "RandomLand" in funcName:
                 funcArg2 = self.visit(expressions[1])
+                if type(funcArg2) not in (int, float):
+                    self.errorListener.interpreterError("Second RandomLand argument has to be int or double", ctx)
                 per = Perimeter.from_random_land(funcArg,funcArg2)
                 intpoints = per.to_intpoints()
                 print(intpoints)
@@ -890,14 +896,24 @@ class MapInterpreter(MapSVisitor):
 
 
     def visitPrintStatement(self, ctx:MapSParser.PrintStatementContext):
-        if len(self.errorListener.interpreter_errors) > 0:
-            return
         
         value = self.visit(ctx.expression())
-        if isinstance(value, bool):
-            print("true" if value else "false")
+        if type(value) is InterpreterList:
+            for element in value.elements:
+                printValue(element)
         else:
-            print(value)
+            printValue(value)
+    
+def printValue(value):
+    if isinstance(value, bool):
+        print("true" if value else "false")
+    elif type(value) in (str, int, float):
+        print(value)
+    elif type(value) is InterpreterPoint:
+        print(f"({value.x}, {value.y})")
+    elif type(value) is InterpreterHeight:
+        print(f"(({value.place.x}, {value.place.y}), {value.z}, {value.steep})")
+            
     
     
 
