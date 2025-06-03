@@ -69,7 +69,7 @@ perimeterDeclaration
 // Definicja kształtu (Circle, Square, RandomLand, List<Point>)
 shape
     : 'Circle(' expression ')'
-    | 'Square(' expression ')'
+    | 'Square(' expression ',' expression ')'
     | 'RandomLand(' expression ',' expression ')'
     | listExpression
     ;

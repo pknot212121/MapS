@@ -66,6 +66,30 @@ class Perimeter:
         x_fine = spline_x(t_fine)
         y_fine = spline_y(t_fine)
         return x_fine,y_fine
+    
+    def to_intpoints(self) -> List[InterpreterPoint]:
+        print(self.x.shape)
+        print(self.y.shape)
+        intpoints = []
+        points = np.column_stack((self.x, self.y))
+        for x in points:
+            intpoints.append(InterpreterPoint(x[0],x[1]))
+        return intpoints
+    
+    # def from_square(self, size,rotation) -> np.ndarray:
+    #     p1 = self.rotate([-size//2,-size//2],rotation)
+    #     p2 = self.rotate([-size//2,size//2],rotation)
+    #     p3 = self.rotate([size//2,size//2],rotation)
+    #     p4 = self.rotate([size//2,-size//2],rotation)
+    #     points = np.array([p1,p2,p3,p4,p1])
+    #     return points
+
+    # def from_circle(cls, size) -> np.ndarray:
+    #     theta = np.linspace(0, 2 * np.pi, 100)
+    #     x = size * np.cos(theta)
+    #     y = size * np.sin(theta)
+    #     coordinates = np.column_stack((x, y))
+    #     return cls(coordinates,"circle")
         
     def __str__(self):
         plt.figure(figsize=(8,8))
@@ -88,9 +112,10 @@ class Perimeter:
 
 # per = Perimeter.from_intpoint(intpoints)
 # print(per)
-square = InterpreterSquare(100,30)
-per = Perimeter.from_intsquare(square)
-print(per)
+# square = InterpreterSquare(100,30)
+# per = Perimeter.from_intsquare(square)
+# per.to_intpoints()
+# print(per)
 # def rad(theta):
 #     return 2*50 + 50*np.sin(5 * theta)
 # per = Perimeter.from_radial_function(rad)

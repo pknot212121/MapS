@@ -133,6 +133,7 @@ class MapInterpreter(MapSVisitor):
             h = self.visit(ctx.heightDeclaration())   
             if (type(p)==InterpreterList and p.innerType==InterpreterPoint):
                 perimeter = p.get()
+                print("aaa")
             else:
                 perimeterFunc = p
             if(type(h)==InterpreterList and h.innerType==InterpreterHeight):
@@ -151,12 +152,19 @@ class MapInterpreter(MapSVisitor):
     def visitShape(self, ctx:MapSParser.ShapeContext):
         #print("visitShape")
         listExpression = ctx.listExpression()
-        if listExpression is None:            
-            funcArg = self.visit(ctx.expression())
+        if listExpression is None:
+            expressions = ctx.expression()            
+            funcArg = self.visit(expressions[0])
             funcName = ctx.getChild(0).getText()
             if "Circle" in funcName:
                 print(f"[NOT IMPLEMENTED] visitShape -> Circle")
-                return None
+                
+                circle = InterpreterCircle(funcArg)
+                per = Perimeter.from_intcircle(circle)
+                intpoints = per.to_intpoints()
+                intlist = InterpreterList(InterpreterPoint,intpoints)
+                print(type(intpoints))
+                return intlist
             elif "Square" in funcName:
                 print(f"[NOT IMPLEMENTED] visitShape -> Square")
                 return None
@@ -325,7 +333,7 @@ class MapInterpreter(MapSVisitor):
         
         p = self.visit(ctx.perimeterDeclaration())  
         if (type(p)==InterpreterList and p.innerType==InterpreterPoint):
-            perimeter = p.get()
+            perimeter = p.get() 
         else:
             perimeterFunc = p
         lake = InterpreterLake(displacement, perimeter, perimeterFunc)       
