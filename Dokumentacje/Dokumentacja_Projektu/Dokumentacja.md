@@ -1,5 +1,5 @@
 # Teoria kompilacji i kompilatory 2024/2025
-
+## Dokumentacja dla użytkownika końcowego
 ## **MapS**
 
 ### Kinga Kowal
@@ -19,13 +19,14 @@
   * [Główne cechy](#główne-cechy)
   * [Typy danych](#typy-danych)
   * [Operacje arytmetyczne](#operacje-arytmetyczne)
-  * [Sposóby korzystania z języka](#sposóby-korzystania-z-języka)
+  * [Sposoby korzystania z języka](#sposóby-korzystania-z-języka)
     * [Deklaracja zmiennych](#deklaracja-zmiennych)
     * [Instrukcje warunkowe](#instrukcje-warunkowe)
     * [Pętle](#pętle)
     * [Funkcje](#funkcje)
 * [Przykłady użycia](#przykłady-użycia)
     * [Pojedyncza wyspa](#pojedyncza-wyspa)
+    * [Wiele wysp](#wiele-wysp)
   
 
 <div style="page-break-after: always;"></div>
@@ -101,7 +102,7 @@ Złożone:
 * Height - Złożony obiekt wyrażający: położenie szczytu, wartości wysokości, stromości szczytu *(Point, double, double)*,
 * Land - Obiekt wyspy zadeklarowany punktem oraz funkcją obwodu,
 * River - rzeka wyrażona miejscem źródła *(Point)*,
-* Lake - obiekt jeziora, deklarowany w podobny spobób jak obiekty typu *Land*
+* Lake - obiekt jeziora, deklarowany w podobny sposób jak obiekty typu *Land*
 
 ## Operacje arytmetyczne
 * = | != | > | < | >= | <= - porównanie (np. x = 5)
@@ -111,10 +112,10 @@ Złożone:
 * ^^ - potęgowanie kwadratowe (np. x^^)
 * ?? - pierwiastek kwadratowy (np. a??)
 
-## Sposóby korzystania z języka
+## Sposoby korzystania z języka
 
 ### Deklaracja zmiennych
-Deklaracja zmiennych odbywa się przy użyciu słowa kluczowego **is**, należy mieć na uwadzę poprawność podawanego typu zmiennej.
+Deklaracja zmiennych odbywa się przy użyciu słowa kluczowego **is**, należy mieć na uwadze poprawność podawanego typu zmiennej.
 ```MapS
 int x is 10;
 Point p is (3, 5);
@@ -217,7 +218,10 @@ Po uruchomieniu skryptu, generuje się wyspa:
 ```
 MapS island.map
 ```
-![Island](./img/island.png)
+<p align="center">
+  <img src="./img/island.png" alt="MapS" width="300">
+</p>
+
 
 
 Cały kod:
@@ -231,3 +235,28 @@ River islandRiver is (0,0);
 
 Land island is (0,-20) with perimeter is islandPerimeter, height is islandHeight;
 ```
+
+<div style="page-break-after: always;"></div>
+
+## Wiele wysp
+Przy pomocy pętli repeat możemy utworzyć wiele wysp, definiując obiekt Land przy każdym wykonaniu pętli:
+```MapS
+int a is 20;
+double b is 20;
+int isleCount is 16;
+repeat with i isleCount {
+    double k is i*2+10; 
+    List<Point> perimeter0 is [(0,0), (0,k), (k,k), (k,0), (0,0)];
+    List<Height> height0 is [ ((k/2,k/2), 10, 0)];
+    double theta is i * 0.7;
+    double r is a + b * theta;
+    double x_coord is r * cos(theta);
+    double y_coord is r * sin(theta);
+    Land land0 is (0+x_coord,0+y_coord) with perimeter is perimeter0, height is height0;
+}
+```
+W wyniku dostajemy archipelag w kształcie spirali:
+
+<p align="center">
+  <img src="./img/archipelago.png" alt="MapS" width="300">
+</p>

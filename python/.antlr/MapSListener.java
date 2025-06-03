@@ -291,6 +291,18 @@ public interface MapSListener extends ParseTreeListener {
 	 */
 	void exitAddSubExpr(MapSParser.AddSubExprContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code castExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterCastExpr(MapSParser.CastExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code castExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitCastExpr(MapSParser.CastExprContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code sqrtExpr}
 	 * labeled alternative in {@link MapSParser#expression}.
 	 * @param ctx the parse tree
@@ -398,6 +410,18 @@ public interface MapSListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitTrygExpr(MapSParser.TrygExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code scopeAccessExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterScopeAccessExpr(MapSParser.ScopeAccessExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code scopeAccessExpr}
+	 * labeled alternative in {@link MapSParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitScopeAccessExpr(MapSParser.ScopeAccessExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code boolExpr}
 	 * labeled alternative in {@link MapSParser#expression}.
