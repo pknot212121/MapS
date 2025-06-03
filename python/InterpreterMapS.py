@@ -157,8 +157,6 @@ class MapInterpreter(MapSVisitor):
             funcArg = self.visit(expressions[0])
             funcName = ctx.getChild(0).getText()
             if "Circle" in funcName:
-                print(f"[NOT IMPLEMENTED] visitShape -> Circle")
-                
                 circle = InterpreterCircle(funcArg)
                 per = Perimeter.from_intcircle(circle)
                 intpoints = per.to_intpoints()
@@ -166,8 +164,12 @@ class MapInterpreter(MapSVisitor):
                 print(type(intpoints))
                 return intlist
             elif "Square" in funcName:
-                print(f"[NOT IMPLEMENTED] visitShape -> Square")
-                return None
+                funcArg2 = self.visit(expressions[1])
+                square = InterpreterSquare(funcArg,funcArg2)
+                per = Perimeter.from_intsquare(square)
+                intpoints = per.to_intpoints()
+                intlist = InterpreterList(InterpreterPoint,intpoints)
+                return intlist
             elif "RandomLand" in funcName:
                 print(f"[NOT IMPLEMENTED] visitShape -> RandomLand")
                 return None            
