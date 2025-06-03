@@ -12,6 +12,9 @@ class Perimeter:
         if(origin=="points"):
             self.x, self.y = self.interpolate_from_points(points)
             self.points = points
+        elif(origin=="square"):
+            self.x, self.y = self.interpolate_from_points(points,degree=1)
+            self.points =points
         else:
             self.points = points
             self.x = points[:,0]
@@ -30,7 +33,30 @@ class Perimeter:
         y = function(theta) * np.sin(theta)
         coordinates = np.column_stack((x, y))
         return cls(coordinates,"function")
-
+    
+    @classmethod
+    def from_intsquare(cls, square: InterpreterSquare):
+        p1 = cls.rotate([-square.size//2,-square.size//2],square.rotation)
+        p2 = cls.rotate([-square.size//2,square.size//2],square.rotation)
+        p3 = cls.rotate([square.size//2,square.size//2],square.rotation)
+        p4 = cls.rotate([square.size//2,-square.size//2],square.rotation)
+        points = np.array([p1,p2,p3,p4,p1])
+        return cls(points,"square")
+    
+    @classmethod
+    def from_intcircle(cls, circle: InterpreterCircle):
+        theta = np.linspace(0, 2 * np.pi, 100)
+        x = circle.size * np.cos(theta)
+        y = circle.size * np.sin(theta)
+        coordinates = np.column_stack((x, y))
+        return cls(coordinates,"circle")
+        
+    def rotate(point,rotation):
+        x = point[0]*np.cos(rotation/np.pi*180)-point[1]*np.sin(rotation/np.pi*180)
+        y = point[0]*np.sin(rotation/np.pi*180)+point[1]*np.cos(rotation/np.pi*180)
+        return [x,y]    
+        
+        
     def interpolate_from_points(self,points: np.ndarray, degree: int = 2, number_of_points: int = 200) -> tuple[np.ndarray,np.ndarray]:
         x,y = points.T
         t = np.arange(len(x))
@@ -62,7 +88,9 @@ class Perimeter:
 
 # per = Perimeter.from_intpoint(intpoints)
 # print(per)
-
+square = InterpreterSquare(100,30)
+per = Perimeter.from_intsquare(square)
+print(per)
 # def rad(theta):
 #     return 2*50 + 50*np.sin(5 * theta)
 # per = Perimeter.from_radial_function(rad)

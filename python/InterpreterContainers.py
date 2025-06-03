@@ -54,7 +54,16 @@ class InterpreterLake:
     def __init__(self, displacement: InterpreterPoint=None,  perimeter: list[InterpreterPoint]=None,perimeterFunc=None):
         self.displacement = displacement
         self.perimeter = perimeter
-        self.perimeterFunc = perimeterFunc 
+        self.perimeterFunc = perimeterFunc
+    
+class InterpreterSquare:
+    def __init__(self, size: int, rotation: int):
+        self.size = size
+        self.rotation = rotation
+
+class InterpreterCircle:
+    def __init__(self,size: int):
+        self.size = size
 
 class InterpreterWorld:
     def __init__(self, lands : list[InterpreterLand] = [], size: InterpreterPoint = InterpreterPoint(500,500),lakes : list[InterpreterLake] = [] ,rivers : list[InterpreterRiver] = []):
@@ -81,3 +90,4 @@ class InterpreterFunction:
         self.return_type = return_type
         self.body = body_ctx
         self.ctx = ctx
+        
