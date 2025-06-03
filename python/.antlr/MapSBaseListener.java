@@ -340,6 +340,18 @@ public class MapSBaseListener implements MapSListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterCastExpr(MapSParser.CastExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCastExpr(MapSParser.CastExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterSqrtExpr(MapSParser.SqrtExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -443,6 +455,18 @@ public class MapSBaseListener implements MapSListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitTrygExpr(MapSParser.TrygExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterScopeAccessExpr(MapSParser.ScopeAccessExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitScopeAccessExpr(MapSParser.ScopeAccessExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

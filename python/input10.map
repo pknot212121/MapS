@@ -1,0 +1,7 @@
+int q is 5;
+repeat with i 5 {
+    int k is i+1*20; 
+    List<Point> perimeter0 is [(0,0), (0,k), (k,k), (k,0), (0,0)];
+    List<Height> height0 is [ ((5,5), 10, 0)];
+    Land land1 is (0,0) with perimeter is perimeter0, height is height0;
+}

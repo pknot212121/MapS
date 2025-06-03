@@ -1,2 +1,13 @@
-List<Height> height1 is [ ((5,5), 100, 10)];
-Land land1 is (0,0) with perimeter is Circle( 100 ), height is height1;
+int a is 20;
+double b is 20;
+int isleCount is 16;
+repeat with i isleCount {
+    double k is i*2+10; 
+    List<Point> perimeter0 is [(0,0), (0,k), (k,k), (k,0), (0,0)];
+    List<Height> height0 is [ ((k/2,k/2), 10, 0)];
+    double theta is i * 0.7;
+    double r is a + b * theta;
+    double x_coord is r * cos(theta);
+    double y_coord is r * sin(theta);
+    Land land0 is (0+x_coord,0+y_coord) with perimeter is perimeter0, height is height0;
+}
