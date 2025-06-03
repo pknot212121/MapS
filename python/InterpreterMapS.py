@@ -171,8 +171,14 @@ class MapInterpreter(MapSVisitor):
                 intlist = InterpreterList(InterpreterPoint,intpoints)
                 return intlist
             elif "RandomLand" in funcName:
-                print(f"[NOT IMPLEMENTED] visitShape -> RandomLand")
-                return None            
+                funcArg2 = self.visit(expressions[1])
+                per = Perimeter.from_random_land(funcArg,funcArg2)
+                intpoints = per.to_intpoints()
+                print(intpoints)
+                for x in intpoints:
+                    print(f'[{x.x},{x.y}]')
+                intlist = InterpreterList(InterpreterPoint,intpoints)         
+                return intlist
             else:
                 return None
         else:      

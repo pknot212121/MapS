@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from scipy.interpolate import make_interp_spline
 from InterpreterContainers import *
 from typing import Callable, List, Union, Any
+import random
 
 def point_to_list(point: InterpreterPoint) -> list[int]:
     return [point.x,point.y]
@@ -54,7 +55,25 @@ class Perimeter:
     def rotate(point,rotation):
         x = point[0]*np.cos(rotation/np.pi*180)-point[1]*np.sin(rotation/np.pi*180)
         y = point[0]*np.sin(rotation/np.pi*180)+point[1]*np.cos(rotation/np.pi*180)
-        return [x,y]    
+        return [x,y]
+    
+    @classmethod
+    def from_random_land(cls,size,change):
+        theta = np.linspace(0, 2 * np.pi, 10)
+        x = size * np.cos(theta)
+        y = size * np.sin(theta)
+        coordinates = np.column_stack((x, y))
+        first_and_last = 1
+        for i,x in enumerate(coordinates):
+            if(i==0):
+                first_and_last = random.uniform(1-change, 1+change)
+                coordinates[i]=np.array([x[0]*first_and_last,x[1]*first_and_last])
+            elif(i==9):
+                coordinates[i]=np.array([x[0]*first_and_last,x[1]*first_and_last])
+            else:
+                rand = random.uniform(1-change, 1+change)
+                coordinates[i]=np.array([x[0]*rand,x[1]*rand])
+        return cls(coordinates,"randomland")
         
         
     def interpolate_from_points(self,points: np.ndarray, degree: int = 2, number_of_points: int = 200) -> tuple[np.ndarray,np.ndarray]:
@@ -75,21 +94,6 @@ class Perimeter:
         for x in points:
             intpoints.append(InterpreterPoint(x[0],x[1]))
         return intpoints
-    
-    # def from_square(self, size,rotation) -> np.ndarray:
-    #     p1 = self.rotate([-size//2,-size//2],rotation)
-    #     p2 = self.rotate([-size//2,size//2],rotation)
-    #     p3 = self.rotate([size//2,size//2],rotation)
-    #     p4 = self.rotate([size//2,-size//2],rotation)
-    #     points = np.array([p1,p2,p3,p4,p1])
-    #     return points
-
-    # def from_circle(cls, size) -> np.ndarray:
-    #     theta = np.linspace(0, 2 * np.pi, 100)
-    #     x = size * np.cos(theta)
-    #     y = size * np.sin(theta)
-    #     coordinates = np.column_stack((x, y))
-    #     return cls(coordinates,"circle")
         
     def __str__(self):
         plt.figure(figsize=(8,8))

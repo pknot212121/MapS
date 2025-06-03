@@ -1,2 +1,2 @@
 List<Height> height0 is [ ((5,5), 10, 0)];
-Land l1 is (0,0) with perimeter is Square(100,30), height is height0 ;
+Land l1 is (0,0) with perimeter is RandomLand( 100 , 0.5 ), height is height0;
