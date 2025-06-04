@@ -792,8 +792,7 @@ class MapInterpreter(MapSVisitor):
         elif func_name == 'tg':
             return math.tan(arg)
         elif func_name == 'ctg':
-            return 1 / math.tan(arg) if arg != 0 else float('inf') # nie wydaje się najlepszym rozwiązaniem, ale na razie może być
-
+            return 1 / math.tan(arg) if arg != 0 else float('inf')
     def visitPointAccessExpr(self, ctx:MapSParser.PointAccessExprContext):
         #print("visitPointAccessExpr")
         return self.visitChildren(ctx)

@@ -158,7 +158,7 @@ perimeterDeclaration
 
 shape
     : 'Circle(' expression ')'
-    | 'Square(' expression ')'
+    | 'Square(' expression ',' expression ')'
     | 'RandomLand(' expression ',' expression ')'
     | listExpression
     ;
@@ -435,27 +435,43 @@ class MapInterpreter(MapSVisitor):
     
 
     def visitShape(self, ctx:MapSParser.ShapeContext):
+        #print("visitShape")
         listExpression = ctx.listExpression()
-        if listExpression is None:            
-            funcArg = self.visit(ctx.expression())
+        if listExpression is None:
+            expressions = ctx.expression()            
+            funcArg = self.visit(expressions[0])
+            if type(funcArg) is not int:
+                self.errorListener.interpreterError("Perimeter function argument has to be int", ctx)
             funcName = ctx.getChild(0).getText()
             if "Circle" in funcName:
-                print(f"[NOT IMPLEMENTED] visitShape -> Circle")
-                return None
+                circle = InterpreterCircle(funcArg)
+                per = Perimeter.from_intcircle(circle)
+                intpoints = per.to_intpoints()
+                intlist = InterpreterList(InterpreterPoint,intpoints)
+                print(type(intpoints))
+                return intlist
             elif "Square" in funcName:
-                print(f"[NOT IMPLEMENTED] visitShape -> Square")
-                return None
+                funcArg2 = self.visit(expressions[1])
+                if type(funcArg2) is not int:
+                    self.errorListener.interpreterError("Perimeter function argument has to be int", ctx)
+                square = InterpreterSquare(funcArg,funcArg2)
+                per = Perimeter.from_intsquare(square)
+                intpoints = per.to_intpoints()
+                intlist = InterpreterList(InterpreterPoint,intpoints)
+                return intlist
             elif "RandomLand" in funcName:
-                print(f"[NOT IMPLEMENTED] visitShape -> RandomLand")
-                return None            
+                funcArg2 = self.visit(expressions[1])
+                if type(funcArg2) not in (int, float):
+                    self.errorListener.interpreterError("Second RandomLand argument has to be int or double", ctx)
+                per = Perimeter.from_random_land(funcArg,funcArg2)
+                intpoints = per.to_intpoints()
+                print(intpoints)
+                for x in intpoints:
+                    print(f'[{x.x},{x.y}]')
+                intlist = InterpreterList(InterpreterPoint,intpoints)         
+                return intlist
             else:
-                return None
-        else:      
-            listPerimeter = self.visit(listExpression)
-            if type(listPerimeter) is not InterpreterList or listPerimeter.innerType is not InterpreterPoint:
-                self.errorListener.interpreterError(f"Land perimeter has to be a list of Point", ctx)
-                return
-            return listPerimeter      
+                return None      
         
     def visitHeightExpression(self, ctx:MapSParser.HeightExpressionContext):
         result = None
@@ -1096,14 +1112,22 @@ class MapInterpreter(MapSVisitor):
 
 
     def visitPrintStatement(self, ctx:MapSParser.PrintStatementContext):
-        if len(self.errorListener.interpreter_errors) > 0:
-            return
-        
         value = self.visit(ctx.expression())
-        if isinstance(value, bool):
-            print("true" if value else "false")
+        if type(value) is InterpreterList:
+            for element in value.elements:
+                printValue(element)
         else:
-            print(value)
+            printValue(value)
+    
+def printValue(value):
+    if isinstance(value, bool):
+        print("true" if value else "false")
+    elif type(value) in (str, int, float):
+        print(value)
+    elif type(value) is InterpreterPoint:
+        print(f"({value.x}, {value.y})")
+    elif type(value) is InterpreterHeight:
+        print(f"(({value.place.x}, {value.place.y}), {value.z}, {value.steep})")
     
     
 
@@ -1271,7 +1295,7 @@ class InterpreterHeight:
         self.steep = steep        
 
 class InterpreterLand:
-    def __init__(self, displacement: InterpreterPoint=None,  perimeter: list[InterpreterPoint]=None, height: list[InterpreterHeight]=None, perimeterFunc=None, heightFunc=None):
+    def __init__(self, displacement: InterpreterPoint=None,  perimeter: list[InterpreterPoint]=None, height: list[InterpreterHeight]=None, perimeterFunc=None, heightFunc=None, perimeterShape=None):
         self.displacement = displacement
         self.perimeter = perimeter
         self.height = height
@@ -1279,7 +1303,7 @@ class InterpreterLand:
         self.heightFunc = heightFunc
 
 class InterpreterLake:
-    def __init__(self, displacement: InterpreterPoint=None,  perimeter: list[InterpreterPoint]=None,perimeterFunc=None):
+    def __init__(self, displacement: InterpreterPoint=None,  perimeter: list[InterpreterPoint]=None,perimeterFunc=None,perimeterShape=None):
         self.displacement = displacement
         self.perimeter = perimeter
         self.perimeterFunc = perimeterFunc
@@ -1459,50 +1483,6 @@ class World:
         img_rgb = Image.fromarray(arr, mode='RGB')
         img_rgb.save("obraz_rgb.png")
         img_rgb.show()
-'''
-points3D = np.array([
-[200, 400, 400],
-[200, 300, 1000],
-[200, 200, -600]
-])
-points2D = np.array([
-    [0, 0],
-    [100,500],
-    [100, 1000],
-    [300, 100],
-    [200, -100],
-    [0, 0]
-])
-intpoints2D = [InterpreterPoint(point[0],point[1]) for point in points2D]
-heights = [InterpreterHeight(InterpreterPoint(point[0],point[1]),point[2],0) for point in points3D]
-points = np.array([
-    [0, 0],
-    [10,50],
-    [10, 100],
-    [30, 10],
-    [20, -10],
-    [0, 0]
-])
-intpoints = [InterpreterPoint(point[0],point[1]) for point in points]
-
-per = Perimeter.from_intpoint(intpoints)
-intlake = InterpreterLake(InterpreterPoint(0,0),intpoints)
-lake = Lake.from_intlake(intlake)
-intland1 = InterpreterLand(InterpreterPoint(0,0),intpoints2D,heights)
-intworld = InterpreterWorld([intland1],InterpreterPoint(2000,2000),[intlake])
-draw_image_from_InterpreterWorld(intworld)
-'''
-def rad(theta):
-    return 2*50 + 50*np.sin(5 * theta)
-per = Perimeter.from_radial_function(rad)
-
-def two_arg(x,y):
-    return 10*math.sin(x/10)+50*math.cos(y/30)+math.sin(x)
-
-l = Land.from_two_argument_function(two_arg,per,[0,0])
-
-river = River([0,0])
-w = World([l],[2000,2000],None,[river])
 ```
 
 ## Land.py
@@ -1672,6 +1652,7 @@ import matplotlib.pyplot as plt
 from scipy.interpolate import make_interp_spline
 from InterpreterContainers import *
 from typing import Callable, List, Union, Any
+import random
 
 def point_to_list(point: InterpreterPoint) -> list[int]:
     return [point.x,point.y]
@@ -1723,7 +1704,25 @@ class Perimeter:
     def rotate(point,rotation):
         x = point[0]*np.cos(rotation/np.pi*180)-point[1]*np.sin(rotation/np.pi*180)
         y = point[0]*np.sin(rotation/np.pi*180)+point[1]*np.cos(rotation/np.pi*180)
-        return [x,y]    
+        return [x,y]
+    
+    @classmethod
+    def from_random_land(cls,size,change):
+        theta = np.linspace(0, 2 * np.pi, 10)
+        x = size * np.cos(theta)
+        y = size * np.sin(theta)
+        coordinates = np.column_stack((x, y))
+        first_and_last = 1
+        for i,x in enumerate(coordinates):
+            if(i==0):
+                first_and_last = random.uniform(1-change, 1+change)
+                coordinates[i]=np.array([x[0]*first_and_last,x[1]*first_and_last])
+            elif(i==9):
+                coordinates[i]=np.array([x[0]*first_and_last,x[1]*first_and_last])
+            else:
+                rand = random.uniform(1-change, 1+change)
+                coordinates[i]=np.array([x[0]*rand,x[1]*rand])
+        return cls(coordinates,"randomland")
         
         
     def interpolate_from_points(self,points: np.ndarray, degree: int = 2, number_of_points: int = 200) -> tuple[np.ndarray,np.ndarray]:
@@ -1735,6 +1734,15 @@ class Perimeter:
         x_fine = spline_x(t_fine)
         y_fine = spline_y(t_fine)
         return x_fine,y_fine
+    
+    def to_intpoints(self) -> List[InterpreterPoint]:
+        print(self.x.shape)
+        print(self.y.shape)
+        intpoints = []
+        points = np.column_stack((self.x, self.y))
+        for x in points:
+            intpoints.append(InterpreterPoint(x[0],x[1]))
+        return intpoints
         
     def __str__(self):
         plt.figure(figsize=(8,8))
@@ -1742,10 +1750,6 @@ class Perimeter:
         plt.grid(True)
         plt.show()
         return "Perimeter_shown"
-
-square = InterpreterSquare(100,30)
-per = Perimeter.from_intsquare(square)
-print(per)
 ```
 
 ## ErrorListenerMapS.py
