@@ -64,17 +64,20 @@ class World:
         land_size_y = land.height_map.shape[0]
         for (row,col),value in np.ndenumerate(land.height_map):
             if not np.isnan(value):
-                self.hmap[int(self.size[0]//2-row-y_move+land_size_y//2)][int(col+x_move+self.size[1]//2-land_size_x//2)]=value
-                if value>=0:
-                    for i,y in enumerate(h_pos):
-                        if y>=value:
-                            self.pixels[int(self.size[0]//2-row-y_move+land_size_y//2)][int(col+x_move+self.size[1]//2-land_size_x//2)]=c_pos[i]
-                            break
-                else:
-                    for i,y in enumerate(h_neg):
-                        if y<=value:
-                            self.pixels[int(self.size[0]//2-row-y_move+land_size_y//2)][int(col+x_move+self.size[1]//2-land_size_x//2)]=c_neg[i]
-                            break
+                y_index = int(self.size[0]//2-row-y_move+land_size_y//2)
+                x_index = int(col+x_move+self.size[1]//2-land_size_x//2)
+                if(y_index>0 and y_index<self.size[0] and x_index>0 and x_index<self.size[1]):
+                    self.hmap[y_index][x_index]=value
+                    if value>=0:
+                        for i,y in enumerate(h_pos):
+                            if y>=value:
+                                self.pixels[y_index][x_index]=c_pos[i]
+                                break
+                    else:
+                        for i,y in enumerate(h_neg):
+                            if y<=value:
+                                self.pixels[y_index][x_index]=c_neg[i]
+                                break
 
                         
     def give_color_to_lake(self,lake: Lake):
@@ -83,9 +86,12 @@ class World:
         land_size_x = lake.height_map.shape[1]
         land_size_y = lake.height_map.shape[0]
         for (row,col),value in np.ndenumerate(lake.height_map):
-            if value==0:
-                self.pixels[int(self.size[0]//2-row-y_move+land_size_y//2)][int(col+x_move+self.size[1]//2-land_size_x//2)] = [0,180,255]
-                self.hmap[int(self.size[0]//2-row-y_move+land_size_y//2)][int(col+x_move+self.size[1]//2-land_size_x//2)] = 0
+            y_index = int(self.size[0]//2-row-y_move+land_size_y//2)
+            x_index = int(col+x_move+self.size[1]//2-land_size_x//2)
+            if(y_index>0 and y_index<self.size[0] and x_index>0 and x_index<self.size[1]):
+                if value==0:
+                    self.pixels[int(self.size[0]//2-row-y_move+land_size_y//2)][int(col+x_move+self.size[1]//2-land_size_x//2)] = [0,180,255]
+                    self.hmap[int(self.size[0]//2-row-y_move+land_size_y//2)][int(col+x_move+self.size[1]//2-land_size_x//2)] = 0
 
     def give_color_to_river(self,river: River):
         # self.pixels[river.source[0],river.source[1]]=[0,180,255]
