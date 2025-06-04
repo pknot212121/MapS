@@ -28,7 +28,7 @@ class Lake:
         boundary_path = Path(boundary_points)
         mask = boundary_path.contains_points(indices_flat).reshape(lake_canvas.shape)
         lake_canvas[mask] = 0
-        print(lake_canvas)
+        #print(lake_canvas)
         return lake_canvas
     
     def __str__(self):

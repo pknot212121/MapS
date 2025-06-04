@@ -133,7 +133,6 @@ class MapInterpreter(MapSVisitor):
             h = self.visit(ctx.heightDeclaration())   
             if (type(p)==InterpreterList and p.innerType==InterpreterPoint):
                 perimeter = p.get()
-                print("aaa")
             else:
                 perimeterFunc = p
             if(type(h)==InterpreterList and h.innerType==InterpreterHeight):

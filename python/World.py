@@ -57,7 +57,7 @@ class World:
         h_neg = self.height_phases_negative(2)
         c_pos = self.color_phases_positive(n)
         c_neg = self.color_phases_negative(2)
-        print(len(c_neg))
+        #print(len(c_neg))
         x_move = land.start[0]
         y_move = land.start[1]
         land_size_x = land.height_map.shape[1]

@@ -87,8 +87,8 @@ class Perimeter:
         return x_fine,y_fine
     
     def to_intpoints(self) -> List[InterpreterPoint]:
-        print(self.x.shape)
-        print(self.y.shape)
+        #print(self.x.shape)
+        #print(self.y.shape)
         intpoints = []
         points = np.column_stack((self.x, self.y))
         for x in points:

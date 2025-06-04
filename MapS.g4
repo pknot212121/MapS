@@ -1,20 +1,31 @@
 grammar MapS;
 
 // Parser rules
-program: statement* EOF;
+program: progStatement* EOF;
+
+progStatement
+    : functionDeclaration
+    | statement
+    ;
 
 statement
     : variableDeclaration
-    | functionDeclaration
     | ifStatement
+    | blockStatement
     | loopStatement
     | assignment
     | expression ';'
     | returnStatement
+    | printStatement
+    ;
+
+printStatement
+    : 'print(' expression ')' ';'
     ;
 
 returnStatement
     : 'return' expression ';'
+    | 'return' ';'
     ;
 
 // Deklaracja zmiennych
@@ -37,19 +48,18 @@ listVariableDeclaration
     ;
 
 pointVariableDeclaration
-    : 'Point' IDENTIFIER 'is' '(' expression ',' expression ')' ';'
+    : 'Point' IDENTIFIER 'is' pointExpression ';'
     ;
 
-// Deklaracja zmiennej typu Height (punkt + wysokość)
+// Deklaracja zmiennej typu Height (punkt + wysokość + stromość)
 heightVariableDeclaration
-    : 'Height' IDENTIFIER 'is' '(' pointExpression ',' expression ',' expression ')' ';'
+    : 'Height' IDENTIFIER 'is' heightExpression ';'
     ;
 
 landVariableDeclaration
     : 'Land' IDENTIFIER ('is' pointExpression)? 'with' perimeterDeclaration ',' heightDeclaration ';'
     | 'Land' IDENTIFIER 'is' expression ';'
     ;
-
 
 // Deklaracja obwodu dla Land
 perimeterDeclaration
@@ -59,7 +69,7 @@ perimeterDeclaration
 // Definicja kształtu (Circle, Square, RandomLand, List<Point>)
 shape
     : 'Circle(' expression ')'
-    | 'Square(' expression ')'
+    | 'Square(' expression ',' expression ')'
     | 'RandomLand(' expression ',' expression ')'
     | listExpression
     ;
@@ -75,12 +85,12 @@ lakeVariableDeclaration
     ;
 
 riverVariableDeclaration
-    : 'River' IDENTIFIER 'is' listExpression ';'
+    : 'River' IDENTIFIER 'is' pointExpression ';'
     ;
 
 // Deklaracja funkcji
 functionDeclaration
-    : 'function' IDENTIFIER '(' parameters? ')' ':' type '{' statement* '}' //czy sie tu jakoś dodaje return????
+    : 'function' IDENTIFIER '(' parameters? ')' ':' type '{' statement* '}'
     | 'function' IDENTIFIER '(' parameters? ')' '{' statement* '}'
     ;
 
@@ -90,7 +100,11 @@ parameters
     ;
 
 ifStatement
-    : 'if' '(' expression ')' 'do' '{' statement* '}' ( 'eif' '(' expression ')' 'do' '{' statement* '}' )* ( 'else do' '{' statement* '}' )?
+    : 'if' '(' expression ')' 'do' '{' statement* '}' ( 'eif' '(' expression ')' 'do' blockStatement )* ( 'else do' blockStatement )?
+    ;
+
+blockStatement
+    : '{' statement* '}'
     ;
 
 loopStatement
@@ -102,18 +116,24 @@ loopStatement
 // Wyrażenie to może być liczba, identyfikator, wywołanie funkcji, operacja arytmetyczna, dostęp do punktów lub list
 expression    
     : '(' expression ')'                  # parenExpr    
-    |'-' expression                     #unaryMinusExpr
-    | expression '^' expression   # powExpr
-    | expression '?' expression   # sqrtExpr
+    | '(' type ')' expression            # castExpr
+    |'-' expression                     #unaryMinusExpr 
+    | expression '^' ('^'|expression)   # powExpr
+    | expression '?' ('?'|expression)   # sqrtExpr
     | expression ('*' | '/') expression   # mulDivExpr
     | expression ('+' | '-') expression   # addSubExpr
-    | expression ('>' | '<' | '>=' | '<=' | '=' | '!=') expression # compareExpr        
-    | functionCall                         # funcCallExpr        // Wywołanie funkcji
-    | IDENTIFIER                           # varExpr
+    | expression ('>' | '<' | '>=' | '<=' | '=' | '!=') expression # compareExpr    
+    | NOT expression  # notExpr 
+    | expression AND expression        # andExpr  
+    | expression OR expression         # orExpr   
+    | ('sin'|'cos'|'tg'|'ctg')'('expression')' #trygExpr
+    | functionCall                         # funcCallExpr        // Wywołanie funkcji  
+    | ('parent' '::')+ IDENTIFIER                         # scopeAccessExpr  
     | INT                                  # intExpr
     | DOUBLE                               # doubleExpr
-    | STRING                               # stringExpr
-    | BOOLEAN                              # boolExpr
+    | STRING                               # stringExpr    
+    | BOOLEAN                              # boolExpr    
+    | IDENTIFIER                           # varExpr
     | pointAccess                          # pointAccessExpr     // Dostęp do współrzędnych punktu
     | listAccess                           # listAccessExpr      // Dostęp do elementu listy     
     ;
@@ -134,21 +154,22 @@ listAccess
 // Wyrażenie typu Point
 pointExpression
     : '(' expression ',' expression ')'
-    | IDENTIFIER                            // Możliwość użycia zdefiniowanego punktu           
+    | IDENTIFIER                                     
     ;
 
 heightExpression
-    : '(' pointExpression ',' expression ',' expression ')'      
+    : '(' pointExpression ',' expression ',' expression ')'  
+    |  IDENTIFIER 
     ;
 
 // Wyrażenie typu List
 listExpression
     : '[' (listElementExpression (',' listElementExpression)*)? ']'
-    | IDENTIFIER                            // Możliwość użycia zdefiniowanej listy
+    | IDENTIFIER                           
     ;
 
 listElementExpression
-    : pointExpression| heightExpression |  expression 
+    : expression | pointExpression | heightExpression  
     ;
     
 // Typy danych
@@ -180,10 +201,14 @@ listAssignment
 
 
 // Lexer rules
-IDENTIFIER: [a-zA-Z_][a-zA-Z_0-9]*;
-DOUBLE: '-'?[0-9]+('.'[0-9]+)?;
-INT: '-'?[0-9]+;
+AND : 'and';
+OR  : 'or';
+NOT : 'not';
+INT: [0-9]+;
+DOUBLE: [0-9]+('.'[0-9]+)?;
 STRING: '"' ~('"')* '"';
 BOOLEAN: 'true' | 'false';
+IDENTIFIER: [a-zA-Z_][a-zA-Z_0-9]*;
 WHITESPACE: [ \t\r\n]+ -> skip;
 LINE_COMMENT : '//' ~[\r\n]* -> skip ;
+COMMENT: '/*' .*? '*/' -> skip ;
