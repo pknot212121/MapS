@@ -1,0 +1,4 @@
+List<Point> perimeterRight is [ (-1150,270), (210,-1000), (210,360), (150,360), (150,270) ] ;
+List<Height> heightH is [ ((0,0), 40, 1)];
+
+Lake land1 is (0,0) with perimeter is perimeterRight;
