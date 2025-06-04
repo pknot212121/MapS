@@ -162,7 +162,6 @@ class MapInterpreter(MapSVisitor):
                 per = Perimeter.from_intcircle(circle)
                 intpoints = per.to_intpoints()
                 intlist = InterpreterList(InterpreterPoint,intpoints)
-                print(type(intpoints))
                 return intlist
             elif "Square" in funcName:
                 funcArg2 = self.visit(expressions[1])
@@ -179,9 +178,6 @@ class MapInterpreter(MapSVisitor):
                     self.errorListener.interpreterError("Second RandomLand argument has to be int or double", ctx)
                 per = Perimeter.from_random_land(funcArg,funcArg2)
                 intpoints = per.to_intpoints()
-                print(intpoints)
-                for x in intpoints:
-                    print(f'[{x.x},{x.y}]')
                 intlist = InterpreterList(InterpreterPoint,intpoints)         
                 return intlist
             else:
@@ -472,6 +468,12 @@ class MapInterpreter(MapSVisitor):
         
         if return_type is not type(result):
             if not(return_type is float and type(result) is int):
+                if type(return_type) is tuple:
+                    if  type(result) is InterpreterList and result.innerType is return_type[1]:
+                        return result
+                    else:
+                        self.errorListener.interpreterError(
+                            f"returning {type(result).__name__} from a function with return type List<{return_type[1].__name__}>", ctx)
                 self.errorListener.interpreterError(
                     f"returning {type(result).__name__} from a function with return type {return_type.__name__}", ctx)
                 return None
