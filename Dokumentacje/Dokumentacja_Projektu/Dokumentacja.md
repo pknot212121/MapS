@@ -19,12 +19,13 @@
   * [Główne cechy](#główne-cechy)
   * [Typy danych](#typy-danych)
   * [Operacje arytmetyczne](#operacje-arytmetyczne)
+  * [Inne wyrażenia](#inne-wyrażenia)
   * [Sposoby korzystania z języka](#sposóby-korzystania-z-języka)
     * [Deklaracja zmiennych](#deklaracja-zmiennych)
+    * [Instrukcje Przypisania](#instrukcje-przypisania)
     * [Instrukcje warunkowe](#instrukcje-warunkowe)
     * [Pętle](#pętle)
     * [Funkcje](#funkcje)
-* [Przykłady użycia](#przykłady-użycia)
     * [Pojedyncza wyspa](#pojedyncza-wyspa)
     * [Wiele wysp](#wiele-wysp)
   
@@ -112,6 +113,12 @@ Złożone:
 * ^^ - potęgowanie kwadratowe (np. x^^)
 * ?? - pierwiastek kwadratowy (np. a??)
 
+## Inne wyrażenia
+* not | and | or - operacje logiczne
+* sin() | cos() | tg() | ctg() - funkcje trygonometryczne (np. sin(x))
+* (type) expression - rzutowanie typów (np. (int) x)
+* parent::...::IDENTIFIER - dostęp do zmiennej w scopie nadrzędnym (np. parent::x)
+
 ## Sposoby korzystania z języka
 
 ### Deklaracja zmiennych
@@ -121,6 +128,24 @@ int x is 10;
 Point p is (3, 5);
 List<int> numbers is [1, 2, 3];
 Land terrain is (3, 5) with perimeter is Circle(10), height is (x, 10, 10);
+```
+
+### Instrukcje Przypisania
+Zmienna
+```MapS
+x is 42;
+```
+
+Pole punktu
+```MapS
+p.x is 10;
+p.y is 12;
+```
+
+Lista
+```MapS
+numbers.add(5);
+numbers[0] is 10;
 ```
 
 ### Instrukcje warunkowe
