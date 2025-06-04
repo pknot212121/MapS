@@ -48,6 +48,8 @@ class InterpreterMemory():
         if idType != type(value):
             if type(value) is int and idType is float:
                 value = float(value)
+            elif hasattr(value, "innerType") and idType[0]==type([]) and idType[1] == value.innerType:
+                pass
             else:
                 self.error_listener.interpreterError(f"Value of type {type(value).__name__}, cannot be assigned to variable {identifier} of type {idType.__name__}.", ctx)
                 return None
