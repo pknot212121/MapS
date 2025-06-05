@@ -1,0 +1,18 @@
+function makeIslands(int number, int size, int diff){
+    int i is 0;
+    print( i );
+    repeat with j from 0 to number {
+        repeat with k from 0 to number{
+            double push_y is j * diff - 250;
+            double push_x is k * diff - 250;
+            List<Height> h is [ ((0,0), 20, 0)];
+            River r is (push_x+5,push_y+5);
+            Land land1 is (push_x,push_y) with perimeter is RandomLand( size,0.4), height is h;
+        }
+        
+    }
+}
+
+
+
+makeIslands( 14,30,40 );

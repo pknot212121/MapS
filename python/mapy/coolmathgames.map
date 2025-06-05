@@ -1,0 +1,11 @@
+function gauss(double x, double y) : int{
+    double e is 2.71828;
+    double up is -1 * (x^^ + y^^);
+    //print( up );
+    double wynik is up * 20 * sin(x / 50) * cos(y / 100);
+    int wint is (int)wynik;
+    return wint;
+}
+
+Land l1 is ( 0,0 ) with perimeter is RandomLand(200,0.3), height is gauss();
+
