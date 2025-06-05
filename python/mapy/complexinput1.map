@@ -1,0 +1,72 @@
+function isPrime(int n): bool {
+    
+    if (n <= 1) do { return false; }
+    repeat with i from 2 to n{
+        if ((n / i) * i = n) do { return false; }
+    }
+    return true;
+}
+
+function generatePrimes(int limit): List<int> {
+    List<int> result is [];
+    int count is 0;
+    int num is 2;
+    while (count < limit) do {
+        if (isPrime(num)) do {
+            result.add(num);
+            count is count + 1;
+        }
+        num is num + 1;
+    }
+    return result;
+}
+
+function fibonacci(int n): List<int> {
+    List<int> result is [0, 1];
+    repeat with i from 2 to n {
+        result.add( result[i - 1] + result[i - 2]);
+    }
+    return result;
+}
+
+function spiralPoint(int i, double stepAngle, double baseRadius, double growthFactor): Point {
+    double angle is i * stepAngle;
+    double radius is baseRadius + i * growthFactor;
+    double x is radius * cos(angle);
+    double y is radius * sin(angle);
+    Point p is (x, y);
+    return p;
+}
+
+function dynamicHeight(double x, double y): double {
+    return sin(0.5 * x) + cos(0.5 * y);
+}
+
+int N is 10;
+
+List<int> primes is [];
+primes is generatePrimes(N);
+List<int> fib is [];
+fib is fibonacci(N);
+
+print("Primes: " );
+repeat with i from 0 to N
+{
+    print(primes[i]);
+}
+print("Fibonacci: ");
+repeat with i from 0 to N
+{
+    print(fib[i]);
+}
+
+
+int islandCount is 40;
+double baseRadius is 20;
+double growthFactor is 10;
+double stepAngle is 0.6;
+Point center is (0,0);
+repeat with i from 0 to islandCount {
+    center is spiralPoint(i,  stepAngle,  baseRadius,  growthFactor);
+    Land island is center with perimeter is RandomLand(5+i, 0.5), height is dynamicHeight();
+}
