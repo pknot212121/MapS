@@ -96,13 +96,18 @@ class World:
     def give_color_to_river(self,river: River):
         # self.pixels[river.source[0],river.source[1]]=[0,180,255]
         river_new = river
-        while not np.isnan(self.hmap[self.size[0]//2+int(river_new.current_point[0]),self.size[1]//2+int(river_new.current_point[1])]) and river_new.current_point not in self.all_river_points:
+        while self.is_in_bounds(self.size[0]//2+int(river_new.current_point[0]),self.size[1]//2+int(river_new.current_point[1])) and not np.isnan(self.hmap[self.size[0]//2+int(river_new.current_point[0]),self.size[1]//2+int(river_new.current_point[1])]) and river_new.current_point not in self.all_river_points:
             river_new.river_points.append(river_new.current_point)
             self.pixels[self.size[0]//2+int(river_new.current_point[0]),self.size[1]//2+int(river_new.current_point[1])]=[0,180,255]
             self.all_river_points.append(river_new.current_point)
             river.river_points.append(river_new.current_point)
             # print(river_new.current_point)
             river_new.current_point = self.get_lowest_neighbor(river_new)
+    
+    def is_in_bounds(self,x,y) -> bool:
+        if x>0 and x<self.size[0] and y>0 and y<self.size[1]:
+            return True
+        return False
 
 
     def get_lowest_neighbor(self,river: River):
@@ -112,6 +117,7 @@ class World:
         descents = []
         neighbor_choices = []
         for neighbor in river.get_neighbors():
+            if(not self.is_in_bounds(self.size[0]//2+int(neighbor[0]),self.size[1]//2+int(neighbor[1]))): return neighbor
             value = self.hmap[self.size[0]//2+int(neighbor[0])][self.size[1]//2+int(neighbor[1])]
             # print(neighbor,value)
             if(np.isnan(value)): return neighbor
