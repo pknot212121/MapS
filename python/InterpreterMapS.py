@@ -444,7 +444,10 @@ class MapInterpreter(MapSVisitor):
         self.memory.pushScope()
         for param, arg in zip(params, args):
             arg_val = self.visit(arg)
-            self.memory.storeId(ctx, param[1], arg_val, param[0])
+            if type(param[0]) is tuple:
+                self.memory.storeId(ctx, param[1], arg_val, InterpreterList)
+            else:
+                self.memory.storeId(ctx, param[1], arg_val, param[0])
 
         result = None
         try:

@@ -97,7 +97,7 @@ double pow3 is 10 ^ 0;
 print("expected: 1.0");
 print(pow3);        // x^0 = 1
 
-double pow4 is 2 ^ -2;
+double pow4 is 2 ^ -2.0;
 print("expected: 0.25");
 print(pow4);        // 2^-2 = 0.25
 
