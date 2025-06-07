@@ -4,24 +4,29 @@ Land land is (0,0) with perimeter is per, height is he;
 List<Point> per2 is [(0, 0), (10, 50), (10, 60), (20, 60), (30, 10), (20, -10), (0,0)];
 Lake lake is (-120, 10) with perimeter is per2;
 
-int n is 5;
-repeat with i from 0 to n {
-        repeat with j from 0 to n { 
+
+int i is 0;
+while(i<10) do{
+    int j is 0;
+    while(j<i) do{
         print("itr");
         print(i);
         print(j);
+        j is j+2;
+        i is i+1;
     }
+    i is i+1;
 }
 
 int a is 5;
 {
    
     int a is 10;
-    print(parent::a);
+    //print(parent::a);
    
 }
 
 
 double x is 1.4;
 int x2 is (int) x;
-print(x2);
+//print(x2);

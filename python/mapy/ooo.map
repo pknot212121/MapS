@@ -1,0 +1,10 @@
+int x is 1;
+int y is 100;
+{
+    int x is 2;
+    {
+        int x is 3;
+        print(parent::parent::x);
+        print(parent::parent::y);
+    }
+}
