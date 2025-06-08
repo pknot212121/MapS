@@ -1,6 +1,4 @@
 function makeIslands(int number, int size, int diff){
-    int i is 0;
-    print( i );
     repeat with j from 0 to number {
         repeat with k from 0 to number{
             double push_y is j * diff - 250;

@@ -71,24 +71,36 @@ class World:
         return [[0,255-255*i/n//2,0] for i in range(n+1)]
     
     def paste_land_onto_map(self,land: Land):
-        x_move = land.start[0]
-        y_move = land.start[1]
-        land_size_x = land.height_map.shape[1]/2
-        land_size_y = land.height_map.shape[0]/2
-        print(y_move-land_size_y,y_move+land_size_y,x_move-land_size_x,x_move + land_size_x)
-        y_start = max(0,int(self.size[0]//2+y_move-int(land_size_y)))
-        y_end = min(self.size[0],int(self.size[0]//2+y_move+int(land_size_y)))
-        x_start = max(0,int(self.size[1]//2+x_move- int(land_size_x)))
-        x_end = min(self.size[1],int(self.size[0]//2+x_move + int(land_size_x)))
-        if(land_size_x != int(land_size_x) and x_end < self.size[1]):
-            x_end+=1
-        if(land_size_y != int(land_size_y) and y_end < self.size[0]):
-            y_end+=1
+        dest_h, dest_w = self.hmap.shape
+        src_h, src_w = land.height_map.shape
         
-        sy_end = y_end - y_start
-        sx_end = x_end - x_start
-            
-        self.hmap[y_start : y_end ,x_start : x_end ] = land.height_map[0 : sy_end,0 : sx_end]
+        top_left_x, top_left_y = land.start
+        top_left_x = int(top_left_x)
+        top_left_y = int(top_left_y)
+        # print("---------------")
+        # print(self.hmap.shape)
+        # print(land.height_map.shape)
+        # print(land.start)
+        # print("---------------")
+        top_left_x += dest_h//2
+        top_left_y += dest_w//2
+
+        dest_y_start = max(0, top_left_y)
+        dest_x_start = max(0, top_left_x)
+        dest_y_end = min(dest_h, top_left_y + src_h)
+        dest_x_end = min(dest_w, top_left_x + src_w)
+
+        src_y_start = max(0, -top_left_y)
+        src_x_start = max(0, -top_left_x)
+        src_y_end = src_y_start + (dest_y_end - dest_y_start)
+        src_x_end = src_x_start + (dest_x_end - dest_x_start)
+        # print(dest_y_start,dest_y_end,dest_x_start,dest_x_end)
+        # print(src_y_start,src_y_end,src_x_start,src_x_end)
+        
+        if (dest_y_end <= dest_y_start) or (dest_x_end <= dest_x_start):
+            return
+
+        self.hmap[int(dest_y_start):int(dest_y_end), int(dest_x_start):int(dest_x_end)] = land.height_map[int(src_y_start):int(src_y_end), int(src_x_start):int(src_x_end)]
         
     
     def give_color(self,land: Land,n: int):
