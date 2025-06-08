@@ -94,13 +94,14 @@ class World:
 
         valid_bl_coords = bottom_left_corners[bl_in_bounds]
         valid_br_coords = bottom_right_corners[br_in_bounds]
-
+        linia_wzgorz = (self.maks+self.mini)//3
+        linia_gor = 2*(self.maks+self.mini)//3
         if valid_bl_coords.size > 0:
-            is_left_on_land[bl_in_bounds] = ~np.isnan(land.height_map[valid_bl_coords[:, 1], valid_bl_coords[:, 0]])
+            is_left_on_land[bl_in_bounds] = (land.height_map[valid_bl_coords[:, 1], valid_bl_coords[:, 0]] > linia_gor)
         
         if valid_br_coords.size > 0:
-            is_right_on_land[br_in_bounds] = ~np.isnan(land.height_map[valid_br_coords[:, 1], valid_br_coords[:, 0]])
-
+            is_right_on_land[br_in_bounds] = (land.height_map[valid_br_coords[:, 1], valid_br_coords[:, 0]] > linia_gor)
+        
         is_inside = is_left_on_land & is_right_on_land
         squares_inside_polygon = squares[is_inside]
         
@@ -116,7 +117,7 @@ class World:
     def color_phases_negative(self,n: int) -> list[list[int]]:
         return [[0,255-255*i/n//2,0] for i in range(n+1)]
     
-    def paste_mountain_stamp_onto_map(self, land: Land, stamp_path="tallsmall.png", position=(0, 0), size=16):
+    def paste_mountain_stamp_onto_map(self, land: Land, stamp_path="tall3.png",mound_path="mound.png", position=(0, 0), size=16):
         try:
             stamp_img = Image.open(stamp_path).convert('RGBA')
         except FileNotFoundError:
@@ -359,7 +360,7 @@ class World:
 # # print(w.hmap)
 # #w.draw()
 # # #print(w.get_lowest_neighbor(river))
-source_image = Image.open('mountain_tall.png').convert('RGB')
-image_array = np.array(source_image)
+# source_image = Image.open('mountain_tall.png').convert('RGB')
+# image_array = np.array(source_image)
 # for x in image_array:
 #     print(x)

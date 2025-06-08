@@ -16,6 +16,7 @@ def heights_to_ndarray(heights: list[InterpreterHeight]) -> np.ndarray:
 class Land:
     def __init__(self,points3D: np.ndarray,perimeter: Perimeter,start: list[int],function = None):
         self.start = start
+        self.steep = 1
         if(function==None):
             self.height_map , self.boundary_points = self.interpolate_heightmap_from_points(points3D,perimeter)
         else:
@@ -57,7 +58,7 @@ class Land:
         xi = np.linspace(min(x),max(x),int(max(x)-min(x))+1)
         yi = np.linspace(min(y),max(y),int(max(y)-min(y))+1)
         xi,yi = np.meshgrid(xi,yi)
-        zi = griddata((x,y),z,(xi,yi),method='cubic')
+        zi = griddata((x,y),z,(xi,yi),method='linear')
         boundary_points = np.column_stack([perimeter.x, perimeter.y])
         boundary_path = Path(boundary_points)
         grid_points = np.column_stack([xi.flatten(), yi.flatten()]).reshape(-1, 2)
