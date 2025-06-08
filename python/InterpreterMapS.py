@@ -439,11 +439,14 @@ class MapInterpreter(MapSVisitor):
             self.errorListener.interpreterError(f"Function '{func_name}' expects {len(params)} arguments", ctx)
             self.in_function -= 1
             return
+        
+        arg_vals = []
+        for arg in args:
+            arg_vals.append( self.visit(arg))
 
         scopes = len(self.memory.scopes)
-        self.memory.pushScope()
-        for param, arg in zip(params, args):
-            arg_val = self.visit(arg)
+        self.memory.pushScope(is_function_scope=True)
+        for param, arg_val in zip(params, arg_vals):
             if type(param[0]) is tuple:
                 self.memory.storeId(ctx, param[1], arg_val, InterpreterList)
             else:

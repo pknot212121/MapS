@@ -90,4 +90,9 @@ class InterpreterFunction:
         self.return_type = return_type
         self.body = body_ctx
         self.ctx = ctx
+
+class ScopeFrame:
+    def __init__(self, variables: dict, function_scope: int):
+        self.variables = variables
+        self.function_scope = function_scope
         
