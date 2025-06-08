@@ -24,15 +24,19 @@ class InterpreterMemory():
 
     # Aby dostać zmienną podajemy ctx, identifier, opcjonlanie: typ zmiennej
     def accessId(self,ctx: ParserRuleContext, identifier, idType = None, levels_up: int = 0):
-        scopes_to_check = reversed(self.scopes) if levels_up == 0 else [self.scopes[-(levels_up + 1)]]
-        for scope in scopes_to_check:
+        count = 0
+        for scope in reversed(self.scopes):
             if identifier in scope:
                 idvalue = scope[identifier]
                 if type(idvalue) == InterpreterIdentifier and ( idType is None or idvalue.type_() == idType ):
-                    return idvalue.get()
-                self.error_listener.interpreterError(f"No variable named: {identifier}.", ctx)
-                return None
-        self.error_listener.interpreterError(f"No variable named: {identifier}.", ctx)
+                    if count == levels_up:
+                        return idvalue.get()
+                    count += 1
+
+        if levels_up == 0:
+            self.error_listener.interpreterError(f"No variable named: {identifier}.", ctx)
+        else:
+            self.error_listener.interpreterError(f"No variable named '{identifier}' found {levels_up} scope level(s) up.", ctx)
         return None
 
     
