@@ -4,7 +4,6 @@ from Land import *
 from Lake import *
 from River import *
 from Palette import *
-from Square import *
 import random
 
 def draw_image_from_InterpreterWorld(intworld: InterpreterWorld):
