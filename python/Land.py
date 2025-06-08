@@ -17,9 +17,9 @@ class Land:
     def __init__(self,points3D: np.ndarray,perimeter: Perimeter,start: list[int],function = None):
         self.start = start
         if(function==None):
-            self.height_map = self.interpolate_heightmap_from_points(points3D,perimeter)
+            self.height_map , self.boundary_points = self.interpolate_heightmap_from_points(points3D,perimeter)
         else:
-            self.height_map = self.get_heightmap_from_function(function,perimeter)
+            self.height_map , self.boundary_points = self.get_heightmap_from_function(function,perimeter)
     
     @classmethod
     def from_intland(cls,intland: InterpreterLand):
@@ -38,8 +38,6 @@ class Land:
         x = perimeter.x
         y = perimeter.y
         drawn = np.full((int(max(y)-min(y)),int(max(x)-min(x))),np.nan)
-        # for point in perimeter.points:
-        #     drawn[int(point[0]),int(point[1])]=function(point[0],point[1])
         for (row,col),value in np.ndenumerate(drawn):
             drawn[row,col]=function(row,col)
         row_indices, col_indices = np.indices(drawn.shape)
@@ -50,7 +48,7 @@ class Land:
         boundary_path = Path(boundary_points)
         mask = boundary_path.contains_points(indices_flat).reshape(drawn.shape)
         drawn[~mask] = np.nan
-        return drawn
+        return drawn , boundary_points
 
     def interpolate_heightmap_from_points(self,points3D: np.ndarray,perimeter: Perimeter) -> np.ndarray:
         x = np.concatenate([points3D[:,0],perimeter.x])
@@ -65,7 +63,7 @@ class Land:
         grid_points = np.column_stack([xi.flatten(), yi.flatten()]).reshape(-1, 2)
         mask = boundary_path.contains_points(grid_points).reshape(xi.shape)
         zi[~mask] = np.nan
-        return zi
+        return zi , boundary_points
 
     def __str__(self):
         plt.figure(figsize=(10,6))

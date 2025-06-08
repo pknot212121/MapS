@@ -4,6 +4,7 @@ from Land import *
 from Lake import *
 from River import *
 from Palette import *
+from Square import *
 import random
 
 def draw_image_from_InterpreterWorld(intworld: InterpreterWorld):
@@ -60,6 +61,22 @@ class World:
             if m<mini: mini=m
         return [i/n*mini for i in range(n+1)]
     
+    def create_grid_in_bbox(self,bbox,size):
+        min_x, min_y, max_x, max_y = bbox
+        x_coords = np.arange(min_x, max_x, size)
+        y_coords = np.arange(min_y, max_y, size)
+        xv, yv = np.meshgrid(x_coords, y_coords)
+        grid_points = np.stack([xv.ravel(), yv.ravel()], axis=-1)
+        return grid_points
+
+    def fill_land_with_squares(self,land: Land):
+        bbox = (0,0,land.height_map.shape[0],land.height_map.shape[1])
+        squares = self.create_grid_in_bbox(bbox,32)
+        polygon_path = Path(land.boundary_points)
+        is_inside = polygon_path.contains_points(squares)
+        squares_inside_polygon = squares[is_inside]
+        print(squares_inside_polygon)
+    
     def color_phases_positive(self,n: int) -> list[list[int]]:
         a = n//2
         b = n-a
@@ -99,8 +116,9 @@ class World:
         
         if (dest_y_end <= dest_y_start) or (dest_x_end <= dest_x_start):
             return
-
-        self.hmap[int(dest_y_start):int(dest_y_end), int(dest_x_start):int(dest_x_end)] = land.height_map[int(src_y_start):int(src_y_end), int(src_x_start):int(src_x_end)]
+        cut_land = land.height_map[int(src_y_start):int(src_y_end), int(src_x_start):int(src_x_end)]
+        mask = ~np.isnan(cut_land)
+        self.hmap[int(dest_y_start):int(dest_y_end), int(dest_x_start):int(dest_x_end)][mask] = cut_land[mask]
         
     
     def give_color(self,land: Land,n: int):
@@ -273,7 +291,8 @@ class World:
 # # river.simulate_river()
 # # river.get_lowest_neighbor()
 # w = World([l],[2000,2000],None,[river])
+
 # w.draw()
 # # print(w.hmap)
 # #w.draw()
-# #print(w.get_lowest_neighbor(river))
+# # #print(w.get_lowest_neighbor(river))
