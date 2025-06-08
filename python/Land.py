@@ -63,7 +63,7 @@ class Land:
         grid_points = np.column_stack([xi.flatten(), yi.flatten()]).reshape(-1, 2)
         mask = boundary_path.contains_points(grid_points).reshape(xi.shape)
         zi[~mask] = np.nan
-        return zi , boundary_points
+        return zi , grid_points
 
     def __str__(self):
         plt.figure(figsize=(10,6))

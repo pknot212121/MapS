@@ -25,6 +25,7 @@ class World:
         self.palette = generate_palette(GREEN, GRAY)
         self.maks = self.get_max()
         self.mini = self.get_min()
+        self.STAMP_VALUE = -np.inf 
     
     @classmethod
     def from_intworld(cls,intworld: InterpreterWorld):
@@ -69,13 +70,42 @@ class World:
         grid_points = np.stack([xv.ravel(), yv.ravel()], axis=-1)
         return grid_points
 
-    def fill_land_with_squares(self,land: Land):
-        bbox = (0,0,land.height_map.shape[0],land.height_map.shape[1])
-        squares = self.create_grid_in_bbox(bbox,32)
-        polygon_path = Path(land.boundary_points)
-        is_inside = polygon_path.contains_points(squares)
+    def fill_land_with_squares(self,land: Land, square_size=16):
+        map_height, map_width = land.height_map.shape
+        bbox = (0, 0, map_width, map_height)
+        
+        squares = self.create_grid_in_bbox(bbox, square_size)
+        if squares.size == 0:
+            return np.array([])
+            
+        bottom_left_corners = (squares + np.array([0, square_size])).astype(int)
+        bottom_right_corners = (squares + np.array([square_size, square_size])).astype(int)
+
+        bl_in_bounds = (bottom_left_corners[:, 0] < map_width) & \
+                    (bottom_left_corners[:, 0] >= 0) & \
+                    (bottom_left_corners[:, 1] < map_height) & \
+                    (bottom_left_corners[:, 1] >= 0)
+
+        br_in_bounds = (bottom_right_corners[:, 0] < map_width) & \
+                    (bottom_right_corners[:, 0] >= 0) & \
+                    (bottom_right_corners[:, 1] < map_height) & \
+                    (bottom_right_corners[:, 1] >= 0)
+        is_left_on_land = np.zeros(len(squares), dtype=bool)
+        is_right_on_land = np.zeros(len(squares), dtype=bool)
+
+        valid_bl_coords = bottom_left_corners[bl_in_bounds]
+        valid_br_coords = bottom_right_corners[br_in_bounds]
+
+        if valid_bl_coords.size > 0:
+            is_left_on_land[bl_in_bounds] = ~np.isnan(land.height_map[valid_bl_coords[:, 1], valid_bl_coords[:, 0]])
+        
+        if valid_br_coords.size > 0:
+            is_right_on_land[br_in_bounds] = ~np.isnan(land.height_map[valid_br_coords[:, 1], valid_br_coords[:, 0]])
+
+        is_inside = is_left_on_land & is_right_on_land
         squares_inside_polygon = squares[is_inside]
-        print(squares_inside_polygon)
+        
+        return squares_inside_polygon
     
     def color_phases_positive(self,n: int) -> list[list[int]]:
         a = n//2
@@ -87,35 +117,60 @@ class World:
     def color_phases_negative(self,n: int) -> list[list[int]]:
         return [[0,255-255*i/n//2,0] for i in range(n+1)]
     
-    def paste_land_onto_map(self,land: Land):
-        dest_h, dest_w = self.hmap.shape
+    def paste_mountain_stamp_onto_map(self, land: Land, stamp_path="tallsmall.png", position=(0, 0), size=16):
+        try:
+            stamp_img = Image.open(stamp_path).convert('RGBA')
+        except FileNotFoundError:
+            print(f"Nie znaleziono stempla: {stamp_path}")
+            return
+        
+        stamp_img = stamp_img.resize((size, size), Image.Resampling.NEAREST) # Dodane przeskalowanie stempla!
+        stamp_array = np.array(stamp_img)
+        
+        alpha_channel = stamp_array[:, :, 3]
+        rgb_sum = stamp_array[:, :, :3].sum(axis=2)
+        mask = (alpha_channel < 128) | (rgb_sum < 50)
+        
+        map_height, map_width = self.hmap.shape
+        center_x, center_y = map_width // 2, map_height // 2
+        stamp_final_x = int(land.start[0] + center_x + position[0])
+        stamp_final_y = int(land.start[1] + center_y + position[1])
+        
+        y_start, x_start = stamp_final_y, stamp_final_x
+        y_end = min(y_start + size, map_height)
+        x_end = min(x_start + size, map_width)
+
+        if y_end <= y_start or x_end <= x_start:
+            return
+            
+        target_slice = self.hmap[y_start:y_end, x_start:x_end]
+        
+        mask_h, mask_w = target_slice.shape
+        trimmed_mask = mask[:mask_h, :mask_w]
+        
+        self.hmap[y_start:y_end, x_start:x_end][trimmed_mask] = self.STAMP_VALUE
+
+    def paste_land_onto_map(self, land: Land):
+        map_height, map_width = self.hmap.shape
         src_h, src_w = land.height_map.shape
         
-        top_left_x, top_left_y = land.start
-        top_left_x = int(top_left_x)
-        top_left_y = int(top_left_y)
-        # print("---------------")
-        # print(self.hmap.shape)
-        # print(land.height_map.shape)
-        # print(land.start)
-        # print("---------------")
-        top_left_x += dest_h//2
-        top_left_y += dest_w//2
+        center_x, center_y = map_width // 2, map_height // 2
+        top_left_x = int(land.start[0] + center_x)
+        top_left_y = int(land.start[1] + center_y)
 
         dest_y_start = max(0, top_left_y)
         dest_x_start = max(0, top_left_x)
-        dest_y_end = min(dest_h, top_left_y + src_h)
-        dest_x_end = min(dest_w, top_left_x + src_w)
+        dest_y_end = min(map_height, top_left_y + src_h)
+        dest_x_end = min(map_width, top_left_x + src_w)
 
         src_y_start = max(0, -top_left_y)
         src_x_start = max(0, -top_left_x)
         src_y_end = src_y_start + (dest_y_end - dest_y_start)
         src_x_end = src_x_start + (dest_x_end - dest_x_start)
-        # print(dest_y_start,dest_y_end,dest_x_start,dest_x_end)
-        # print(src_y_start,src_y_end,src_x_start,src_x_end)
         
         if (dest_y_end <= dest_y_start) or (dest_x_end <= dest_x_start):
             return
+            
         cut_land = land.height_map[int(src_y_start):int(src_y_end), int(src_x_start):int(src_x_end)]
         mask = ~np.isnan(cut_land)
         self.hmap[int(dest_y_start):int(dest_y_end), int(dest_x_start):int(dest_x_end)][mask] = cut_land[mask]
@@ -148,19 +203,26 @@ class World:
                                 break
     def scale_down_to_256(self,hmap: np.ndarray):
         nan_mask = np.isnan(hmap)
-        land_values = hmap[~nan_mask]
+        stamp_mask = (hmap == self.STAMP_VALUE)
+        land_mask = ~nan_mask & ~stamp_mask
+        land_values = hmap[land_mask]
         wynik = np.full(hmap.shape, fill_value=255, dtype=np.uint8)
         if land_values.size>0:
             if self.mini == self.maks:
                 przeskalowane = np.zeros(land_values.shape)
             else:
-                przeskalowane = (land_values - self.mini) / (self.maks - self.mini) * 254
-            wynik[~nan_mask] = przeskalowane.astype(np.uint8)
+                przeskalowane = (land_values - self.mini) / (self.maks - self.mini) * 253
+            wynik[stamp_mask] = 254
+            wynik[land_mask] = przeskalowane.astype(np.uint8)
+            
         return wynik
     
     def give_palette(self):
         for land in self.lands:
+            squares = self.fill_land_with_squares(land)
             self.paste_land_onto_map(land)
+            for square in squares:
+                self.paste_mountain_stamp_onto_map(land=land,position=square)
         hmap_scaled = self.scale_down_to_256(self.hmap)
         map_image = Image.new('P', (self.size[0],self.size[1]))
         map_image.putdata(hmap_scaled.flatten())
@@ -230,6 +292,8 @@ class World:
     def draw(self):
         self.give_palette()
         # for land in self.lands:
+        #     self.fill_land_with_squares(land)
+        # for land in self.lands:
         #     self.give_color(land,10)
         # if self.lakes:
         #     for lake in self.lakes:
@@ -296,3 +360,7 @@ class World:
 # # print(w.hmap)
 # #w.draw()
 # # #print(w.get_lowest_neighbor(river))
+source_image = Image.open('mountain_tall.png').convert('RGB')
+image_array = np.array(source_image)
+# for x in image_array:
+#     print(x)
