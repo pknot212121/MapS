@@ -6,15 +6,19 @@ class InterpreterMemory():
     def __init__(self, errorListener_: ErrorListenerMapS):
         self.functions = {} 
         self.identfierDict = {}
-        self.scopes = [self.identfierDict]
+        self.scopes = [ScopeFrame({}, function_scope=0)]
         self.intereterWorld = InterpreterWorld()
         self.error_listener = errorListener_
 
     def currentScope(self):
         return self.scopes[-1]
 
-    def pushScope(self):
-        self.scopes.append({})
+    def pushScope(self, is_function_scope=False):
+        function_scope = self.currentScope().function_scope
+        if is_function_scope:
+            self.scopes.append(ScopeFrame({}, function_scope+1))
+        else:
+            self.scopes.append(ScopeFrame({}, function_scope))
 
     def popScope(self):
         if len(self.scopes) > 1:
@@ -25,13 +29,16 @@ class InterpreterMemory():
     # Aby dostać zmienną podajemy ctx, identifier, opcjonlanie: typ zmiennej
     def accessId(self,ctx: ParserRuleContext, identifier, idType = None, levels_up: int = 0):
         count = 0
-        for scope in reversed(self.scopes):
-            if identifier in scope:
-                idvalue = scope[identifier]
-                if type(idvalue) == InterpreterIdentifier and ( idType is None or idvalue.type_() == idType ):
-                    if count == levels_up:
-                        return idvalue.get()
-                    count += 1
+        function_scope = self.currentScope().function_scope
+        for frame in reversed(self.scopes):
+            scope = frame.variables
+            if frame.function_scope == function_scope or frame.function_scope == 0:
+                if identifier in scope:
+                    idvalue = scope[identifier]
+                    if type(idvalue) == InterpreterIdentifier and ( idType is None or idvalue.type_() == idType ):
+                        if count == levels_up:
+                            return idvalue.get()
+                        count += 1
 
         if levels_up == 0:
             self.error_listener.interpreterError(f"No variable named: {identifier}.", ctx)
@@ -42,7 +49,7 @@ class InterpreterMemory():
     
     # Aby przechować zmienną podajemy ctx, identifier, wartość, opcjonlanie: typ zmiennej
     def storeId(self, ctx: ParserRuleContext, identifier, value, idType = None): 
-        current = self.currentScope()
+        current = self.currentScope().variables
         if identifier in current:
             line = current[identifier].ctx_().start.line
             self.error_listener.interpreterError(f"Variable with name: {identifier} already defined.\n"
@@ -66,16 +73,19 @@ class InterpreterMemory():
 
     def releaseId(self, ctx: ParserRuleContext, identifier):
         for scope in reversed(self.scopes):
-            if identifier in scope:
-                scope.pop(identifier)
+            if identifier in scope.variables:
+                scope.variables.pop(identifier)
                 return
         self.error_listener.interpreterError(f"No variable named: {identifier}.", ctx)
 
 
     def assignValue(self, ctx: ParserRuleContext, identifier, value):
+        function_scope = self.currentScope().function_scope
         for scope in reversed(self.scopes):
-            if identifier in scope:
-                idObject = scope[identifier]
+            if scope.function_scope < function_scope:
+                break
+            if identifier in scope.variables:
+                idObject = scope.variables[identifier]
                 if idObject.type_() != type(value):
                     if type(value) is int and idObject.type_() is float:
                         value = float(value)
