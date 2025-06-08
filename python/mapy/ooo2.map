@@ -1,12 +1,12 @@
 int x is 1;
 
-function func(int x,int y){
-    int y is x;
+function func(int y){
+    int x is 3;
     
-    if (x>0) do{
-        //func(n-1);
+    if (y>0) do{
+        func(y-1);
     }
-    print(x);
+    print(parent::x);
     
 }
-func(5,5);
+func(5);
