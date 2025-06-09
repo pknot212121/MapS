@@ -221,9 +221,14 @@ class World:
         for land in self.lands:
             squares = self.fill_land_with_squares(land)
             self.paste_land_onto_map(land)
+        
+        for land in self.lands:
             for square in squares:
                 self.paste_mountain_stamp_onto_map(land=land,position=square)
+        for river in self.rivers:
+            self.give_color_to_river_new_algo(river)
         hmap_scaled = self.scale_down_to_256(self.hmap)
+        
         map_image = Image.new('P', (self.size[0],self.size[1]))
         map_image.putdata(hmap_scaled.flatten())
         map_image.putpalette(self.palette)
@@ -245,16 +250,77 @@ class World:
                     self.pixels[int(self.size[0]//2-row-y_move+land_size_y//2)][int(col+x_move+self.size[1]//2-land_size_x//2)] = [0,180,255]
                     self.hmap[int(self.size[0]//2-row-y_move+land_size_y//2)][int(col+x_move+self.size[1]//2-land_size_x//2)] = 0
 
-    def give_color_to_river(self,river: River):
-        # self.pixels[river.source[0],river.source[1]]=[0,180,255]
-        river_new = river
-        while self.is_in_bounds(self.size[0]//2+int(river_new.current_point[0]),self.size[1]//2+int(river_new.current_point[1])) and not np.isnan(self.hmap[self.size[0]//2+int(river_new.current_point[0]),self.size[1]//2+int(river_new.current_point[1])]) and river_new.current_point not in self.all_river_points:
-            river_new.river_points.append(river_new.current_point)
-            self.pixels[self.size[0]//2+int(river_new.current_point[0]),self.size[1]//2+int(river_new.current_point[1])]=[0,180,255]
-            self.all_river_points.append(river_new.current_point)
-            river.river_points.append(river_new.current_point)
-            # print(river_new.current_point)
-            river_new.current_point = self.get_lowest_neighbor(river_new)
+    # def give_color_to_river(self,river: River):
+    #     # self.pixels[river.source[0],river.source[1]]=[0,180,255]
+    #     river_new = river
+    #     while self.is_in_bounds(self.size[0]//2+int(river_new.current_point[0]),self.size[1]//2+int(river_new.current_point[1])) and not np.isnan(self.hmap[self.size[0]//2+int(river_new.current_point[0]),self.size[1]//2+int(river_new.current_point[1])]) and river_new.current_point not in self.all_river_points:
+    #         river_new.river_points.append(river_new.current_point)
+    #         self.hmap[self.size[0]//2+int(river_new.current_point[0]),self.size[1]//2+int(river_new.current_point[1])]=254
+    #         self.all_river_points.append(river_new.current_point)
+    #         river.river_points.append(river_new.current_point)
+    #         # print(river_new.current_point)
+    #         river_new.current_point = self.get_lowest_neighbor(river_new)
+    def give_color_to_river_new_algo(self, river: River, river_value=np.nan):
+        counter = 0
+        map_rows, map_cols = self.hmap.shape
+
+        for i in range(len(river.x) - 1):
+            x1, y1 = int(round(river.x[i])), int(round(river.y[i]))
+            x2, y2 = int(round(river.x[i+1])), int(round(river.y[i+1]))
+
+            dx = abs(x2 - x1)
+            dy = abs(y2 - y1)
+            sx = 1 if x1 < x2 else -1
+            sy = 1 if y1 < y2 else -1
+            err = dx - dy
+            
+            curr_x, curr_y = x1, y1
+
+            while True:
+                current_half_width = 0
+                brush_offsets_x = [0]
+                brush_offsets_y = [0]
+                if counter >= 400:
+                    current_half_width = 1
+                    brush_offsets_x = list(range(-current_half_width, current_half_width + 1))
+                    brush_offsets_y = list(range(-current_half_width, current_half_width + 1))
+                elif counter >= 150:
+                    brush_offsets_x = [0, 1]
+                    brush_offsets_y = [0, 1]
+                for r_offset in brush_offsets_y:
+                    for c_offset in brush_offsets_x:
+                        draw_y, draw_x = curr_y + r_offset, curr_x + c_offset
+                        
+                        if 0 <= draw_y < map_rows and 0 <= draw_x < map_cols:
+                            self.hmap[draw_y, draw_x] = river_value
+                if 0 <= curr_y < map_rows and 0 <= curr_x < map_cols:
+                    counter += 1
+
+
+                if curr_x == x2 and curr_y == y2:
+                    break
+
+                e2 = 2 * err
+                if e2 > -dy:
+                    err -= dy
+                    curr_x += sx
+                if e2 < dx:
+                    err += dx
+                    curr_y += sy
+                
+                if (sx > 0 and curr_x > x2) or \
+                   (sx < 0 and curr_x < x2) or \
+                   (sy > 0 and curr_y > y2) or \
+                   (sy < 0 and curr_y < y2):
+                    final_half_width = 0
+                    if counter >= 200: final_half_width = 2
+                    elif counter >= 100: final_half_width = 1
+                    for r_offset in range(-final_half_width, final_half_width + 1):
+                        for c_offset in range(-final_half_width, final_half_width + 1):
+                            draw_y, draw_x = y2 + r_offset, x2 + c_offset
+                            if 0 <= draw_y < map_rows and 0 <= draw_x < map_cols:
+                                self.hmap[draw_y, draw_x] = river_value
+                    break
     
     def is_in_bounds(self,x,y) -> bool:
         if x>0 and x<self.size[0] and y>0 and y<self.size[1]:
@@ -271,7 +337,7 @@ class World:
         for neighbor in river.get_neighbors():
             if(not self.is_in_bounds(self.size[0]//2+int(neighbor[0]),self.size[1]//2+int(neighbor[1]))): return neighbor
             value = self.hmap[self.size[0]//2+int(neighbor[0])][self.size[1]//2+int(neighbor[1])]
-            # print(neighbor,value)
+            print(neighbor,value)
             if(np.isnan(value)): return neighbor
             if(value<min_value):
                 min_value=value

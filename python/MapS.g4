@@ -70,7 +70,7 @@ perimeterDeclaration
 shape
     : 'Circle(' expression ')'
     | 'Square(' expression ',' expression ')'
-    | 'RandomLand(' expression ',' expression ')'
+    | 'RandomLand(' expression ',' expression (',' expression)?')'
     | listExpression
     ;
 
@@ -85,7 +85,7 @@ lakeVariableDeclaration
     ;
 
 riverVariableDeclaration
-    : 'River' IDENTIFIER 'is' pointExpression ';'
+    : 'River' IDENTIFIER 'is' listExpression ';'
     ;
 
 // Deklaracja funkcji

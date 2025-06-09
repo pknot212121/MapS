@@ -33,8 +33,8 @@ class InterpreterPoint:
         self.y = y
 
 class InterpreterRiver:
-    def __init__(self,source: InterpreterPoint):
-        self.source = source
+    def __init__(self,points: list[InterpreterPoint]):
+        self.points = points
 
 class InterpreterHeight:
     def __init__(self, place: InterpreterPoint, z: float, steep: float):

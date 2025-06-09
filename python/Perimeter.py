@@ -58,7 +58,11 @@ class Perimeter:
         return [x,y]
     
     @classmethod
-    def from_random_land(cls,size,change):
+    def from_random_land(cls,size,change,seed = None):
+        if seed is not None:
+            rng = np.random.default_rng(seed)
+        else:
+            rng = np.random.default_rng()
         theta = np.linspace(0, 2 * np.pi, 10)
         x = size * np.cos(theta)
         y = size * np.sin(theta)
@@ -66,12 +70,12 @@ class Perimeter:
         first_and_last = 1
         for i,x in enumerate(coordinates):
             if(i==0):
-                first_and_last = random.uniform(1-change, 1+change)
+                first_and_last = rng.uniform(1-change, 1+change)
                 coordinates[i]=np.array([x[0]*first_and_last,x[1]*first_and_last])
             elif(i==9):
                 coordinates[i]=np.array([x[0]*first_and_last,x[1]*first_and_last])
             else:
-                rand = random.uniform(1-change, 1+change)
+                rand = rng.uniform(1-change, 1+change)
                 coordinates[i]=np.array([x[0]*rand,x[1]*rand])
         return cls(coordinates,"randomland")
         

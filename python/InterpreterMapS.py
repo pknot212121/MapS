@@ -174,9 +174,12 @@ class MapInterpreter(MapSVisitor):
                 return intlist
             elif "RandomLand" in funcName:
                 funcArg2 = self.visit(expressions[1])
+                if(len(expressions)>2):
+                    funcArg3 = self.visit(expressions[2])
+                else: funcArg3 = None
                 if type(funcArg2) not in (int, float):
                     self.errorListener.interpreterError("Second RandomLand argument has to be int or double", ctx)
-                per = Perimeter.from_random_land(funcArg,funcArg2)
+                per = Perimeter.from_random_land(funcArg,funcArg2,funcArg3)
                 intpoints = per.to_intpoints()
                 intlist = InterpreterList(InterpreterPoint,intpoints)         
                 return intlist
@@ -353,11 +356,21 @@ class MapInterpreter(MapSVisitor):
     def visitRiverVariableDeclaration(self, ctx:MapSParser.RiverVariableDeclarationContext):
         #print("visitRiverVariableDeclaration")
         identifier = ctx.IDENTIFIER().getText()
-        source = None
-        pointExpression = ctx.pointExpression()
-        if pointExpression is not None:
-            source = self.visit(pointExpression)
-        river = InterpreterRiver(source)
+        listExpression = ctx.listExpression()
+        print(listExpression)
+        listt = self.visit(listExpression)
+        listPerimeter = InterpreterList(InterpreterPoint,listt)
+        print(listPerimeter)
+        if type(listPerimeter) is not InterpreterList:
+            self.errorListener.interpreterError(f"River points have to make a list.", ctx)
+            return
+        if listPerimeter.innerType is not InterpreterPoint:
+            self.errorListener.interpreterError(f"The list does not consist of points.", ctx)
+            return
+        if len(listt)<3:
+            self.errorListener.interpreterError(f"River has to have at least 3 points.", ctx)
+            return
+        river = InterpreterRiver(listPerimeter)
         self.memory.storeId(ctx, identifier, river, InterpreterRiver)
         self.memory.world().addRiver(river)
         return river
