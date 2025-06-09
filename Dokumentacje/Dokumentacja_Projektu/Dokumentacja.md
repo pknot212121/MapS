@@ -28,6 +28,7 @@
     * [Funkcje](#funkcje)
     * [Pojedyncza wyspa](#pojedyncza-wyspa)
     * [Wiele wysp](#wiele-wysp)
+    * [Deklaracja Land z funkcjami](#deklaracja-land-z-funkcjami)
   
 
 <div style="page-break-after: always;"></div>
@@ -285,3 +286,24 @@ W wyniku dostajemy archipelag w kształcie spirali:
 <p align="center">
   <img src="./img/archipelago.png" alt="MapS" width="300">
 </p>
+
+## Deklaracja Land z funkcjami
+Deklaracja wyspy z gotowymi funkcjami obwodu:
+```
+List<Height> h is [((0, 0), 30, 1)];
+
+Land terrain1 is (100, 100) with perimeter is Circle(50), height is h;
+
+Land terrain2 is (-150, 50) with perimeter is Square(100, 2), height is h;
+
+Land terrain3 is (0, -80) with perimeter is RandomLand(50, 0.6), height is h;
+```
+Wyskość z funkcji:
+```
+function mountain(double x, double y) : double {
+    return 50 - (x*x + y*y) * 0.01;
+}
+
+Land l is (0, 0) with perimeter is RandomLand(30, 0.5), height is mountain();
+```
+
