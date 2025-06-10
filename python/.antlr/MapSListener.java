@@ -167,6 +167,16 @@ public interface MapSListener extends ParseTreeListener {
 	 */
 	void exitRiverVariableDeclaration(MapSParser.RiverVariableDeclarationContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MapSParser#direction}.
+	 * @param ctx the parse tree
+	 */
+	void enterDirection(MapSParser.DirectionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MapSParser#direction}.
+	 * @param ctx the parse tree
+	 */
+	void exitDirection(MapSParser.DirectionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MapSParser#functionDeclaration}.
 	 * @param ctx the parse tree
 	 */

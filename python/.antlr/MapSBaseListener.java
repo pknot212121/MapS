@@ -208,6 +208,18 @@ public class MapSBaseListener implements MapSListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDirection(MapSParser.DirectionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDirection(MapSParser.DirectionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterFunctionDeclaration(MapSParser.FunctionDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
