@@ -21,6 +21,15 @@ class River:
                 self.x, self.y = self.generate_river_sine_wave(start_point=point_to_list(source),main_direction_angle=0,river_length=length)
             elif direction=="west":
                 self.x, self.y = self.generate_river_sine_wave(start_point=point_to_list(source),main_direction_angle=180,river_length=length)
+            elif direction=="south-west":
+                self.x, self.y = self.generate_river_sine_wave(start_point=point_to_list(source),main_direction_angle=135,river_length=length)
+            elif direction=="north-west":
+                self.x, self.y = self.generate_river_sine_wave(start_point=point_to_list(source),main_direction_angle=225,river_length=length)
+            elif direction=="north-east":
+                self.x, self.y = self.generate_river_sine_wave(start_point=point_to_list(source),main_direction_angle=315,river_length=length)
+            elif direction=="south-east":
+                self.x, self.y = self.generate_river_sine_wave(start_point=point_to_list(source),main_direction_angle=45,river_length=length)
+            
     @classmethod
     def from_intriver(cls,intriver: InterpreterRiver):
         if intriver.points is not None:
