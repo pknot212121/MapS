@@ -56,6 +56,17 @@ Gramatyka dla języka **MapS** została napisana w pliku z rozszerzeniem .g4. (Z
 
 ## Interpreter
 
+Interpreter języka MapS jest dwuprzebiegowy, każdy przebieg ma swoje specyficzne zadanie.
+
+Pierwszy przebieg:
+
+Zadaniem pierwszego przebiegu jest analiza leksykalna, składniowa orz semantyczna. Kod źródłowy jest czytany znak po znaku i dzielony na tokeny. Tokeny są następnie grupowane w struktury zgodne z gramatyką języka. Na tym etapie program sygnalizuje błędy wynikające z nieprawidłowych deklaracji lub z użycia niedozwolonych poleceń.
+
+Drugi przebieg:
+
+Podczas drugiego przebiegu program z użyciem visitora przechodzi przez zbudowane drzewo w pierwszym przebiegu. Dla każdego węzła drzewa program wykonuje odpowiednią akcję. Program w drugim przebiegu wykorzystuje Tablicę Symboli (zał. [InterpreterMemory.py](#interpretermemorypy)) do poprawnego zarzadzania zmiennymi oraz zasięgami (scope).
+
+
 Zdecydowaliśmy się na implementację interpretera w języku programowania *Python*, w tym celu utworzyliśmy następujące klasy odpowiedzialne za realizację poszczególnych zadań w procesie interpretowania programów napisanych przez użytkowników:
 
 * InterpreterMapS (Załącznik: [InterpreterMapS.py](#interpretermapspy))
