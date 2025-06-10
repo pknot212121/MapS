@@ -24,7 +24,8 @@ class World:
         self.palette = generate_palette(GREEN, GRAY)
         self.maks = self.get_max()
         self.mini = self.get_min()
-        self.STAMP_VALUE = -np.inf 
+        self.STAMP_VALUE = -np.inf
+        self.STAMP_VALUE_GREEN = -99999 
     
     @classmethod
     def from_intworld(cls,intworld: InterpreterWorld):
@@ -69,7 +70,7 @@ class World:
         grid_points = np.stack([xv.ravel(), yv.ravel()], axis=-1)
         return grid_points
 
-    def fill_land_with_squares(self,land: Land, square_size=16):
+    def fill_land_with_mountain_squares(self,land: Land, square_size=16):
         map_height, map_width = land.height_map.shape
         bbox = (0, 0, map_width, map_height)
         
@@ -101,6 +102,44 @@ class World:
         
         if valid_br_coords.size > 0:
             is_right_on_land[br_in_bounds] = (land.height_map[valid_br_coords[:, 1], valid_br_coords[:, 0]] > linia_gor)
+        
+        is_inside = is_left_on_land & is_right_on_land
+        squares_inside_polygon = squares[is_inside]
+        
+        return squares_inside_polygon
+    
+    def fill_land_with_tree_squares(self,land: Land, square_size=16):
+        map_height, map_width = land.height_map.shape
+        bbox = (0, 0, map_width, map_height)
+        
+        squares = self.create_grid_in_bbox(bbox, square_size)
+        if squares.size == 0:
+            return np.array([])
+            
+        bottom_left_corners = (squares + np.array([0, square_size])).astype(int)
+        bottom_right_corners = (squares + np.array([square_size, square_size])).astype(int)
+
+        bl_in_bounds = (bottom_left_corners[:, 0] < map_width) & \
+                    (bottom_left_corners[:, 0] >= 0) & \
+                    (bottom_left_corners[:, 1] < map_height) & \
+                    (bottom_left_corners[:, 1] >= 0)
+
+        br_in_bounds = (bottom_right_corners[:, 0] < map_width) & \
+                    (bottom_right_corners[:, 0] >= 0) & \
+                    (bottom_right_corners[:, 1] < map_height) & \
+                    (bottom_right_corners[:, 1] >= 0)
+        is_left_on_land = np.zeros(len(squares), dtype=bool)
+        is_right_on_land = np.zeros(len(squares), dtype=bool)
+
+        valid_bl_coords = bottom_left_corners[bl_in_bounds]
+        valid_br_coords = bottom_right_corners[br_in_bounds]
+        linia_wzgorz = (self.maks+self.mini)//3
+        linia_gor = 2*(self.maks+self.mini)//3
+        if valid_bl_coords.size > 0:
+            is_left_on_land[bl_in_bounds] = (land.height_map[valid_bl_coords[:, 1], valid_bl_coords[:, 0]] < linia_wzgorz)
+        
+        if valid_br_coords.size > 0:
+            is_right_on_land[br_in_bounds] = (land.height_map[valid_br_coords[:, 1], valid_br_coords[:, 0]] < linia_wzgorz)
         
         is_inside = is_left_on_land & is_right_on_land
         squares_inside_polygon = squares[is_inside]
@@ -149,6 +188,42 @@ class World:
         trimmed_mask = mask[:mask_h, :mask_w]
         
         self.hmap[y_start:y_end, x_start:x_end][trimmed_mask] = self.STAMP_VALUE
+    def paste_tree_stamp_onto_map(self, land: Land, stamp_path="tree.png",mound_path="mound.png", position=(0, 0), size=16):
+        try:
+            stamp_img = Image.open(stamp_path).convert('RGBA')
+        except FileNotFoundError:
+            print(f"Nie znaleziono stempla: {stamp_path}")
+            return
+        
+        stamp_img = stamp_img.resize((size, size), Image.Resampling.NEAREST) # Dodane przeskalowanie stempla!
+        stamp_array = np.array(stamp_img)
+        
+        red = stamp_array[:, :, 0]
+        green = stamp_array[:, :, 1]
+        blue = stamp_array[:, :, 2]
+        alpha_channel = stamp_array[:, :, 3]
+        rgb_sum = stamp_array[:, :, :3].sum(axis=2)
+        mask = (alpha_channel < 128) | (rgb_sum < 50)
+        mask_tree = (green >= 128) & (green > red + 50) & (green > blue + 50) & (red < 80) & (blue < 80)
+        map_height, map_width = self.hmap.shape
+        center_x, center_y = map_width // 2, map_height // 2
+        stamp_final_x = int(land.start[0] + center_x + position[0])
+        stamp_final_y = int(land.start[1] + center_y + position[1])
+        
+        y_start, x_start = stamp_final_y, stamp_final_x
+        y_end = min(y_start + size, map_height)
+        x_end = min(x_start + size, map_width)
+
+        if y_end <= y_start or x_end <= x_start:
+            return
+            
+        target_slice = self.hmap[y_start:y_end, x_start:x_end]
+        
+        mask_h, mask_w = target_slice.shape
+        trimmed_mask = mask[:mask_h, :mask_w]
+        trimmed_mask_green = mask_tree[:mask_h, :mask_w]
+        self.hmap[y_start:y_end, x_start:x_end][trimmed_mask] = self.STAMP_VALUE
+        self.hmap[y_start:y_end, x_start:x_end][trimmed_mask_green] = self.STAMP_VALUE_GREEN
 
     def paste_land_onto_map(self, land: Land):
         map_height, map_width = self.hmap.shape
@@ -204,7 +279,8 @@ class World:
     def scale_down_to_256(self,hmap: np.ndarray):
         nan_mask = np.isnan(hmap)
         stamp_mask = (hmap == self.STAMP_VALUE)
-        land_mask = ~nan_mask & ~stamp_mask
+        tree_mask = (hmap == self.STAMP_VALUE_GREEN)
+        land_mask = ~nan_mask & ~stamp_mask & ~tree_mask
         land_values = hmap[land_mask]
         wynik = np.full(hmap.shape, fill_value=255, dtype=np.uint8)
         if land_values.size>0:
@@ -213,18 +289,23 @@ class World:
             else:
                 przeskalowane = (land_values - self.mini) / (self.maks - self.mini) * 253
             wynik[stamp_mask] = 254
+            wynik[tree_mask] = 0
             wynik[land_mask] = przeskalowane.astype(np.uint8)
             
         return wynik
     
     def give_palette(self):
-        for land in self.lands:
-            squares = self.fill_land_with_squares(land)
-            self.paste_land_onto_map(land)
         
         for land in self.lands:
+            squares = self.fill_land_with_mountain_squares(land)
+            self.paste_land_onto_map(land)
             for square in squares:
                 self.paste_mountain_stamp_onto_map(land=land,position=square)
+            t_squares = self.fill_land_with_tree_squares(land)
+            for square in t_squares:
+                self.paste_tree_stamp_onto_map(land=land,position=square)
+            
+           
         for river in self.rivers:
             self.give_color_to_river_new_algo(river)
         for lake in self.lakes:
@@ -373,7 +454,7 @@ class World:
     def draw(self):
         self.give_palette()
         # for land in self.lands:
-        #     self.fill_land_with_squares(land)
+        #     self.fill_land_with_mountain_squares(land)
         # for land in self.lands:
         #     self.give_color(land,10)
         # if self.lakes:
