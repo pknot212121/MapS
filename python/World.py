@@ -227,6 +227,8 @@ class World:
                 self.paste_mountain_stamp_onto_map(land=land,position=square)
         for river in self.rivers:
             self.give_color_to_river_new_algo(river)
+        for lake in self.lakes:
+            self.paste_lake_onto_land(lake)
         hmap_scaled = self.scale_down_to_256(self.hmap)
         
         map_image = Image.new('P', (self.size[0],self.size[1]))
@@ -237,18 +239,31 @@ class World:
                 
 
                         
-    def give_color_to_lake(self,lake: Lake):
-        x_move = lake.start[0]
-        y_move = lake.start[1]
-        land_size_x = lake.height_map.shape[1]
-        land_size_y = lake.height_map.shape[0]
-        for (row,col),value in np.ndenumerate(lake.height_map):
-            y_index = int(self.size[0]//2-row-y_move+land_size_y//2)
-            x_index = int(col+x_move+self.size[1]//2-land_size_x//2)
-            if(y_index>0 and y_index<self.size[0] and x_index>0 and x_index<self.size[1]):
-                if value==0:
-                    self.pixels[int(self.size[0]//2-row-y_move+land_size_y//2)][int(col+x_move+self.size[1]//2-land_size_x//2)] = [0,180,255]
-                    self.hmap[int(self.size[0]//2-row-y_move+land_size_y//2)][int(col+x_move+self.size[1]//2-land_size_x//2)] = 0
+    def paste_lake_onto_land(self,lake: Lake):
+        map_height, map_width = self.hmap.shape
+        src_h, src_w = lake.height_map.shape
+        
+        center_x, center_y = map_width // 2, map_height // 2
+        top_left_x = int(lake.start[0] + center_x)
+        top_left_y = int(lake.start[1] + center_y)
+
+        dest_y_start = max(0, top_left_y)
+        dest_x_start = max(0, top_left_x)
+        dest_y_end = min(map_height, top_left_y + src_h)
+        dest_x_end = min(map_width, top_left_x + src_w)
+
+        src_y_start = max(0, -top_left_y)
+        src_x_start = max(0, -top_left_x)
+        src_y_end = src_y_start + (dest_y_end - dest_y_start)
+        src_x_end = src_x_start + (dest_x_end - dest_x_start)
+        
+        if (dest_y_end <= dest_y_start) or (dest_x_end <= dest_x_start):
+            return
+            
+        cut_land = lake.height_map[int(src_y_start):int(src_y_end), int(src_x_start):int(src_x_end)]
+        mask = ~np.isnan(cut_land)
+        self.hmap[int(dest_y_start):int(dest_y_end), int(dest_x_start):int(dest_x_end)][mask] = np.nan
+        
 
     # def give_color_to_river(self,river: River):
     #     # self.pixels[river.source[0],river.source[1]]=[0,180,255]
@@ -265,8 +280,8 @@ class World:
         map_rows, map_cols = self.hmap.shape
 
         for i in range(len(river.x) - 1):
-            x1, y1 = int(round(river.x[i])), int(round(river.y[i]))
-            x2, y2 = int(round(river.x[i+1])), int(round(river.y[i+1]))
+            x1, y1 = int(round(river.x[i])+self.hmap.shape[0]//2), int(round(river.y[i])+self.hmap.shape[1]//2)
+            x2, y2 = int(round(river.x[i+1])+self.hmap.shape[0]//2), int(round(river.y[i+1])+self.hmap.shape[1]//2)
 
             dx = abs(x2 - x1)
             dy = abs(y2 - y1)

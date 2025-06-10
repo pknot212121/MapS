@@ -1,3 +1,5 @@
 List<Height> height0 is [ ((5,5), 200, 0), ((60,60),200,0), ((-60,-60),200,0), ((-30,-180),200,0)];
-River r is [ (300,300), (450,250), (300,200) , (430,100) ];
+River r is [(0,0),(100,-50),(150,60),(180,80),(220,130)];
+Lake la is (100,-100) with perimeter is RandomLand(50,0.4,222);
+Lake la2 is (100, -150) with perimeter is RandomLand(20,0.3,718);
 Land l1 is (-200,-200) with perimeter is RandomLand( 200 , 0.5 , 2373 ), height is height0;
