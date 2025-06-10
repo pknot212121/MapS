@@ -67,6 +67,7 @@ class World:
         x_coords = np.arange(min_x, max_x, size)
         y_coords = np.arange(min_y, max_y, size)
         xv, yv = np.meshgrid(x_coords, y_coords)
+        
         grid_points = np.stack([xv.ravel(), yv.ravel()], axis=-1)
         return grid_points
 

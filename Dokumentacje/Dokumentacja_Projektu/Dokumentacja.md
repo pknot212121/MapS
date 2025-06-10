@@ -230,9 +230,13 @@ Definicja szczytów gór (obiekt typu Height):
 List<Height> islandHeight is [ ((200,200), 30, 1), ... , ((50,120), 40, 1)];
 ```
 
-Użytkownik może również dodać rzekę do swojej wyspy wyznaczając jej punkt początkowy (źródło):
+Użytkownik może również dodać rzekę do swojej wyspy wyznaczając jej punkt początkowy (źródło), kierunek oraz opcjonalnie długość:
 ```MapS
-River islandRiver is (0,0);
+River islandRiver is (0,0) to south for 100;
+```
+Może też samemu wybrać punkty skłądające się na rzekę:
+```MapS
+River riv is [(0,0),(100,100),(125,200)];
 ```
 
 Aby poprawnie wygenerować wyspę trzeba ją odpowiednio zadeklarować, przekazując w konstruktorze, wcześniej zadeklarowane obiekty *islandPerimeter*, *islandHeight* oraz wektor przesunięcia środka wyspy.
