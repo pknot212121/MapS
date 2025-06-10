@@ -102,7 +102,6 @@ class World:
         
         if valid_br_coords.size > 0:
             is_right_on_land[br_in_bounds] = (land.height_map[valid_br_coords[:, 1], valid_br_coords[:, 0]] > linia_gor)
-        
         is_inside = is_left_on_land & is_right_on_land
         squares_inside_polygon = squares[is_inside]
         
@@ -118,6 +117,7 @@ class World:
             
         bottom_left_corners = (squares + np.array([0, square_size])).astype(int)
         bottom_right_corners = (squares + np.array([square_size, square_size])).astype(int)
+        centers = (squares + np.array([square_size//2,square_size//2])).astype(int)
 
         bl_in_bounds = (bottom_left_corners[:, 0] < map_width) & \
                     (bottom_left_corners[:, 0] >= 0) & \
@@ -128,20 +128,33 @@ class World:
                     (bottom_right_corners[:, 0] >= 0) & \
                     (bottom_right_corners[:, 1] < map_height) & \
                     (bottom_right_corners[:, 1] >= 0)
+        cent_in_bounds = (centers[:, 0] < map_width) & \
+                    (centers[:, 0] >= 0) & \
+                    (centers[:, 1] < map_height) & \
+                    (centers[:, 1] >= 0)
+        bl_in_world_bounds = (bottom_left_corners[:,0]+land.start[0] < self.size[0]//2) & (bottom_left_corners[:,1] +land.start[1] < self.size[1]//2)           
+        br_in_world_bounds = (bottom_right_corners[:,0]+land.start[0] < self.size[0]//2) & (bottom_right_corners[:,1]+land.start[1] < self.size[1]//2)
+        cent_int_world_bounds = (centers[:,0]+land.start[0] < self.size[0]//2) & (centers[:,1]+land.start[1] < self.size[1]//2)
         is_left_on_land = np.zeros(len(squares), dtype=bool)
         is_right_on_land = np.zeros(len(squares), dtype=bool)
-
-        valid_bl_coords = bottom_left_corners[bl_in_bounds]
-        valid_br_coords = bottom_right_corners[br_in_bounds]
+        is_cent_on_land = np.zeros(len(squares), dtype=bool)
+        bl_in_bounds_final = bl_in_bounds
+        br_in_bounds_final = br_in_bounds
+        cent_in_bounds_final = cent_int_world_bounds & cent_in_bounds
+        valid_bl_coords = bottom_left_corners[bl_in_bounds_final]
+        valid_br_coords = bottom_right_corners[br_in_bounds_final]
+        valid_cent_coords = centers[cent_in_bounds_final]
         linia_wzgorz = (self.maks+self.mini)//3
         linia_gor = 2*(self.maks+self.mini)//3
         if valid_bl_coords.size > 0:
-            is_left_on_land[bl_in_bounds] = (land.height_map[valid_bl_coords[:, 1], valid_bl_coords[:, 0]] < linia_wzgorz)
+            is_left_on_land[bl_in_bounds_final] = (land.height_map[valid_bl_coords[:, 1], valid_bl_coords[:, 0]] < linia_wzgorz)
         
         if valid_br_coords.size > 0:
-            is_right_on_land[br_in_bounds] = (land.height_map[valid_br_coords[:, 1], valid_br_coords[:, 0]] < linia_wzgorz)
+            is_right_on_land[br_in_bounds_final] = (land.height_map[valid_br_coords[:, 1], valid_br_coords[:, 0]] < linia_wzgorz)
+        if valid_cent_coords.size >0:
+            is_cent_on_land[cent_in_bounds_final] =(land.height_map[valid_cent_coords[:, 1], valid_cent_coords[:, 0]] < linia_wzgorz) & ~(np.isnan(self.hmap[valid_cent_coords[:,1]+self.size[1]//2+int(land.start[1]),valid_cent_coords[:,0]+self.size[0]//2+int(land.start[0])]))
         
-        is_inside = is_left_on_land & is_right_on_land
+        is_inside =is_cent_on_land
         squares_inside_polygon = squares[is_inside]
         
         return squares_inside_polygon
@@ -297,19 +310,21 @@ class World:
     def give_palette(self):
         
         for land in self.lands:
-            squares = self.fill_land_with_mountain_squares(land)
             self.paste_land_onto_map(land)
+            
+        for river in self.rivers:
+            self.give_color_to_river_new_algo(river)
+        for lake in self.lakes:
+            self.paste_lake_onto_land(lake)
+                
+        for land in self.lands:
+            squares = self.fill_land_with_mountain_squares(land)
             for square in squares:
                 self.paste_mountain_stamp_onto_map(land=land,position=square)
             t_squares = self.fill_land_with_tree_squares(land)
             for square in t_squares:
                 self.paste_tree_stamp_onto_map(land=land,position=square)
-            
-           
-        for river in self.rivers:
-            self.give_color_to_river_new_algo(river)
-        for lake in self.lakes:
-            self.paste_lake_onto_land(lake)
+        
         hmap_scaled = self.scale_down_to_256(self.hmap)
         
         map_image = Image.new('P', (self.size[0],self.size[1]))
