@@ -315,7 +315,7 @@ class World:
         map_image = Image.new('P', (self.size[0],self.size[1]))
         map_image.putdata(hmap_scaled.flatten())
         map_image.putpalette(self.palette)
-        map_image.save("mapa_wysokosci.png")
+        map_image.save("mapa.png")
             
                 
 
