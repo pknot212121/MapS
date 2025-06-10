@@ -152,6 +152,15 @@ class MapSListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by MapSParser#direction.
+    def enterDirection(self, ctx:MapSParser.DirectionContext):
+        pass
+
+    # Exit a parse tree produced by MapSParser#direction.
+    def exitDirection(self, ctx:MapSParser.DirectionContext):
+        pass
+
+
     # Enter a parse tree produced by MapSParser#functionDeclaration.
     def enterFunctionDeclaration(self, ctx:MapSParser.FunctionDeclarationContext):
         pass

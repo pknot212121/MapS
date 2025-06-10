@@ -6,14 +6,29 @@ from matplotlib.path import Path
 import math
 
 class River:
-    def __init__(self, river_points = list):
+    def __init__(self, river_points : list, source = None, direction = None,length=100):
         self.river_points = river_points
-        self.x, self.y = self.interpolate_from_points()
+        self.source = source
+        self.direction = direction
+        if river_points is not None:
+            self.x, self.y = self.interpolate_from_points()
+        else:
+            if direction=="north":
+                self.x, self.y = self.generate_river_sine_wave(start_point=point_to_list(source),main_direction_angle=270,river_length=length)
+            elif direction=="south":
+                self.x, self.y = self.generate_river_sine_wave(start_point=point_to_list(source),main_direction_angle=90,river_length=length)
+            elif direction=="east":
+                self.x, self.y = self.generate_river_sine_wave(start_point=point_to_list(source),main_direction_angle=0,river_length=length)
+            elif direction=="west":
+                self.x, self.y = self.generate_river_sine_wave(start_point=point_to_list(source),main_direction_angle=180,river_length=length)
     @classmethod
     def from_intriver(cls,intriver: InterpreterRiver):
-        l = [point_to_list(x) for x in intriver.points.get()]
-        print(len(l))
-        return cls(l)
+        if intriver.points is not None:
+            l = [point_to_list(x) for x in intriver.points.get()]
+            print(len(l))
+            return cls(l)
+        else:
+            return cls(None,intriver.source,intriver.direction,intriver.length)
     def interpolate_from_points(self,degree=2,number_of_points = 100):
         x,y = np.array(self.river_points).T
         t = np.arange(len(x))
@@ -25,102 +40,71 @@ class River:
         return x_fine,y_fine
     
     def angle_to_vector(self,angle_degrees):
-        """Konwertuje kąt w stopniach na znormalizowany wektor (dx, dy)."""
         angle_radians = math.radians(angle_degrees)
         return (math.cos(angle_radians), math.sin(angle_radians))
     
     def generate_river_sine_wave(self,
         start_point=(0, 0),
         main_direction_angle=0,  # Kąt w stopniach (0 = wschód, 90 = północ)
-        river_length=500,
-        avg_segment_length=10,
-        base_wave_amplitude=20,
+        river_length=100,
+        avg_segment_length=5,
+        base_wave_amplitude=7,
         amplitude_variance=5,    # Jak bardzo amplituda może się różnić od bazowej
         base_wave_frequency=0.1, # Mniejsza wartość = dłuższe fale (wpływa na przyrost kąta fali)
         frequency_variance=0.02, # Jak bardzo częstotliwość może się różnić
         random_drift_strength=2  # Siła dodatkowego losowego "dryfu"
     ):
-        """
-        Generuje punkty rzeki o falowym kształcie na bazie funkcji sinus.
-
-        Args:
-            start_point (tuple): Współrzędne (x, y) początku rzeki.
-            main_direction_angle (float): Ogólny kierunek rzeki w stopniach.
-            river_length (float): Docelowa długość rzeki.
-            avg_segment_length (float): Średnia długość pojedynczego segmentu rzeki.
-            base_wave_amplitude (float): Bazowa amplituda fali sinusoidalnej.
-            amplitude_variance (float): Maksymalna losowa zmiana amplitudy.
-            base_wave_frequency (float): Bazowa częstotliwość fali (mnożnik przyrostu kąta).
-                                        Mniejsza wartość daje dłuższe fale.
-            frequency_variance (float): Maksymalna losowa zmiana częstotliwości.
-            random_drift_strength (float): Siła małego, losowego przesunięcia każdego punktu.
-
-        Returns:
-            list: Lista krotek (x, y) reprezentujących punkty rzeki.
-        """
         river_points = [start_point]
         current_point = start_point
         
         main_dir_vector = self.angle_to_vector(main_direction_angle)
-        # Wektor prostopadły do kierunku głównego (do odchylania rzeki)
-        # Jeśli (dx, dy) to kierunek, to (-dy, dx) jest prostopadły
         perp_dir_vector = (-main_dir_vector[1], main_dir_vector[0]) 
         
-        current_wave_angle = 0.0  # Aktualny kąt dla funkcji sinus
+        current_wave_angle = 0.0
         cumulative_length = 0.0
-
+        iksy =[]
+        igreki = []
         while cumulative_length < river_length:
-            # 1. Losuj parametry dla tego segmentu
             segment_length = random.uniform(
                 avg_segment_length * 0.8, avg_segment_length * 1.2
-            ) # Długość segmentu może się trochę wahać
+            )
             
             current_amplitude = random.uniform(
                 base_wave_amplitude - amplitude_variance,
                 base_wave_amplitude + amplitude_variance
             )
-            # Upewnij się, że amplituda nie jest ujemna (chociaż uniform powinien to załatwić, jeśli base > variance)
             current_amplitude = max(0, current_amplitude) 
 
             current_frequency_factor = random.uniform(
                 base_wave_frequency - frequency_variance,
                 base_wave_frequency + frequency_variance
             )
-            current_frequency_factor = max(0.001, current_frequency_factor) # Unikaj zerowej lub ujemnej częstotliwości
-
-            # 2. Oblicz przesunięcie falowe
-            # Przesunięcie jest prostopadłe do głównego kierunku rzeki
+            current_frequency_factor = max(0.001, current_frequency_factor)
             wave_displacement_scalar = math.sin(current_wave_angle) * current_amplitude
             
-            # 3. Oblicz wektor przesunięcia dla tego segmentu
-            # Komponent wzdłuż głównego kierunku
             main_displacement_x = main_dir_vector[0] * segment_length
             main_displacement_y = main_dir_vector[1] * segment_length
             
-            # Komponent prostopadły (falowy)
             wave_displacement_x = perp_dir_vector[0] * wave_displacement_scalar
             wave_displacement_y = perp_dir_vector[1] * wave_displacement_scalar
             
-            # 4. Dodaj losowy dryft
             drift_x = random.uniform(-random_drift_strength, random_drift_strength)
             drift_y = random.uniform(-random_drift_strength, random_drift_strength)
             
-            # 5. Oblicz pozycję nowego punktu
             new_x = current_point[0] + main_displacement_x + wave_displacement_x + drift_x
             new_y = current_point[1] + main_displacement_y + wave_displacement_y + drift_y
+            iksy.append(new_x)
+            igreki.append(new_y)
             new_point = (new_x, new_y)
             
-            # 6. Aktualizacja
             river_points.append(new_point)
             current_point = new_point
             
-            # Zwiększ kąt fali. Mnożenie przez segment_length sprawia, że
-            # "gęstość" fal jest bardziej spójna niezależnie od długości segmentu.
             current_wave_angle += current_frequency_factor * segment_length 
             
             cumulative_length += segment_length
             
-        return river_points
+        return np.array(iksy),np.array(igreki)
 
     def get_neighbors(self):
         x = self.current_point[0]

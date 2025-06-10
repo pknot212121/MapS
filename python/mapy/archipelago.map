@@ -10,5 +10,7 @@ Land l4 is (200,-200) with perimeter is RandomLand(30,0.3,2289), height is heigh
 
 River r1v1 is [(110,60),(120,10),(50,0),(70,-40),(60,-50)];
 River r1v2 is [(90,80),(50,60),(50,0)];
+River r1v3 is (-150,200) to east for 200;
+River r1v4 is (-140,170) to north;
 
 Lake lake is (-20,-150) with perimeter is RandomLand(20,0.3,28390);

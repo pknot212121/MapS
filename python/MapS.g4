@@ -86,6 +86,18 @@ lakeVariableDeclaration
 
 riverVariableDeclaration
     : 'River' IDENTIFIER 'is' listExpression ';'
+    | 'River' IDENTIFIER 'is' pointExpression 'to' direction ('for' expression)?';'
+    ;
+
+direction
+    : EAST
+    | NORTH
+    | WEST
+    | SOUTH
+    | SOUTH_EAST
+    | SOUTH_WEST
+    | NORTH_EAST
+    | NORTH_WEST
     ;
 
 // Deklaracja funkcji
@@ -208,6 +220,14 @@ INT: [0-9]+;
 DOUBLE: [0-9]+('.'[0-9]+)?;
 STRING: '"' ~('"')* '"';
 BOOLEAN: 'true' | 'false';
+EAST: 'east';
+NORTH: 'north';
+WEST: 'west';
+SOUTH: 'south';
+SOUTH_EAST: 'south-east';
+SOUTH_WEST: 'south-west';
+NORTH_EAST: 'north-east';
+NORTH_WEST: 'north-west';
 IDENTIFIER: [a-zA-Z_][a-zA-Z_0-9]*;
 WHITESPACE: [ \t\r\n]+ -> skip;
 LINE_COMMENT : '//' ~[\r\n]* -> skip ;

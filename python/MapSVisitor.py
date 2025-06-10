@@ -89,6 +89,11 @@ class MapSVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by MapSParser#direction.
+    def visitDirection(self, ctx:MapSParser.DirectionContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by MapSParser#functionDeclaration.
     def visitFunctionDeclaration(self, ctx:MapSParser.FunctionDeclarationContext):
         return self.visitChildren(ctx)

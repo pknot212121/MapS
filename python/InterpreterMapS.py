@@ -357,20 +357,39 @@ class MapInterpreter(MapSVisitor):
         #print("visitRiverVariableDeclaration")
         identifier = ctx.IDENTIFIER().getText()
         listExpression = ctx.listExpression()
-        print(listExpression)
-        listt = self.visit(listExpression)
-        listPerimeter = InterpreterList(InterpreterPoint,listt)
-        print(listPerimeter)
-        if type(listPerimeter) is not InterpreterList:
-            self.errorListener.interpreterError(f"River points have to make a list.", ctx)
-            return
-        if listPerimeter.innerType is not InterpreterPoint:
-            self.errorListener.interpreterError(f"The list does not consist of points.", ctx)
-            return
-        if len(listt)<3:
-            self.errorListener.interpreterError(f"River has to have at least 3 points.", ctx)
-            return
-        river = InterpreterRiver(listPerimeter)
+        if(listExpression == None):
+            pointExpression = ctx.pointExpression()
+            if pointExpression is not None:
+                source = self.visit(pointExpression)
+            else:
+                self.errorListener.interpreterError(f"Every river needs a source.", ctx)
+                return
+            if (ctx.direction() != None):
+                directionString = ctx.direction().getText()
+            else:
+                self.errorListener.interpreterError(f"Specify the direction: for example north.", ctx)
+                return
+            intExpression = ctx.expression()
+            if intExpression is not None:
+                length = self.visit(intExpression)
+                print(length)
+                river = InterpreterRiver(None,source,directionString,length)
+            else:
+                river = InterpreterRiver(None,source,directionString)
+        else:
+            listt = self.visit(listExpression)
+            listPerimeter = InterpreterList(InterpreterPoint,listt)
+            # print(listPerimeter)
+            if type(listPerimeter) is not InterpreterList:
+                self.errorListener.interpreterError(f"River points have to make a list.", ctx)
+                return
+            if listPerimeter.innerType is not InterpreterPoint:
+                self.errorListener.interpreterError(f"The list does not consist of points.", ctx)
+                return
+            if len(listt)<3:
+                self.errorListener.interpreterError(f"River has to have at least 3 points.", ctx)
+                return
+            river = InterpreterRiver(listPerimeter)
         self.memory.storeId(ctx, identifier, river, InterpreterRiver)
         self.memory.world().addRiver(river)
         return river
