@@ -3,3 +3,5 @@ River r is [(0,0),(100,-50),(150,60),(180,80),(220,130)];
 Lake la is (100,-100) with perimeter is RandomLand(50,0.4,222);
 Lake la2 is (100, -150) with perimeter is RandomLand(20,0.3,718);
 Land l1 is (-200,-200) with perimeter is RandomLand( 200 , 0.5 , 2373 ), height is height0;
+
+River r2 is (0,100) to south for 200;
