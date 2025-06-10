@@ -300,7 +300,7 @@ Land terrain1 is (100, 100) with perimeter is Circle(50), height is h;
 
 Land terrain2 is (-150, 50) with perimeter is Square(100, 2), height is h;
 
-Land terrain3 is (0, -80) with perimeter is RandomLand(50, 0.6), height is h;
+Land terrain3 is (0, -80) with perimeter is RandomLand(50, 0.6,3827), height is h;
 ```
 Wyskość z funkcji:
 ```
@@ -310,4 +310,5 @@ function mountain(double x, double y) : double {
 
 Land l is (0, 0) with perimeter is RandomLand(30, 0.5), height is mountain();
 ```
+W RandomLand można podać seed, żeby za każdym razem nie tworzyły się różne lądy.
 
