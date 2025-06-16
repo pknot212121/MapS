@@ -34,7 +34,7 @@ class River:
     def from_intriver(cls,intriver: InterpreterRiver):
         if intriver.points is not None:
             l = [point_to_list(x) for x in intriver.points.get()]
-            print(len(l))
+            # print(len(l))
             return cls(l)
         else:
             return cls(None,intriver.source,intriver.direction,intriver.length)
