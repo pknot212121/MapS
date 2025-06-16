@@ -1,0 +1,26 @@
+print("--- TEST #1 ---");
+
+int x is 1;
+
+function func(int y){
+    int x is 100;    
+    if (y > 0) do
+    {
+        func(y-1);        
+    }
+    print(x);
+    print(parent::x);    
+}
+func(2);
+
+print("--- TEST #2 ---");
+
+repeat with i 4 
+{
+    repeat with j i
+    {
+        print("Para:");
+        print(i);
+        print(j);
+    }    
+} 
