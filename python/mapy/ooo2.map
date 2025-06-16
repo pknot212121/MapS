@@ -1,12 +1,12 @@
 int x is 1;
 
 function func(int y){
+    //int y is 3;
     int x is 3;
-    
     if (y>0) do{
         func(y-1);
     }
-    print(parent::x);
+    print(x);
     
 }
 func(5);
