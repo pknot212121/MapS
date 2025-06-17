@@ -36,9 +36,9 @@ class InterpreterMemory():
                 if identifier in scope:
                     idvalue = scope[identifier]
                     if type(idvalue) == InterpreterIdentifier and ( idType is None or idvalue.type_() == idType ):
-                        if count == levels_up:
+                        if count >= levels_up:
                             return idvalue.get()
-                        count += 1
+                count += 1
 
         if levels_up == 0:
             self.error_listener.interpreterError(f"No variable named: {identifier}.", ctx)
