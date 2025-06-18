@@ -1,4 +1,4 @@
-print("--- Test 10: ---");
+print("--- Test 7: ---");
 
 int base is 10;
 int result is 0;
@@ -19,7 +19,7 @@ print(result);
 print(base);
 print(result);
 
-print("--- Test 11:---");
+print("--- Test 8:---");
 
 int stop_level is 2;
 
@@ -36,12 +36,12 @@ function dive(int current_level) {
 
 dive(0);
 
-print("--- Test 12:---");
+print("--- Test 9:---");
 
 int max_runs is 3;
 int counter is 0;
 
-while (counter < max_runs) do { //warunek sprawdza tylko rzeczy z wyższym scopie
+while (counter < max_runs) do {
     counter is counter + 1;
     
     int max_runs is 1;
@@ -55,26 +55,35 @@ while (counter < max_runs) do { //warunek sprawdza tylko rzeczy z wyższym scopi
 
 print(counter);
 
-print("--- Test 13: ---");
-string id is "GLOBAL";
-function check_scopes() {
-    string id is "FUNKCJA";
-    print(id);
-    print(parent::id);
-    print(parent::parent::id);
-    print(parent::parent::parent::id);
-    print(parent::parent::parent::parent::id);
+
+print("--- Test 11:---");
+
+double gravity is 9.81;
+
+{
+    double gravity is 3.71;
+    
+    {
+        double gravity is 1.62;
+        
+        double average_g is (gravity + parent::gravity + parent::parent::gravity) / 3.0;
+        
+        
+        print(gravity);
+        
+        print(parent::gravity);
+        
+        print(parent::parent::gravity);
+        
+        print(average_g);
+    }
 }
-if (true) do {
-    string id is "IF";
-    int i is 0;
-    while (i < 1) do {
-        string id is "WHILE";
-        repeat with j 1 {
-            string id is "REPEAT";
-            
-            check_scopes();
-        }
-        i is i + 1;
+
+print("--- Test 12:---");
+int a is 0;
+{
+    int a is 100;
+    if (a<5) do {
+    print("aaa");
     }
 }
