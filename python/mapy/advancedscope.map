@@ -1,53 +1,3 @@
-print("--- Test 7:---");
-
-string marker is "GLOBAL";
-
-function testScopes(string marker) {
-    print(marker);
-
-    repeat with i from 0 to 1 {
-        string marker is "PETLA";
-        print(marker);
-        
-        print(parent::marker);
-
-        print(parent::parent::marker);
-    }
-
-    print(marker);
-}
-
-{
-    string marker is "BLOK ZEWNETRZNY";
-    print(marker);
-
-    print(parent::marker);
-
-    testScopes("PARAMETR");
-}
-
-print(marker);
-
-
-print("--- Test 8: ---");
-
-List<string> data is ["A", "B"];
-print(data[0]);
-print(data[1]);
-
-{
-    List<string> data is ["X", "Y"];
-    //List<string> data2 is parent::data;
-    //print(data2[0]);
-    //print(data2[1]);
-    //print(parent::data[0]);
-    //print(parent::data[1]);
-    
-
-    print(data[0]);
-    print(data[1]);
-}
-
 print("--- Test 10: ---");
 
 int base is 10;
@@ -68,3 +18,63 @@ print(result);
 
 print(base);
 print(result);
+
+print("--- Test 11:---");
+
+int stop_level is 2;
+
+function dive(int current_level) {
+    print(current_level);
+    int stop_level is 99;
+    if (current_level < parent::stop_level) do {
+        dive(current_level + 1);
+    } else do {
+        print("KONIEC ZAGLEBIANIA SIE");
+    }
+    print(current_level);
+}
+
+dive(0);
+
+print("--- Test 12:---");
+
+int max_runs is 3;
+int counter is 0;
+
+while (counter < max_runs) do { //warunek sprawdza tylko rzeczy z wyższym scopie
+    counter is counter + 1;
+    
+    int max_runs is 1;
+    print("COUNTER");
+    print(counter);
+    print("MAX_RUNS");
+    print(max_runs);
+    print("PARENT");
+    print(parent::max_runs);
+}
+
+print(counter);
+
+print("--- Test 13: ---");
+string id is "GLOBAL";
+function check_scopes() {
+    string id is "FUNKCJA";
+    print(id);
+    print(parent::id);
+    print(parent::parent::id);
+    print(parent::parent::parent::id);
+    print(parent::parent::parent::parent::id);
+}
+if (true) do {
+    string id is "IF";
+    int i is 0;
+    while (i < 1) do {
+        string id is "WHILE";
+        repeat with j 1 {
+            string id is "REPEAT";
+            
+            check_scopes();
+        }
+        i is i + 1;
+    }
+}
