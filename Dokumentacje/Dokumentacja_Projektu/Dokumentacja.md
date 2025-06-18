@@ -122,6 +122,10 @@ Złożone:
 
 ## Sposoby korzystania z języka
 
+```
+print("Hello World");
+```
+
 ### Deklaracja zmiennych
 Deklaracja zmiennych odbywa się przy użyciu słowa kluczowego **is**, należy mieć na uwadze poprawność podawanego typu zmiennej.
 ```MapS
@@ -168,7 +172,7 @@ wariant **default**:
 przekazujemy do instrukcji repeat identyfikator iteratora oraz liczbę całkowitą *n*. W tym wariancie instrukcji, pętla wykona się n razy, a iterator będzie przyjmować wartości z zakresu [0,1,...,n-1]. 
 (Jeśli n < 1 pętla nie zostanie uruchomiona)
 ```MapS
-repeat j 5 {
+repeat with j 5 {
     print(j);
 }
 ```
@@ -232,7 +236,7 @@ List<Height> islandHeight is [ ((200,200), 30, 1), ... , ((50,120), 40, 1)];
 
 Użytkownik może również dodać rzekę do swojej wyspy wyznaczając jej punkt początkowy (źródło), kierunek oraz opcjonalnie długość:
 ```MapS
-River islandRiver is (0,0) to south for 100;
+River islandRiver is (60,20) to south for 200;
 ```
 Może też samemu wybrać punkty skłądające się na rzekę:
 ```MapS
@@ -241,7 +245,7 @@ River riv is [(0,0),(100,100),(125,200)];
 
 Aby poprawnie wygenerować wyspę trzeba ją odpowiednio zadeklarować, przekazując w konstruktorze, wcześniej zadeklarowane obiekty *islandPerimeter*, *islandHeight* oraz wektor przesunięcia środka wyspy.
 ```MapS
-Land island is (0,-20) with perimeter is islandPerimeter, height is islandHeight;
+Land island is (-100,-100) with perimeter is islandPerimeter, height is islandHeight;
 ```
 
 Po uruchomieniu skryptu, generuje się wyspa:
@@ -261,9 +265,9 @@ List<Point> islandPerimeter is [
 
 List<Height> islandHeight is [ ((200,200), 30, 1), ((50,90), 40, 1), ((70,220), 20, 1),((150,230), 20, 1), ((50,120), 40, 1)];
 
-River islandRiver is (0,0);
+River islandRiver is (60,20) to south for 200;
 
-Land island is (0,-20) with perimeter is islandPerimeter, height is islandHeight;
+Land island is (-100,-100) with perimeter is islandPerimeter, height is islandHeight;
 ```
 
 <div style="page-break-after: always;"></div>
@@ -302,13 +306,21 @@ Land terrain2 is (-150, 50) with perimeter is Square(100, 2), height is h;
 
 Land terrain3 is (0, -80) with perimeter is RandomLand(50, 0.6,3827), height is h;
 ```
+<p align="center">
+  <img src="./img/obw.png" alt="MapS" width="300">
+</p>
+
 Wyskość z funkcji:
+
 ```
 function mountain(double x, double y) : double {
     return 50 - (x*x + y*y) * 0.01;
 }
 
-Land l is (0, 0) with perimeter is RandomLand(30, 0.5), height is mountain();
+Land l is (-100, -100) with perimeter is RandomLand(100, 0.7), height is mountain();
 ```
 W RandomLand można podać seed, żeby za każdym razem nie tworzyły się różne lądy.
 
+<p align="center">
+  <img src="./img/func.png" alt="MapS" width="300">
+</p>
