@@ -82,8 +82,7 @@ class InterpreterMemory():
     def assignValue(self, ctx: ParserRuleContext, identifier, value):
         function_scope = self.currentScope().function_scope
         for scope in reversed(self.scopes):
-            if scope.function_scope < function_scope:
-                break
+            
             if identifier in scope.variables:
                 idObject = scope.variables[identifier]
                 if idObject.type_() != type(value):
