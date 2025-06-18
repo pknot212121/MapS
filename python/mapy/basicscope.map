@@ -36,11 +36,52 @@ print("--- Test 3:  ---");
 int i is 99;
 print(i);
 
-repeat i 3 {
+repeat with i from 0 to 3 {
     print(i);
-
     int global_i is parent::i;
     print(global_i);
 }
 
 print(i);
+
+print("--- Test 4: ---");
+
+int c is 10;
+int b is 20;
+
+print(c);
+print(b);
+
+{
+    int c is 100;
+    print(parent::c);
+
+    b is 200;
+
+    print(c);
+    print(parent::c);
+}
+
+print(c);
+print(b);
+
+
+print("--- Test 5:---");
+
+string message is "Jestem zmienna globalna";
+
+function testFunction() {
+    string message is "Jestem zmienna lokalna w funkcji";
+    print(message);
+    
+    print(parent::message);
+}
+
+testFunction();
+
+print("--- Test 6:---");
+
+int d is 1;
+int b is parent::d;
+
+print(b);
