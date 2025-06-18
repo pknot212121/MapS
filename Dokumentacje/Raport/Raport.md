@@ -14,6 +14,10 @@
 * [Implementacja](#implementacja)
   * [Gramatyka](#gramatyka)
   * [Interpreter](#interpreter)
+  * [Tablica Symboli](#tablica-symboli)
+    * [Wizualizacja](#wizualizacja-struktury-tablicy-symboli-uml)
+  * [Rekordy aktywacyjne](#rekordy-aktywacyjne)
+    * [Wizualizacja](#wizualizacja-procesu-wykonywania-rekordów-aktywacyjnych)
 * [Podsumowanie](#podsumowanie)
 * [Załączniki](#załączniki)
   * [Maps.g4](#mapsg4)
@@ -56,6 +60,7 @@ Gramatyka dla języka **MapS** została napisana w pliku z rozszerzeniem .g4. (Z
 
 ## Interpreter
 
+
 Interpreter języka MapS jest dwuprzebiegowy, każdy przebieg ma swoje specyficzne zadanie.
 
 Pierwszy przebieg:
@@ -65,6 +70,59 @@ Zadaniem pierwszego przebiegu jest analiza leksykalna, składniowa orz semantycz
 Drugi przebieg:
 
 Podczas drugiego przebiegu program z użyciem visitora przechodzi przez zbudowane drzewo w pierwszym przebiegu. Dla każdego węzła drzewa program wykonuje odpowiednią akcję. Program w drugim przebiegu wykorzystuje Tablicę Symboli (zał. [InterpreterMemory.py](#interpretermemorypy)) do poprawnego zarzadzania zmiennymi oraz zasięgami (scope).
+
+<div style="page-break-after: always;"></div>
+
+## Tablica Symboli
+W celu realizacji tablicy symboli w interpreterze języka programowania, została utworzona klasa InterpreterMemory (zał. [InterpreterMemory.py](#interpretermemorypy)), której zadaniem jest zarządzanie przestrzeniami nazw oraz przechowywanie identyfikatorów zmiennych wraz z ich wartościami.
+
+### Kluczowe elementy implementacji:
+
+Struktura przestrzeni nazw (scope):
+
+Tablica symboli obsługuje zagnieżdżone przestrzenie nazw, co umożliwia m.in. obsługę funkcji i bloków. Do zarządzania nimi służą metody:
+* **pushScope**(is_function_scope=False): tworzy nową przestrzeń nazw; parametr pozwala wyróżnić zakres funkcji.
+* **popScope**(): usuwa bieżącą przestrzeń nazw.
+* **currentScope**(): zwraca bieżący scope.
+
+Dostęp do zmiennych:
+
+Zarządzanie zmiennych zostało zaimplementowane przy pomocy słownika i specjalnych obiektów InterpreterIdentifier (zał. [InterpreterContainers.py](#interpretercontainerspy))
+* **accessId**(ctx, identifier, idType=None, levels_up=0): służy do odczytu wartości zmiennej. Argument levels_up umożliwia przeszukiwanie nadrzędnych scope, a idType może określać typ oczekiwanej zmiennej.
+* **storeId**(ctx, identifier, value, idType=None): zapisuje zmienną w bieżącej przestrzeni nazw.
+* **releaseId**(ctx, identifier): usuwa zmienną z aktualnego scope.
+* **assignValue**(ctx, identifier, value): przypisuje nową wartość zmiennej, przy założeniu, że została już wcześniej zadeklarowana.
+
+<div style="page-break-after: always;"></div>
+
+### Wizualizacja struktury tablicy symboli (UML)
+<p align="center">
+  <img src="./img/UML_MEMORY.png" alt="MapS" >
+</p>
+
+<div style="page-break-after: always;"></div>
+
+## Rekordy aktywacyjne
+
+W prezentowanej implementacji, rekordy aktywacyjne są odwzorowane za pomocą struktur zakresów (scope) z użyciem klasy ScopeFrame (zał. [InterpreterContainers.py](#interpretercontainerspy)). Rekord aktywacyjny to obszar pamięci przydzielany w trakcie wywoływania funkcji w celu przechowania informacji o parametrach i dostępnych zmiennych z poziomu rekordu. Implementacja struktury rekordów aktywacyjnych przy pomocy stosu, umożliwia wykonanie operacji w poprawnej kolejności.
+
+Procedura wykonania rekordu aktywacyjnego jest następująca:
+* utworzenie nowego scope (**pushScope**(is_function_scope=True)),
+* wprowadzenie zmiennych odpowiadających parametrom funkcji do nowego zakresu,
+* wykonanie ciała funkcji (body zawarty w obiekcie InterpreterFunction),
+* usunięcie scope po zakończeniu funkcji (**popScope**()).
+* powrót do scope niższego
+
+### Wizualizacja procesu wykonywania rekordów aktywacyjnych
+Uproszczony schemat obrazujący proces wykonania rekordów aktywacyjnych sekwencyjnie:
+<p align="center">
+  <img src="./img/UML_RA.png" alt="MapS" >
+</p>
+
+
+<div style="page-break-after: always;"></div>
+
+## Kod źródłowy
 
 
 Zdecydowaliśmy się na implementację interpretera w języku programowania *Python*, w tym celu utworzyliśmy następujące klasy odpowiedzialne za realizację poszczególnych zadań w procesie interpretowania programów napisanych przez użytkowników:
@@ -1188,15 +1246,19 @@ class InterpreterMemory():
     def __init__(self, errorListener_: ErrorListenerMapS):
         self.functions = {} 
         self.identfierDict = {}
-        self.scopes = [self.identfierDict]
+        self.scopes = [ScopeFrame({}, function_scope=0)]
         self.intereterWorld = InterpreterWorld()
         self.error_listener = errorListener_
 
     def currentScope(self):
         return self.scopes[-1]
 
-    def pushScope(self):
-        self.scopes.append({})
+    def pushScope(self, is_function_scope=False):
+        function_scope = self.currentScope().function_scope
+        if is_function_scope:
+            self.scopes.append(ScopeFrame({}, function_scope+1))
+        else:
+            self.scopes.append(ScopeFrame({}, function_scope))
 
     def popScope(self):
         if len(self.scopes) > 1:
@@ -1204,21 +1266,30 @@ class InterpreterMemory():
         else:
             self.error_listener.interpreterError("This should be impossible.", None)
 
+    # Aby dostać zmienną podajemy ctx, identifier, opcjonlanie: typ zmiennej
     def accessId(self,ctx: ParserRuleContext, identifier, idType = None, levels_up: int = 0):
-        scopes_to_check = reversed(self.scopes) if levels_up == 0 else [self.scopes[-(levels_up + 1)]]
-        for scope in scopes_to_check:
-            if identifier in scope:
-                idvalue = scope[identifier]
-                if type(idvalue) == InterpreterIdentifier and ( idType is None or idvalue.type_() == idType ):
-                    return idvalue.get()
-                self.error_listener.interpreterError(f"No variable named: {identifier}.", ctx)
-                return None
-        self.error_listener.interpreterError(f"No variable named: {identifier}.", ctx)
+        count = 0
+        function_scope = self.currentScope().function_scope
+        for frame in reversed(self.scopes):
+            scope = frame.variables
+            if frame.function_scope == function_scope or frame.function_scope == 0:
+                if identifier in scope:
+                    idvalue = scope[identifier]
+                    if type(idvalue) == InterpreterIdentifier and ( idType is None or idvalue.type_() == idType ):
+                        if count >= levels_up:
+                            return idvalue.get()
+                count += 1
+
+        if levels_up == 0:
+            self.error_listener.interpreterError(f"No variable named: {identifier}.", ctx)
+        else:
+            self.error_listener.interpreterError(f"No variable named '{identifier}' found {levels_up} scope level(s) up.", ctx)
         return None
 
     
+    # Aby przechować zmienną podajemy ctx, identifier, wartość, opcjonlanie: typ zmiennej
     def storeId(self, ctx: ParserRuleContext, identifier, value, idType = None): 
-        current = self.currentScope()
+        current = self.currentScope().variables
         if identifier in current:
             line = current[identifier].ctx_().start.line
             self.error_listener.interpreterError(f"Variable with name: {identifier} already defined.\n"
@@ -1228,6 +1299,8 @@ class InterpreterMemory():
         if idType != type(value):
             if type(value) is int and idType is float:
                 value = float(value)
+            elif hasattr(value, "innerType") and idType[0]==type([]) and idType[1] == value.innerType:
+                pass
             else:
                 self.error_listener.interpreterError(f"Value of type {type(value).__name__}, cannot be assigned to variable {identifier} of type {idType.__name__}.", ctx)
                 return None
@@ -1240,16 +1313,18 @@ class InterpreterMemory():
 
     def releaseId(self, ctx: ParserRuleContext, identifier):
         for scope in reversed(self.scopes):
-            if identifier in scope:
-                scope.pop(identifier)
+            if identifier in scope.variables:
+                scope.variables.pop(identifier)
                 return
         self.error_listener.interpreterError(f"No variable named: {identifier}.", ctx)
 
 
     def assignValue(self, ctx: ParserRuleContext, identifier, value):
+        function_scope = self.currentScope().function_scope
         for scope in reversed(self.scopes):
-            if identifier in scope:
-                idObject = scope[identifier]
+            
+            if identifier in scope.variables:
+                idObject = scope.variables[identifier]
                 if idObject.type_() != type(value):
                     if type(value) is int and idObject.type_() is float:
                         value = float(value)
@@ -1272,6 +1347,7 @@ class InterpreterIdentifier:
         self.value = value
         self.t = type
         self.ctx = ctx
+
     
     def type_(self):
         return self.t
@@ -1281,6 +1357,11 @@ class InterpreterIdentifier:
     
     def ctx_(self):
         return self.ctx
+        
+    # def sameType(self, other):
+    #     if type(self) != type(other):
+    #         return False        
+    #     return self.type == other.type
 
 class InterpreterList:
     def __init__(self, type, elements):
@@ -1296,8 +1377,11 @@ class InterpreterPoint:
         self.y = y
 
 class InterpreterRiver:
-    def __init__(self,source: InterpreterPoint):
+    def __init__(self,points: list[InterpreterPoint],source=None,direction=None,length=100):
+        self.points = points
         self.source = source
+        self.direction = direction
+        self.length = length
 
 class InterpreterHeight:
     def __init__(self, place: InterpreterPoint, z: float, steep: float):
@@ -1353,8 +1437,14 @@ class InterpreterFunction:
         self.return_type = return_type
         self.body = body_ctx
         self.ctx = ctx
-```
 
+class ScopeFrame:
+    def __init__(self, variables: dict, function_scope: int):
+        self.variables = variables
+        self.function_scope = function_scope
+        
+
+```
 ## Word.py
 
 ```python

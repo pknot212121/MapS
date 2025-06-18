@@ -1,0 +1,6 @@
+int u is 8;
+repeat with u 7
+{
+    print(u);
+    print(parent::u);
+}
