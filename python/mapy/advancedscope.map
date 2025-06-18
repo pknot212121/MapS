@@ -2,28 +2,46 @@ print("--- Test 7:---");
 
 string marker is "GLOBAL";
 
-function testScopes(string marker) { // marker = "PARAMETR"
-    print(marker); // PARAMETR
+function testScopes(string marker) {
+    print(marker);
 
     repeat with i from 0 to 1 {
         string marker is "PETLA";
-        print(marker); // PETLA
+        print(marker);
         
-        print(parent::marker); // PARAMETR
+        print(parent::marker);
 
-        print(parent::parent::marker); // GLOBAL
+        print(parent::parent::marker);
     }
 
-    print(marker); // PARAMETR
+    print(marker);
 }
 
 {
     string marker is "BLOK ZEWNETRZNY";
-    print(marker); // BLOK ZEWNETRZNY
+    print(marker);
 
-    print(parent::marker); // GLOBAL
+    print(parent::marker);
 
     testScopes("PARAMETR");
 }
 
-print(marker); // GLOBAL
+print(marker);
+
+
+print("--- Test 8: ---");
+
+List<string> data is ["A", "B"];
+print(data[0]);
+print(data[1]);
+
+{
+    List<string> data is ["X", "Y"];
+    
+    print(parent::data[0]);
+    print(parent::data[1]);
+    
+
+    print(data[0]);
+    print(data[1]);
+}
