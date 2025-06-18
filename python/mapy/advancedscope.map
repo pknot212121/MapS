@@ -37,9 +37,11 @@ print(data[1]);
 
 {
     List<string> data is ["X", "Y"];
-    
-    print(parent::data[0]);
-    print(parent::data[1]);
+    List<string> data2 is parent::data;
+    print(data2[0]);
+    print(data2[1]);
+    //print(parent::data[0]);
+    //print(parent::data[1]);
     
 
     print(data[0]);
