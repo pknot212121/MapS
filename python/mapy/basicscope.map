@@ -1,0 +1,46 @@
+print("--- Test 1:  ---");
+
+int a is 1;
+print(a);
+
+{
+    int a is 5;
+    print(a);
+
+    int x is parent::a;
+    print(x);
+}
+
+print(a);
+
+print("--- Test 2:---");
+
+string val is "Global";
+
+{
+    string val is "Poziom 1";
+    {
+        string val is "Poziom 2";
+
+        print(val);
+
+        print(parent::val);
+
+        print(parent::parent::val);
+    }
+    print(val);
+}
+
+print("--- Test 3:  ---");
+
+int i is 99;
+print(i);
+
+repeat i 3 {
+    print(i);
+
+    int global_i is parent::i;
+    print(global_i);
+}
+
+print(i);
