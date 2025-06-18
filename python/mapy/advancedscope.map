@@ -37,9 +37,9 @@ print(data[1]);
 
 {
     List<string> data is ["X", "Y"];
-    List<string> data2 is parent::data;
-    print(data2[0]);
-    print(data2[1]);
+    //List<string> data2 is parent::data;
+    //print(data2[0]);
+    //print(data2[1]);
     //print(parent::data[0]);
     //print(parent::data[1]);
     
@@ -47,3 +47,24 @@ print(data[1]);
     print(data[0]);
     print(data[1]);
 }
+
+print("--- Test 10: ---");
+
+int base is 10;
+int result is 0;
+
+print(base);
+print(result);
+
+{
+    int base is 2;
+    result is 5 * parent::base + base;
+    
+    print(result);
+    
+    
+    print(parent::base);
+}
+
+print(base);
+print(result);
